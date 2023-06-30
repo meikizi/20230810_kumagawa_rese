@@ -1,0 +1,144 @@
+.app {
+    height: auto;
+}
+
+.container {
+    margin-bottom: 0px;
+}
+
+.shop-list__container {
+    padding-bottom: 48px;
+}
+
+.header-form {
+    width: 35%;
+    position: absolute;
+    top: 44px;
+    left: 50%;
+    padding: 8px 0;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+    border: none;
+    z-index: 10;
+}
+
+.select--area,
+.select--genre {
+    padding: 8px 8px 8px 8px;
+    font-weight: bold;
+    background: #fff;
+    border: none;
+    border-right: 1px solid rgb(230, 230, 230);
+}
+
+.select--area {
+    border-radius: 4px 0 0 4px;
+}
+.search {
+    vertical-align: middle;
+    color: rgb(230, 230, 230);
+}
+
+.input-search {
+    width: 20%;
+    padding: 8px 0;
+    border: none;
+    border-radius: 0 4px 4px 0;
+}
+
+.shop-list__container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.item-list {
+    display: grid;
+    grid-template-columns: repeat(4, calc((100% / 4) - 12px));
+    column-gap: 16px;
+    row-gap: 32px;
+}
+
+.item {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.image {
+    width: 100%;
+    height: 160px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.item__content {
+    padding: 16px 16px 32px 32px;
+}
+
+.category {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.category--area {
+    margin-right: 8px;
+}
+
+.item__inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgb(60, 110, 250);
+    color: #fff;
+}
+
+.bookmark,
+.unbookmark {
+    vertical-align: middle;
+    font-size: 36px;
+    text-decoration: none;
+}
+
+.unbookmark {
+    color: #ddd;
+}
+
+.bookmark {
+    color: red;
+}
+
+@media (max-width: 768px) {
+    .header-form {
+        width: 55%;
+        left: 40%;
+    }
+
+    .item-list {
+        grid-template-columns: repeat(2, calc((100% / 2) - 8px));
+    }
+
+    .category {
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    .category--area {
+        margin-bottom: 8px;
+    }
+
+    .details {
+        font-size: 24px;
+    }
+
+    .bookmark,
+    .unbookmark {
+        font-size: 48px;
+    }
+}

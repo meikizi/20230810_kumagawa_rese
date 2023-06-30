@@ -1,0 +1,31 @@
+/* app.blade.php */
+.container {
+    margin-bottom: 40px;
+}
+
+/* registered.blade.php */
+.registered__container {
+    width: 440px;
+    height: 300px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+    background: #fff;
+}
+
+.registered__text {
+    padding-top: 90px;
+    margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", sans-serif;
+}
+
+.login-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    background: rgb(70, 115, 250);
+    color: #fff;
+}
