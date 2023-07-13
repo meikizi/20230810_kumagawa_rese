@@ -51,10 +51,34 @@ Route::group(['middleware' => 'auth'], function() {
         ->name('my_page');
     Route::post('/mypage', [MypageController::class, 'edit'])
         ->name('edit');
+
+    Route::get('/bookmark/{shop?}', [BookMarkController::class, 'bookmark'])
+        ->name('bookmark');
+    Route::get('/unbookmark/{shop?}', [BookMarkController::class, 'unbookmark'])
+        ->name('unbookmark');
+
+    Route::get('/review', [ShopController::class, 'review'])
+        ->name('review');
+    Route::Post('/reviewed', [ShopController::class, 'post'])
+        ->name('post');
+
 });
 
-Route::get('/bookmark/{shop?}', [BookMarkController::class, 'bookmark'])
-    ->name('bookmark');
-Route::get('/unbookmark/{shop?}', [BookMarkController::class, 'unbookmark'])
-    ->name('unbookmark');
+Route::group(['middleware' => ['auth', 'can:admin']], function () {
+    Route::get('/admin', [MypageController::class, 'admin'])
+        ->name('admin');
 
+
+    //権限の付与
+    Route::put('/admin/attach', [MypageController::class, 'attach'])->name('admin.attach');
+
+    //権限を外す
+    Route::put('/admin/detach', [MypageController::class, 'detach'])->name('admin.detach');
+});
+
+Route::group(['middleware' => ['auth', 'can:shopkeeper']], function () {
+    Route::get('/shopkeeper', [MypageController::class, 'shopkeeper'])
+        ->name('shopkeeper');
+    Route::post('/shopkeeper', [MypageController::class, 'revise'])
+    ->name('revise');
+});

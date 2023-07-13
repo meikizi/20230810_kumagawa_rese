@@ -1,3 +1,4 @@
+/* app.blade.php */
 * {
     font-family: "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", sans-serif;
     font-weight: bold;
@@ -10,12 +11,14 @@
 .shop-detail__container {
     width: 90%;
     margin: 0 auto;
+    padding-bottom: 32px;
     position: relative;
 }
 
 .shop-detail__area {
     width: 43%;
     margin-right: 7%;
+    margin-bottom: 32px;
 }
 
 .prev {
@@ -45,6 +48,71 @@
     margin-bottom: 32px;
 }
 
+.review {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgb(60, 110, 250);
+    color: #fff;
+}
+
+.review__area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 90%;
+    height: 100vh;
+    padding: 64px 20%;
+    margin: 0 auto;
+    background: #fff;
+    display: none;
+    z-index: 100;
+}
+
+.review__area.show {
+    display: block;
+}
+
+.review__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 100px;
+    border-bottom: 1px solid #ccc;
+}
+
+.close-review {
+    padding: 8px;
+    text-decoration: none;
+    background: rgb(70, 115, 250);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.review__content {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.reviewer,
+.rate {
+    margin-bottom: 8px;
+}
+
+
+.rated {
+    color: #ffcc00;
+}
+
+.unrated {
+    color: #ccc;;
+}
+
 .reservation__area {
     width: 50%;
     height: 90vh;
@@ -68,23 +136,48 @@
     margin-bottom: 32px;
 }
 
+.form--input {
+    margin-bottom: 24px;
+}
+
+.form--select {
+    width: 100%;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form--select:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    width: 8px;
+    height: 8px;
+    border-top: 5px solid #ccc;
+    border-left: 5px solid #ccc;
+    transform: translateY(-50%) rotate(-135deg);
+    pointer-events: none;
+}
+
 .input--date,
 .select--time,
 .select--number {
-    width: 30%;
     padding: 8px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.form-item {
-    margin-bottom: 24px;
+.input--date {
+    width: 30%;
 }
 
 .select--time,
 .select--number {
     width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .reservation__items {
@@ -120,19 +213,25 @@
 }
 
 .error-message {
-    color: rgb(250, 80, 80);
     margin-top: 8px;
+    color: rgb(250, 80, 80);
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
-    .app {
-        height: auto;
-    }
-
     .shop-detail__area {
         width: 100%;
         margin-right: 0;
         margin-bottom: 48px;
+    }
+
+    .review {
+        margin-bottom: 64px;
+    }
+
+    .review__area {
+        width: 100%;
+        padding: 64px 32px;
     }
 
     .reservation__area {

@@ -96,6 +96,20 @@
                                         <a class="nav-link" href="{{ route('my_page') }}">{{ __('Mypage') }}</a>
                                     </li>
                                 @endif
+
+                                @can('admin')
+                                @if (Route::has('admin'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin') }}">{{ __('Admin') }}</a>
+                                    </li>
+                                @endif
+                                @elsecan('shopkeeper')
+                                @if (Route::has('shopkeeper'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('shopkeeper') }}">{{ __('Shopkeeper') }}</a>
+                                    </li>
+                                @endif
+                                @endcan
                             @endguest
                         </ul>
                     </div>

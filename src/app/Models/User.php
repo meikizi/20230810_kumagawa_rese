@@ -58,4 +58,24 @@ class User extends Authenticatable
         return $this->hasMany(BookMark::class);
     }
 
+    public function shopReviews()
+    {
+        return $this->hasMany(ShopReview::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class)
+            ->withPivot('shop_id');
+    }
+
+    public function userHasRole($role_name){
+        foreach($this->roles as $role){
+            if($role_name==$role->name){
+                return true;
+            }
+                return false;
+        }
+    }
+
 }

@@ -7,6 +7,9 @@ window.addEventListener('DOMContentLoaded', function () {
     let date = document.getElementById('date');
     let time = document.getElementById('time');
     let number = document.getElementById('number');
+    let $open_review_button = document.getElementById('openReviewButton');
+    let $close__review_button = document.getElementById('closeReviewButton');
+    let $review = document.getElementById('review');
 
     input_date.addEventListener("change", function () {
         date.value = this.value;
@@ -16,5 +19,23 @@ window.addEventListener('DOMContentLoaded', function () {
     });
     select_number.addEventListener("change", function () {
         number.value = this.value + '人';
+    });
+
+    $open_review_button.addEventListener('click', function () {
+        if ($review.classList.contains('show')) {
+            $review.classList.remove('show');
+        }
+        else {
+            $review.classList.add('show');
+        }
+    });
+
+    $close__review_button.addEventListener('click', function () {
+        if ($review.classList.contains('show')) {
+            $review.classList.remove('show');
+        }
+        else {
+            $review.classList.add('show');
+        }
     });
 });

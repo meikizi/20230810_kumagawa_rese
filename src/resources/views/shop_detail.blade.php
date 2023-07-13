@@ -15,24 +15,69 @@
             @isset ($item)
             <h2 class="shop-name">{{ $item->name }}</h2>
             @if ($item->genre === '寿司')
-            <img src="{{ asset('images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
+            <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
             @endif
             @if ($item->genre === '焼肉')
-            <img src="{{ asset('images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
+            <img src="{{ asset('storage/images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
             @endif
             @if ($item->genre === '居酒屋')
-            <img src="{{ asset('images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
+            <img src="{{ asset('storage/images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
             @endif
             @if ($item->genre === 'イタリアン')
-            <img src="{{ asset('images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
+            <img src="{{ asset('storage/images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
             @endif
             @if ($item->genre === 'ラーメン')
-            <img src="{{ asset('images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
+            <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
             @endif
             <p class="category">#{{ $item->area }} #{{ $item->genre }}</p>
             <p class="about">{{ $item->overview }}</p>
             @endisset
         </div>
+        @isset($reviews)
+        <button class="review" id="openReviewButton">レビュー表示</button>
+        <div class="review__area" id="review">
+            <div class="review__header">
+                <h2 class="review-title">レビューの一覧</h2>
+                <button class="close-review material-symbols-outlined" id="closeReviewButton">
+                    close
+                </button>
+            </div>
+            @foreach ($reviews as $review)
+                <div class="review__content">
+                    <p class="reviewer">{{ $users[$review->user_id - 1]->name }}</p>
+                    @switch($review->rate)
+                        @case(1)
+                            <p class="rate">
+                                評価: <span class="rated">★</span><span class="unrated">★★★★</span>
+                            </p>
+                            @break
+                        @case(2)
+                            <p class="rate">
+                                評価: <span class="rated">★★</span><span class="unrated">★★★</span>
+                            </p>
+                            @break
+                        @case(3)
+                            <p class="rate">
+                                評価: <span class="rated">★★★</span><span class="unrated">★★</span>
+                            </p>
+                            @break
+                        @case(4)
+                            <p class="rate">
+                                評価: <span class="rated">★★★★</span><span class="unrated">★</span>
+                            </p>
+                            @break
+                        @case(5)
+                            <p class="rate">
+                                評価: <span class="rated">★★★★★</span>
+                            </p>
+                            @break
+                        @default
+                    @endswitch
+                    <p class="review__comment">{!! nl2br(e($review->review)) !!}</p>
+                </div>
+            @endforeach
+        </div>
+        @endisset
         <div class="reservation__area">
             <div class="reservation__content">
                 <h2 class="reservation__title">予約</h2>
@@ -43,13 +88,13 @@
                     @else
                     <input type="hidden" name="shop_id" value="">
                     @endisset
-                    <div class="form-item">
+                    <div class="form--input">
                         <input name="date" type="date" class="input--date" id="input_date">
                         @error('date')
                         <p class="error-message">{{ $errors->first('date') }}</p>
                         @enderror
                     </div>
-                    <div class="form-item">
+                    <div class="form--select">
                         <select name="time" class="select--time" id="select_time">
                             <option value="">予約時間を選択</option>
                             <option value="00:00">00:00</option>
@@ -85,7 +130,7 @@
                         <p class="error-message">{{ $errors->first('date_time') }}</p>
                         @enderror
                     </div>
-                    <div class="form-item">
+                    <div class="form--select">
                         <select name="number" class="select--number" id="select_number">
                             <option value="">人数を選択</option>
                             <option value="1">1人</option>

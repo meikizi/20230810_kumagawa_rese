@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use function Psy\sh;
-
-class BookMark extends Model
+class ShopReview extends Model
 {
     use HasFactory;
 

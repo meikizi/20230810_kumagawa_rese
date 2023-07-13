@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShopUserTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateShopUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('shop_user', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('shop_id')->constrained('shops');
-            $table->date('date')->nullable();
-            $table->time('time')->nullable();
-            $table->integer('number')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateShopUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_user');
+        Schema::dropIfExists('roles');
     }
 }

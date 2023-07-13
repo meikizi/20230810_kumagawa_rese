@@ -74,19 +74,19 @@
                         @if(in_array($item->id, $book_marks))
                             <li class="item">
                                 @if ($item->genre === '寿司')
-                                <img src="{{ asset('images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
+                                <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
                                 @endif
                                 @if ($item->genre === '焼肉')
-                                <img src="{{ asset('images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
+                                <img src="{{ asset('storage/images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
                                 @endif
                                 @if ($item->genre === '居酒屋')
-                                <img src="{{ asset('images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
+                                <img src="{{ asset('storage/images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
                                 @endif
                                 @if ($item->genre === 'イタリアン')
-                                <img src="{{ asset('images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
+                                <img src="{{ asset('storage/images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
                                 @endif
                                 @if ($item->genre === 'ラーメン')
-                                <img src="{{ asset('images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
+                                <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
                                 @endif
                                 <div class="item__content">
                                     <h2 class="shop-name">{{ $item->name }}</h2>

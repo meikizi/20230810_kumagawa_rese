@@ -51,4 +51,9 @@ class Shop extends Model
         return $this->hasMany(BookMark::class);
     }
 
+    public function shopReviews()
+    {
+        return $this->hasMany(ShopReview::class);
+    }
+
 }

@@ -1,19 +1,9 @@
-/* app.blade.php */
-.container {
-    margin-bottom: 0px;
-}
-
-.mypage__container {
+.shopkeeper__container {
     width: 90%;
     margin: 0 auto;
 }
 
-.user-name {
-    text-align: center;
-    margin-bottom: 32px;
-}
-
-.mypage__inner {
+.shopkeeper__inner {
     width: 100%;
     display: flex;
 }
@@ -22,7 +12,7 @@
     width: 50%;
 }
 
-.mypage__title {
+.shopkeeper__title {
     margin-bottom: 16px;
 }
 
@@ -86,55 +76,92 @@
     width: 20px;
 }
 
-.error-message {
-    color: rgb(250, 80, 80);
-    margin: 0 0 8px 32px;
-}
-
-.update {
-    border: none;
-}
-
-.favorite__content {
+.shop__content {
     width: 50%;
-    font-size: 16px;
 }
 
-.item-list {
-    display: grid;
-    grid-template-columns: repeat(2, calc((100% / 2) - 32px));
-    column-gap: 64px;
-    row-gap: 32px;
-}
-
-.item {
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 2px 2px 4px gray;
-}
-
-.image {
-    width: 100%;
-    height: 160px;
-    border-radius: 4px;
-    object-fit: cover;
-}
-
-.item__content {
-    padding: 16px 16px 32px 32px;
-}
-
-.category {
+.shop__title {
     margin-bottom: 16px;
 }
 
-.item__inner {
+.shop__item {
+    margin-bottom: 16px;
     display: flex;
-    justify-content: space-between;
 }
 
-.details {
+.shop__item--overview {
+    margin-bottom: 16px;
+}
+
+.label {
+    text-align: left;
+    width: 100px;
+}
+
+.label--overview {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.input {
+    width: 30%;
+    padding: 8px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form--select {
+    width: 30%;
+    position: relative;
+}
+
+.form--select:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    border-top: 5px solid #ccc;
+    border-left: 5px solid #ccc;
+    transform: translateY(-50%) rotate(-135deg);
+    pointer-events: none;
+}
+
+.select {
+    width: 100%;
+    padding: 8px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.overview {
+    width: 80%;
+    height: 200px;
     padding: 8px 16px;
+    line-height: 1.5;
+}
+
+.error-message {
+    color: rgb(250, 80, 80);
+    margin: 0 0 16px 8px;
+}
+
+.button-area {
+    text-align: right;
+}
+
+.update,
+.create {
+    padding: 8px 16px;
+    margin-right: 20%;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -142,37 +169,34 @@
     color: #fff;
 }
 
-.bookmark {
-    vertical-align: middle;
-    font-size: 36px;
-    text-decoration: none;
-    color: red;
-}
-
 @media (max-width: 768px) {
-    .mypage__container {
-        padding-bottom: 48px;
+    .shopkeeper__container {
+        padding-bottom: 32px;
     }
 
-    .mypage__inner {
+    .shopkeeper__inner {
         display: block;
     }
 
     .reservation__content {
         width: 100%;
-        margin-bottom: 48px;
     }
 
     .reservation__area {
         width: 100%;
+        margin-bottom: 64px;
     }
 
-    .favorite__content {
+    .shop__content {
         width: 100%;
     }
 
-    .item-list {
-        grid-template-columns: repeat(2, calc((100% / 2) - 8px));
-        column-gap: 16px;
+    .overview {
+        width: 100%;
+    }
+
+    .update,
+    .create {
+        margin-right: 0;
     }
 }
