@@ -28,25 +28,27 @@ Auth::routes([
     'register' => false // ユーザ登録機能をオフに切替
 ]);
 
-Route::get('/register', [RegisterUserController::class, 'getRegister'])
-    ->name('register');
-Route::post('/register', [RegisterUserController::class, 'postRegister'])
-    ->name('register');
-Route::get('/registered', [RegisterUserController::class, 'registered'])
-    ->name('registered');
-
-    // メールによる二段階認証
 // Route::get('/register', [RegisterUserController::class, 'getRegister'])
 //     ->name('register');
-// Route::post('/register/pre_check', [RegisterUserController::class, 'pre_check'])
-//     ->name('register.pre_check');
-// Route::post('/register/pre_register', [RegisterUserController::class, 'register'])
-//     ->name('pre_register');
-// Route::get('register/verify/{token}', [RegisterUserController::class, 'showForm']);
-// Route::post('register/main_check/{token}', [RegisterUserController::class, 'mainCheck'])
-//     ->name('register.main.check');
-// Route::post('register/main_register/{token}', [RegisterUserController::class, 'mainRegister'])
-//     ->name('register.main.registered');
+// Route::post('/register', [RegisterUserController::class, 'postRegister'])
+//     ->name('register');
+// Route::get('/registered', [RegisterUserController::class, 'registered'])
+//     ->name('registered');
+
+/**
+ * メールによる二段階認証
+ */
+Route::get('/register', [RegisterUserController::class, 'getRegister'])
+    ->name('register');
+Route::post('/register/pre_check', [RegisterUserController::class, 'pre_check'])
+    ->name('register.pre_check');
+Route::post('/register/pre_register', [RegisterUserController::class, 'register'])
+    ->name('pre_register');
+Route::get('register/verify/{token}', [RegisterUserController::class, 'showForm']);
+Route::post('register/main_check/{token}', [RegisterUserController::class, 'mainCheck'])
+    ->name('register.main.check');
+Route::post('register/main_register/{token}', [RegisterUserController::class, 'mainRegister'])
+    ->name('register.main.registered');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'login'])
     ->name('login');

@@ -8,8 +8,8 @@
                 <div class="card-header">{{ __('Registration') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-                    {{-- <form method="POST" action="{{ route('register.pre_check') }}" enctype="multipart/form-data"> --}}
+                    {{-- <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data"> --}}
+                    <form method="POST" action="{{ route('register.pre_check') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="icon-area">

@@ -81,7 +81,7 @@
                                             class="postcode form-control"
                                             onKeyUp="AjaxZip3.zip2addr('postcode', '', 'address', 'address');"
                                             value="{{ old('postcode', session('postcode')) }}" size="8" maxlength="8">
-                                        <p class="placeholder">例）123-4567</p>
+                                        <p class="placeholder">例）151-0051</p>
 
                                         <div class="form__error">
                                             @error('postcode')
