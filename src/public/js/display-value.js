@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let time = document.getElementById('time');
     let number = document.getElementById('number');
     let $open_review_button = document.getElementById('openReviewButton');
-    let $close__review_button = document.getElementById('closeReviewButton');
+    let $close_review_button = document.getElementById('closeReviewButton');
     let $review = document.getElementById('review');
 
     input_date.addEventListener("change", function () {
@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    $close__review_button.addEventListener('click', function () {
+    $close_review_button.addEventListener('click', function () {
         if ($review.classList.contains('show')) {
             $review.classList.remove('show');
         }

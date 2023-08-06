@@ -1,0 +1,149 @@
+.container {
+    margin-bottom: 0;
+}
+
+.card-header {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.row {
+    margin-bottom: 16px;
+}
+
+.col-md-6 {
+    display: flex;
+    align-items: center;
+}
+
+.col-form-label {
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 30%;
+    padding: 12px 16px;
+    appearance: none;
+    border: 1px solid #888;
+    border-radius: 4px;
+}
+
+.invalid-feedback {
+    position: absolute;
+    top: 44px;
+    left: 35%;
+    color: red;
+}
+
+.nav-message {
+    color: #888;
+}
+
+.nav-link {
+    color: rgb(80, 80, 251);
+    text-decoration: none;
+}
+
+.card-error {
+    font-weight: bold;
+    color: rgb(250, 80, 80);
+}
+
+/* pre_registered.blade.php styling */
+.registered__container {
+    width: 500px;
+    margin: 0 auto;
+    padding: 100px 0 32px;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.text {
+    line-height: 1.8;
+}
+
+/* main/register.blade.php styling */
+.main-register__container {
+    width: 600px;
+    height: auto;
+    margin: 0 auto;
+    padding: 32px 0;
+    font-weight: bold;
+}
+
+.phone-number1,
+.phone-number2,
+.phone-number3 {
+    width: 20%;
+    padding: 4px;
+    font-weight: bold;
+}
+
+.phone-number {
+    width: 0;
+    border: none;
+}
+
+.hyphen {
+    margin: 0 8px;
+}
+
+.year,
+.month,
+.day {
+    width: 70px;
+    margin-right: 8px;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.month,
+.day {
+    margin-left: 8px;
+}
+
+.birthday {
+    width: 0;
+    border: none;
+}
+
+.placeholder {
+    text-align: left;
+    margin-left: 16px;
+    padding-top: 8px;
+    color: #aaa;
+}
+
+.input--postcode,
+.input--address,
+.input--building_name {
+    display: block;
+}
+
+.postcode {
+    padding: 4px;
+    font-weight: bold;
+}
+
+.address,
+.building_name {
+    width: 90%;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.full-address {
+    width: 0;
+    border: none;
+}
+
+.form__error {
+    height: 16px;
+    padding: 4px 4px 4px 16px;
+    color: #ff0000;
+    text-align: left;
+}
+

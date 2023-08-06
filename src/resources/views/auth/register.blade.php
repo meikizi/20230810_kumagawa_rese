@@ -8,8 +8,17 @@
                 <div class="card-header">{{ __('Registration') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                    {{-- <form method="POST" action="{{ route('register.pre_check') }}" enctype="multipart/form-data"> --}}
                         @csrf
+
+                        <div class="icon-area">
+                            <label>
+                                <img src="{{ asset('storage/images/default_icon.png') }}" alt="デフォルトのプロフィール画像" class="icon">
+                                <span class="icon-text">プロフィール画像を変更</span>
+                                <input type="file" name="image" class="input--icon">
+                            </label>
+                        </div>
 
                         <div class="row mb-3">
                             {{-- <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label> --}}

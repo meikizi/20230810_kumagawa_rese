@@ -1,0 +1,92 @@
+.stripe__container {
+    width: 50%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.stripe__title {
+    padding: 16px 32px;
+    background: rgb(100, 140, 250);
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+}
+
+.payment-form {
+    padding: 32px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.input {
+    display: block;
+    width: 50%;
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+.card-element {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 32px;
+    color: #32325d;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.card-element--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.card-element--invalid {
+    border-color: #fa755a;
+}
+
+.card-element--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.error-message {
+    margin: 8px 0 0 16px;
+    color: rgb(250, 80, 80);
+    font-weight: bold;
+}
+
+.btn {
+    width: 30%;
+    display: block;
+    padding: 8px 0;
+    margin: 0 auto;
+    background: rgb(70, 115, 250);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-bottom: 32px;
+    }
+
+    .stripe__container {
+        width: 90%;
+    }
+
+    .input {
+        width: 80%;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 20px;
+    }
+}

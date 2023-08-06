@@ -1,27 +1,31 @@
 /* app.blade.php */
 .container {
-    margin-bottom: 0px;
+    margin-bottom: 12px;
 }
 
-.admin__container {
-    width: 90%;
-    margin: 0 auto;
+.admin__inner {
+    width: 80%;
+    margin: 0 auto 64px;
+    background: #fff;
 }
 
 .admin__title {
-    margin-bottom: 48px;
+    padding: 32px;
+    margin-bottom: 16px;
+    background: rgb(100, 140, 250);
+    color: #fff;
 }
 
 .admin__header {
-    padding: 8px 0;
-    margin-bottom: 32px;
+    padding: 8px 16px;
+    margin: 0 16px 16px;
     border-bottom: 1px solid #ccc;
 }
 
 .header-item {
     display: inline-block;
     width: calc((100% / 6) - 8px);
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .admin__content {
@@ -30,11 +34,15 @@
 
 .database__data {
     position: relative;
-    padding: 8px 0;
-    margin-bottom: 24px;
+    padding: 32px 16px;
+    margin: 0 16px;
     border-bottom: 1px solid #ccc;
     font-size: 18px;
     font-weight: bold;
+}
+
+.database__data:nth-child(odd) {
+    background: rgb(230, 230, 230);
 }
 
 .database__item {
@@ -44,10 +52,14 @@
 
 .form--Authorization {
     position: absolute;
-    top: 0;
+    top: 28px;
     left: calc(((100% / 6) - 4px)* 3);
     display: inline-block;
     width: calc(((100% / 6) - 4px) * 2);
+}
+
+.form--remove {
+    padding-top: 28px;
 }
 
 .select-wrap {
@@ -96,6 +108,8 @@
 }
 
 .paginate {
+    margin-top: 32px;
+    padding-bottom: 40px;
     text-align: center;
 }
 
@@ -117,6 +131,67 @@
     background: #fff;
     vertical-align: middle;
     font-size: 20px;
+}
+
+.admin__contact {
+    width: 50%;
+    height: auto;
+    padding: 16px;
+    margin: 0 auto;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+    background: rgb(60, 110, 250);
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form__item {
+    margin: 16px;
+}
+
+.label,
+.label--message {
+    display: inline-block;
+    width: 25%;
+    vertical-align: middle;
+}
+
+.label--message {
+    vertical-align: top;
+}
+
+.input {
+    width: 50%;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.textarea {
+    width: 70%;
+    height: 300px;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.error-message {
+    margin: 8px 0 0 16px;
+    color: rgb(250, 80, 80);
+    font-weight: bold;
+}
+
+.submit {
+    width: 30%;
+    display: block;
+    padding: 8px 0;
+    margin: 0 auto;
+    background: #fff;
+    color: rgb(70, 115, 250);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /* bootstrap-4.blade.php styling */
@@ -141,7 +216,20 @@
 }
 
 @media (max-width: 768px) {
+    .admin__inner {
+        width: 90%;
+    }
+
     .header-item {
+        font-size: 20px;
+    }
+
+    .admin__contact {
+        width: 90%;
+    }
+
+    .submit {
+        width: 100%;
         font-size: 20px;
     }
 }

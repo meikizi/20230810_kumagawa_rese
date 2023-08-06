@@ -21,6 +21,10 @@
     margin-bottom: 32px;
 }
 
+.shop-detail__title {
+    margin-bottom: 16px;
+}
+
 .prev {
     padding: 2px 8px;
     margin-right: 16px;
@@ -64,9 +68,9 @@
     right: 0;
     width: 90%;
     height: 100vh;
-    padding: 64px 20%;
+    padding: 40px 20% 0;
     margin: 0 auto;
-    background: #fff;
+    background: rgba(230, 230, 230, .4);
     display: none;
     z-index: 100;
 }
@@ -75,12 +79,20 @@
     display: block;
 }
 
+.review__inner {
+    max-height: 90vh;
+    padding: 32px;
+    background: #fff;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
 .review__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    margin-bottom: 100px;
+    margin-bottom: 32px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -99,9 +111,42 @@
     border-bottom: 1px solid #ccc;
 }
 
-.reviewer,
+.user-area {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.user-icon,
+.user-icon--default {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-icon {
+    z-index: 10;
+}
+
+.reviewer {
+    margin-left: 50px;
+}
+
+.updated_at,
 .rate {
     margin-bottom: 8px;
+}
+
+.updated_at {
+    color: #aaa;
 }
 
 
@@ -113,9 +158,12 @@
     color: #ccc;;
 }
 
+.rate-value {
+    margin-left: 16px;
+}
+
 .reservation__area {
     width: 50%;
-    height: 90vh;
     position: absolute;
     top: -80px;
     left: 50%;
@@ -130,19 +178,20 @@
 
 .reservation__content {
     padding: 32px 48px 0 24px;
+    margin-bottom: 240px;
 }
 
 .reservation__title {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .form--input {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .form--select {
     width: 100%;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     position: relative;
 }
 
@@ -181,8 +230,8 @@
 }
 
 .reservation__items {
-    margin-right: 16px;
     padding: 24px 32px;
+    margin: 16px 16px 0 0;
     border-radius: 4px;
     background: rgb(100, 140, 250);
 }
@@ -236,13 +285,13 @@
 
     .reservation__area {
         width: 100%;
-        height: auto;
         position: static;
         top: 0;
         left: 0;
     }
 
-    .reservation__items {
+    .reservation__content {
         margin-bottom: 48px;
     }
+
 }

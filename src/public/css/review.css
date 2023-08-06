@@ -5,8 +5,10 @@
 
 /* review.blade.php */
 .review__container {
-    padding: 40px 30%;
-    /* background: #fff; */
+    width: 60%;
+    padding: 40px 32px;
+    margin: 0 auto;
+    background: #fff;
 }
 
 .review__header {
@@ -14,13 +16,17 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    margin-bottom: 100px;
+    margin-bottom: 64px;
     border-bottom: 1px solid #ccc;
 }
 
+.header-title {
+    padding-left: 16px;
+}
 
-.close-review {
+.close {
     padding: 8px;
+    margin-right: 16px;
     text-decoration: none;
     background: rgb(70, 115, 250);
     color: #fff;
@@ -29,7 +35,15 @@
     box-shadow: 2px 2px 4px gray;
 }
 
-.rate-form {
+.rate__content {
+    margin-bottom: 8px;
+}
+
+.rate--title {
+    font-size: 20px;
+}
+
+.rate__form {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -40,7 +54,7 @@
     display: none;
 }
 
-.rate-form label {
+.rate__form label {
     position: relative;
     padding: 0 5px;
     color: #ccc;
@@ -48,19 +62,31 @@
     font-size: 35px;
 }
 
-.rate-form label:hover {
+.rate__form label:hover {
     color: #ffcc00;
 }
 
-.rate-form label:hover~label {
+.rate__form label:hover~label {
     color: #ffcc00;
+}
+
+.star-value {
+    margin-left: 16px;
+    padding-top: 12px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .rate-item:checked~label {
     color: #ffcc00;
 }
 
-.review-content {
+.review__content {
+    margin-bottom: 16px;
+}
+
+.review--title {
+    font-size: 20px;
     margin-bottom: 8px;
 }
 
@@ -69,12 +95,14 @@
     height: 20vh;
     padding: 8px 16px;
     margin-bottom: 8px;
+    border: 1px solid #ccc;
 }
 
-.post {
-    padding: 8px 16px;
+.btn {
+    width: 30%;
     display: block;
-    margin-left: auto;
+    padding: 8px 0;
+    margin: 0 auto;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -84,21 +112,23 @@
 }
 
 .error-message {
+    margin: 8px 0 0 16px;
     color: rgb(250, 80, 80);
-    margin-bottom: 8px;
     font-weight: bold;
 }
 
 @media (max-width: 768px) {
     .review__container {
-        padding: 32px;
+        width: 90%;
     }
 
     .review__header {
         padding: 0 20px 20px;
     }
 
-    .review__content {
-        padding: 0 20px;
+    .btn {
+        width: 100%;
+        font-size: 20px;
+        font-weight: bold;
     }
 }

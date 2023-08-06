@@ -20,9 +20,9 @@ ul {
     width: 100%;
     height: auto;
     min-height: 100vh;
-    background: rgb(230, 230, 230);
-    max-width: 1480px;
+    padding-bottom: 48px;
     margin: 0 auto;
+    background: rgb(230, 230, 230);
 }
 
 .container {
@@ -52,7 +52,7 @@ ul {
     border: none;
     border-radius: 4px;
     box-shadow: 2px 2px 4px gray;
-    margin: 40px 0 240px 8%;
+    margin: 40px 0 200px 8%;
 }
 
 .navbar-brand {
@@ -141,6 +141,32 @@ ul {
     margin-top: 8px;
 }
 
+.icon-area {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.input--icon {
+    display: none;
+}
+
+.icon-text {
+    vertical-align: middle;
+    font-size: 12px;
+    color: rgb(120, 150, 255);
+    cursor: pointer;
+}
+
 .offset-md-4 {
     text-align: right;
 }
@@ -153,12 +179,22 @@ ul {
     border-radius: 4px;
 }
 
+.login-error {
+    margin: 0px 0px 8px 8px;
+    color: rgb(250, 80, 80);
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     .open-menu,
     .close-menu {
         width: 60px;
         height: 60px;
         font-size: 32px;
+    }
+
+    .close-menu {
+        margin-bottom: 120px;
     }
 
     .navbar-brand {
@@ -190,6 +226,10 @@ ul {
     .lock,
     .user {
         font-size: 32px;
+    }
+
+    .icon {
+        width: 7%;
     }
 
     .form-control {

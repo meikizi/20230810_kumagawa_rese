@@ -8,6 +8,9 @@ use App\Models\BookMark;
 
 class BookMarkController extends Controller
 {
+    /**
+     * お気に入り追加
+     */
     public function bookmark(Request $request)
     {
         $book_mark = new BookMark();
@@ -17,6 +20,9 @@ class BookMarkController extends Controller
         return back();
     }
 
+    /**
+     * お気に入り削除
+     */
     public function unbookmark(Request $request)
     {
         $user = Auth::user()->id;

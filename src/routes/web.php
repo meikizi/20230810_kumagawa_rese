@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\BookMarkController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,19 @@ Route::post('/register', [RegisterUserController::class, 'postRegister'])
     ->name('register');
 Route::get('/registered', [RegisterUserController::class, 'registered'])
     ->name('registered');
+
+    // メールによる二段階認証
+// Route::get('/register', [RegisterUserController::class, 'getRegister'])
+//     ->name('register');
+// Route::post('/register/pre_check', [RegisterUserController::class, 'pre_check'])
+//     ->name('register.pre_check');
+// Route::post('/register/pre_register', [RegisterUserController::class, 'register'])
+//     ->name('pre_register');
+// Route::get('register/verify/{token}', [RegisterUserController::class, 'showForm']);
+// Route::post('register/main_check/{token}', [RegisterUserController::class, 'mainCheck'])
+//     ->name('register.main.check');
+// Route::post('register/main_register/{token}', [RegisterUserController::class, 'mainRegister'])
+//     ->name('register.main.registered');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'login'])
     ->name('login');
@@ -62,18 +76,21 @@ Route::group(['middleware' => 'auth'], function() {
     Route::Post('/reviewed', [ShopController::class, 'post'])
         ->name('post');
 
+    // stripeで決済
+    Route::get('/payment', [StripeController::class, 'pay'])->name('stripe.pay');
+    Route::post('/payment/paid', [StripeController::class, 'paid'])->name('stripe.paid');
 });
 
 Route::group(['middleware' => ['auth', 'can:admin']], function () {
     Route::get('/admin', [MypageController::class, 'admin'])
         ->name('admin');
 
-
     //権限の付与
     Route::put('/admin/attach', [MypageController::class, 'attach'])->name('admin.attach');
-
     //権限を外す
     Route::put('/admin/detach', [MypageController::class, 'detach'])->name('admin.detach');
+
+    Route::post('/admin', [MypageController::class, 'send'])->name('admin.send');
 });
 
 Route::group(['middleware' => ['auth', 'can:shopkeeper']], function () {

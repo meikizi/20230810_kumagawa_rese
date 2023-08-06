@@ -52,108 +52,110 @@
                 @endforeach
                 @endisset
             </div>
-            <div class="shop__content">
+            <div class="shop__inner">
                 <h3 class="shop__title">店舗情報</h3>
-                @isset($shop)
-                <form action="{{ route('revise') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $shop->id }}">
-                    <div class="shop__item">
-                        <label class="label" for="name">店舗名</label>
-                        <input class="input" type="text" name="name" value="{{ $shop->name }}">
-                    </div>
-                    @error('name')
-                    <p class="error-message">{{ $errors->first('name') }}</p>
-                    @enderror
-                    <div class="shop__item">
-                        <label class="label" for="area">地域</label>
-                        <div class="form--select">
-                            <select name="area" class="select">
-                                <option value="{{ $shop->area }}">{{ $shop->area }}</option>
-                                @foreach ($areas as $area)
-                                <option value="{{ $area->area }}">{{ $area->area }}</option>
-                                @endforeach
-                            </select>
+                <div class="shop__content">
+                    @isset($shop)
+                    <form action="{{ route('revise') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $shop->id }}">
+                        <div class="shop__item">
+                            <label class="label" for="name">店舗名</label>
+                            <input class="input" type="text" name="name" value="{{ $shop->name }}">
                         </div>
-                    </div>
-                    @error('area')
-                    <p class="error-message">{{ $errors->first('area') }}</p>
-                    @enderror
-                    <div class="shop__item">
-                        <label class="label" for="genre">ジャンル</label>
-                        <div class="form--select">
-                            <select name="genre" class="select">
-                                <option value="{{ $shop->genre }}">{{ $shop->genre }}</option>
-                                @foreach ($genres as $genre)
-                                <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
-                                @endforeach
-                            </select>
+                        @error('name')
+                            <p class="error-message">{{ $errors->first('name') }}</p>
+                        @enderror
+                        <div class="shop__item">
+                            <label class="label" for="area">地域</label>
+                            <div class="form--select">
+                                <select name="area" class="select">
+                                    <option value="{{ $shop->area }}">{{ $shop->area }}</option>
+                                    @foreach ($areas as $area)
+                                    <option value="{{ $area->area }}">{{ $area->area }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    @error('genre')
-                    <p class="error-message">{{ $errors->first('genre') }}</p>
-                    @enderror
-                    <div class="shop__item--overview">
-                        <label class="label--overview" for="overview">概要</label>
-                        <textarea class="overview" name="overview">{{ $shop->overview }}</textarea>
-                    </div>
-                    @error('overview')
-                    <p class="error-message">{{ $errors->first('overview') }}</p>
-                    @enderror
-                    <div class="button-area">
-                        <button type="submit" name="update" class="update">更新</button>
-                    </div>
-                </form>
-                @else
-                <form action="{{ route('revise') }}" method="post">
-                    @csrf
-                    <div class="shop__item">
-                        <label class="label" for="name">店舗名</label>
-                        <input class="input" type="text" name="name">
-                    </div>
-                    @error('name')
-                    <p class="error-message">{{ $errors->first('name') }}</p>
-                    @enderror
-                    <div class="shop__item">
-                        <label class="label" for="area">地域</label>
-                        <div class="form--select">
-                            <select name="area" class="select">
-                                <option value=""></option>
-                                @foreach ($areas as $area)
-                                <option value="{{ $area->area }}">{{ $area->area }}</option>
-                                @endforeach
-                            </select>
+                        @error('area')
+                            <p class="error-message">{{ $errors->first('area') }}</p>
+                        @enderror
+                        <div class="shop__item">
+                            <label class="label" for="genre">ジャンル</label>
+                            <div class="form--select">
+                                <select name="genre" class="select">
+                                    <option value="{{ $shop->genre }}">{{ $shop->genre }}</option>
+                                    @foreach ($genres as $genre)
+                                    <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    @error('area')
-                    <p class="error-message">{{ $errors->first('area') }}</p>
-                    @enderror
-                    <div class="shop__item">
-                        <label class="label" for="genre">ジャンル</label>
-                        <div class="form--select">
-                            <select name="genre" class="select">
-                                <option value=""></option>
-                                @foreach ($genres as $genre)
-                                <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
-                                @endforeach
-                            </select>
+                        @error('genre')
+                            <p class="error-message">{{ $errors->first('genre') }}</p>
+                        @enderror
+                        <div class="shop__item--overview">
+                            <label class="label--overview" for="overview">概要</label>
+                            <textarea class="overview" name="overview">{{ $shop->overview }}</textarea>
                         </div>
-                    </div>
-                    @error('genre')
-                    <p class="error-message">{{ $errors->first('genre') }}</p>
-                    @enderror
-                    <div class="shop__item--overview">
-                        <label class="label--overview" for="overview">概要</label>
-                        <textarea class="overview" name="overview"></textarea>
-                    </div>
-                    <div class="button-area">
-                        <button  type="submit" name="create" class="create">作成</button>
-                    </div>
-                    @error('overview')
-                    <p class="error-message">{{ $errors->first('overview') }}</p>
-                    @enderror
-                </form>
-                @endisset
+                        @error('overview')
+                            <p class="error-message">{{ $errors->first('overview') }}</p>
+                        @enderror
+                        <div class="button-area">
+                            <button type="submit" name="update" class="update">更新</button>
+                        </div>
+                    </form>
+                    @else
+                    <form action="{{ route('revise') }}" method="post">
+                        @csrf
+                        <div class="shop__item">
+                            <label class="label" for="name">店舗名</label>
+                            <input class="input" type="text" name="name">
+                        </div>
+                        @error('name')
+                            <p class="error-message">{{ $errors->first('name') }}</p>
+                        @enderror
+                        <div class="shop__item">
+                            <label class="label" for="area">地域</label>
+                            <div class="form--select">
+                                <select name="area" class="select">
+                                    <option value=""></option>
+                                    @foreach ($areas as $area)
+                                    <option value="{{ $area->area }}">{{ $area->area }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('area')
+                            <p class="error-message">{{ $errors->first('area') }}</p>
+                        @enderror
+                        <div class="shop__item">
+                            <label class="label" for="genre">ジャンル</label>
+                            <div class="form--select">
+                                <select name="genre" class="select">
+                                    <option value=""></option>
+                                    @foreach ($genres as $genre)
+                                    <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('genre')
+                            <p class="error-message">{{ $errors->first('genre') }}</p>
+                        @enderror
+                        <div class="shop__item--overview">
+                            <label class="label--overview" for="overview">概要</label>
+                            <textarea class="overview" name="overview"></textarea>
+                        </div>
+                        <div class="button-area">
+                            <button  type="submit" name="create" class="create">作成</button>
+                        </div>
+                        @error('overview')
+                            <p class="error-message">{{ $errors->first('overview') }}</p>
+                        @enderror
+                    </form>
+                    @endisset
+                </div>
             </div>
         </div>
     </div>

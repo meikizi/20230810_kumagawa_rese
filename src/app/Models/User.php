@@ -8,10 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Cashier\Billable;
+use Stripe\Plan;
+use Stripe\Product;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'email_verified',
+        'email_verify_token',
+        'phone_number',
+        'postcode',
+        'address',
+        'birthday',
     ];
 
     /**
@@ -76,6 +85,35 @@ class User extends Authenticatable
             }
                 return false;
         }
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    /**
+     * ユーザーに紐づいているサブスクリプションを返す
+     */
+    public function products()
+    {
+        $products = [];
+        foreach ($this->subscriptions()->get() as $subscription) {
+            $priceId = $subscription->stripe_plan;
+
+            // price id から plan を取得
+            $plan = Plan::retrieve($priceId);
+            // prod id から product を取得
+            $product = Product::retrieve($plan->product);
+
+            // dashboardで設定したメタデータを取得
+            $localName           = $product->metadata->localName;
+            $product->cancelled  = $this->subscription($localName)->cancelled();
+
+            $products[] = $product;
+        }
+
+        return $products;
     }
 
 }

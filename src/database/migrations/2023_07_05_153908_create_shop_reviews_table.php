@@ -17,6 +17,7 @@ class CreateShopReviewsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->nullable();
             $table->foreignId('shop_id')->constrained('shops')->nullable();
+            $table->string('user_name')->nullable();
             $table->integer('rate')->nullable();
             $table->string('review')->nullable();
             $table->timestamps();

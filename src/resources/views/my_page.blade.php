@@ -6,64 +6,64 @@
 
 @section('content')
     <div class="mypage__container">
-        <h2 class="user-name">{{ auth()->user()->name }}さん</h2>
+        <h2 class="user-name">{{ auth()->user()->name }}様</h2>
         <div class="mypage__inner">
             <div class="reservation__content">
                 <h3 class="mypage__title">予約状況</h3>
                 @foreach (auth()->user()->shops as $shop)
-                <div class="reservation__area">
-                    <div class="reservation-header">
-                        <div class="reservation-title">
-                            <p class="material-symbols-rounded clock">
-                                schedule
-                            </p>
-                            <p class="reservation-name">
-                                予約{{ $loop->iteration }}
-                            </p>
+                    <div class="reservation__area">
+                        <div class="reservation-header">
+                            <div class="reservation-title">
+                                <p class="material-symbols-rounded clock">
+                                    schedule
+                                </p>
+                                <p class="reservation-name">
+                                    予約{{ $loop->iteration }}
+                                </p>
+                            </div>
+                            <div class="reservation-cancel">
+                                <form action="{{ route('edit') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                                    <button type="submit" name="delete" class="material-symbols-outlined cancel">
+                                        cancel
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="reservation-cancel">
-                            <form action="{{ route('edit') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="shop_id" value="{{ $shop->id }}">
-                                <button type="submit" name="delete" class="material-symbols-outlined cancel">
-                                    cancel
-                                </button>
-                            </form>
-                        </div>
+                        <form action="{{ route('edit') }}" method="post">
+                            @csrf
+                            <div class="reservation__item">
+                                <div class="reservation__item--title">Shop</div>
+                                <div class="reservation__item--data">{{ $shop->name }}</div>
+                            </div>
+                            <div class="reservation__item">
+                                <div class="reservation__item--title">Date</div>
+                                <input name="date" type="text" class="reservation__item--data" value="{{ $shop->pivot->date }}">
+                            </div>
+                            @error('date')
+                                <p class="error-message">{{ $errors->first('date') }}</p>
+                            @enderror
+                            <div class="reservation__item">
+                                <div class="reservation__item--title">Time</div>
+                                <input name="time" type="text" class="reservation__item--data" value="{{ substr($shop->pivot->time, 0, 5) }}">
+                            </div>
+                            @error('time')
+                                <p class="error-message">{{ $errors->first('time') }}</p>
+                            @enderror
+                            @error('date_time')
+                                <p class="error-message">{{ $errors->first('date_time') }}</p>
+                            @enderror
+                            <div class="reservation__item">
+                                <div class="reservation__item--title">Number</div>
+                                <input name="number" type="text" class="reservation__item--data number" value="{{ $shop->pivot->number }}">人
+                            </div>
+                            @error('number')
+                                <p class="error-message">{{ $errors->first('number') }}</p>
+                            @enderror
+                            <button type="submit" class="update"></button>
+                        </form>
                     </div>
-                    <form action="{{ route('edit') }}" method="post">
-                        @csrf
-                        <div class="reservation__item">
-                            <div class="reservation__item--title">Shop</div>
-                            <div class="reservation__item--data">{{ $shop->name }}</div>
-                        </div>
-                        <div class="reservation__item">
-                            <div class="reservation__item--title">Date</div>
-                            <input name="date" type="text" class="reservation__item--data" value="{{ $shop->pivot->date }}">
-                        </div>
-                        @error('date')
-                        <p class="error-message">{{ $errors->first('date') }}</p>
-                        @enderror
-                        <div class="reservation__item">
-                            <div class="reservation__item--title">Time</div>
-                            <input name="time" type="text" class="reservation__item--data" value="{{ substr($shop->pivot->time, 0, 5) }}">
-                        </div>
-                        @error('time')
-                        <p class="error-message">{{ $errors->first('time') }}</p>
-                        @enderror
-                        @error('date_time')
-                        <p class="error-message">{{ $errors->first('date_time') }}</p>
-                        @enderror
-                        <div class="reservation__item">
-                            <div class="reservation__item--title">Number</div>
-                            <input name="number" type="text" class="reservation__item--data number" value="{{ $shop->pivot->number }}">人
-                        </div>
-                        @error('number')
-                        <p class="error-message">{{ $errors->first('number') }}</p>
-                        @enderror
-                        <button type="submit" class="update"></button>
-                    </form>
-                </div>
                 @endforeach
             </div>
             <div class="favorite__content">

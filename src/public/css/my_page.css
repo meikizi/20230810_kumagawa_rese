@@ -23,12 +23,14 @@
 }
 
 .mypage__title {
+    font-size: 20px;
     margin-bottom: 16px;
 }
 
 .reservation__area {
     width: 80%;
-    height: 310px;
+    height: auto;
+    min-height: 310px;
     margin-bottom: 16px;
     border-radius: 4px;
     box-shadow: 2px 2px 4px gray;

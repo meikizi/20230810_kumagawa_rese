@@ -26,7 +26,7 @@ class EditReservationRequest extends FormRequest
         return [
             'date' => ['date'],
             'time' => ['date_format:H:i'],
-            'number' => ['integer', 'max:100'],
+            'number' => ['integer', 'max:10'],
             'date_time' => ['after:now'],
         ];
     }
@@ -43,9 +43,9 @@ class EditReservationRequest extends FormRequest
     {
         return [
             'date.date' => '正しい日付形式ではありません。2023-01-01のような形式で入力してください。',
-            'time.date_format:H:i' => '正しい時間形式ではありません。00:00のような形式で入力してください。',
+            'time.date_format' => '正しい時間形式ではありません。00:00のような形式で入力してください。',
             'number.integer' => '数値を入力してください',
-            'number.max' => '100以下の数値を入力してください',
+            'number.max' => '10以下の数値を入力してください',
             'date_time.after' => '予約日は今の時間以降の日時を選択してください。',
         ];
     }

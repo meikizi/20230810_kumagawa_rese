@@ -9,6 +9,12 @@ class ShopReview extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_name',
+        'rate',
+        'review',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class);

@@ -26,7 +26,7 @@
             </div>
             <div class="form--input">
                 <span class="material-symbols-outlined search">search</span>
-                <input type="search" class="input-search" name="name" placeholder="Search ...">
+                <input type="search" class="input-search" name="name" placeholder="Search ..." maxlength="191">
             </div>
         </form>
     </div>

@@ -11,9 +11,11 @@
 @section('content')
     <div class="shop-detail__container">
         <div class="shop-detail__area">
-            <a class="prev" href="{{ route('shop_list') }}">&lt;</a>
-            @isset ($item)
-            <h2 class="shop-name">{{ $item->name }}</h2>
+            <div class="shop-detail__title">
+                <a class="prev" href="{{ route('shop_list') }}">&lt;</a>
+                @isset ($item)
+                <h2 class="shop-name">{{ $item->name }}</h2>
+            </div>
             @if ($item->genre === '寿司')
             <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
             @endif
@@ -36,46 +38,65 @@
         @isset($reviews)
         <button class="review" id="openReviewButton">レビュー表示</button>
         <div class="review__area" id="review">
-            <div class="review__header">
-                <h2 class="review-title">レビューの一覧</h2>
-                <button class="close-review material-symbols-outlined" id="closeReviewButton">
-                    close
-                </button>
-            </div>
-            @foreach ($reviews as $review)
-                <div class="review__content">
-                    <p class="reviewer">{{ $users[$review->user_id - 1]->name }}</p>
-                    @switch($review->rate)
-                        @case(1)
-                            <p class="rate">
-                                評価: <span class="rated">★</span><span class="unrated">★★★★</span>
-                            </p>
-                            @break
-                        @case(2)
-                            <p class="rate">
-                                評価: <span class="rated">★★</span><span class="unrated">★★★</span>
-                            </p>
-                            @break
-                        @case(3)
-                            <p class="rate">
-                                評価: <span class="rated">★★★</span><span class="unrated">★★</span>
-                            </p>
-                            @break
-                        @case(4)
-                            <p class="rate">
-                                評価: <span class="rated">★★★★</span><span class="unrated">★</span>
-                            </p>
-                            @break
-                        @case(5)
-                            <p class="rate">
-                                評価: <span class="rated">★★★★★</span>
-                            </p>
-                            @break
-                        @default
-                    @endswitch
-                    <p class="review__comment">{!! nl2br(e($review->review)) !!}</p>
+            <div class="review__inner">
+                <div class="review__header">
+                    <h2 class="review-title">レビューの一覧</h2>
+                    <button class="close-review material-symbols-outlined" id="closeReviewButton">
+                        close
+                    </button>
                 </div>
-            @endforeach
+                @foreach ($reviews as $review)
+                    <div class="review__content">
+                        <div class="user-area">
+                            @isset ($account_icons)
+                                @foreach ($account_icons as $account_icon)
+                                    @if ($account_icon->user_id === $review->user_id)
+                                        <img src="{{ Storage::url($account_icon->path) }}" alt="プロフィール画像" class="user-icon">
+                                        @break
+                                    @endif
+                                @endforeach
+                            @endisset
+                            <img src="{{ asset('storage/images/default_icon.png') }}" alt="デフォルトのプロフィール画像" class="user-icon--default">
+                            <p class="reviewer">{{ $review->user_name }}</p>
+                        </div>
+                        <p class="updated_at">{{ $review->updated_at->format('Y年m月d日') }}</p>
+                        @switch($review->rate)
+                            @case(1)
+                                <p class="rate">
+                                    評価: <span class="rated">★</span><span class="unrated">★★★★</span>
+                                    <span class="rate-value">星1</span>
+                                </p>
+                                @break
+                            @case(2)
+                                <p class="rate">
+                                    評価: <span class="rated">★★</span><span class="unrated">★★★</span>
+                                    <span class="rate-value">星2</span>
+                                </p>
+                                @break
+                            @case(3)
+                                <p class="rate">
+                                    評価: <span class="rated">★★★</span><span class="unrated">★★</span>
+                                    <span class="rate-value">星3</span>
+                                </p>
+                                @break
+                            @case(4)
+                                <p class="rate">
+                                    評価: <span class="rated">★★★★</span><span class="unrated">★</span>
+                                    <span class="rate-value">星4</span>
+                                </p>
+                                @break
+                            @case(5)
+                                <p class="rate">
+                                    評価: <span class="rated">★★★★★</span>
+                                    <span class="rate-value">星5</span>
+                                </p>
+                                @break
+                            @default
+                        @endswitch
+                        <p class="review__comment">{!! nl2br(e($review->review)) !!}</p>
+                    </div>
+                @endforeach
+            </div>
         </div>
         @endisset
         <div class="reservation__area">
@@ -84,14 +105,14 @@
                 <form id="reservation" action="{{ route('reservation') }}" method="post">
                     @csrf
                     @isset ($item)
-                    <input type="hidden" name="shop_id" value="{{ $item->id }}">
+                        <input type="hidden" name="shop_id" value="{{ $item->id }}">
                     @else
-                    <input type="hidden" name="shop_id" value="">
+                        <input type="hidden" name="shop_id" value="">
                     @endisset
                     <div class="form--input">
                         <input name="date" type="date" class="input--date" id="input_date">
                         @error('date')
-                        <p class="error-message">{{ $errors->first('date') }}</p>
+                            <p class="error-message">{{ $errors->first('date') }}</p>
                         @enderror
                     </div>
                     <div class="form--select">
@@ -124,10 +145,10 @@
                             <option value="24:00">24:00</option>
                         </select>
                         @error('time')
-                        <p class="error-message">{{ $errors->first('time') }}</p>
+                            <p class="error-message">{{ $errors->first('time') }}</p>
                         @enderror
                         @error('date_time')
-                        <p class="error-message">{{ $errors->first('date_time') }}</p>
+                            <p class="error-message">{{ $errors->first('date_time') }}</p>
                         @enderror
                     </div>
                     <div class="form--select">

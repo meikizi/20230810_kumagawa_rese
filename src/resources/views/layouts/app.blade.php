@@ -95,6 +95,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('my_page') }}">{{ __('Mypage') }}</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('stripe.pay') }}">{{ __('Payment') }}</a>
+                                    </li>
                                 @endif
 
                                 @can('admin')
