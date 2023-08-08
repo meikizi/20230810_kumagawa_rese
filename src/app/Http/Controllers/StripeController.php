@@ -16,40 +16,6 @@ use Stripe\Charge;
 
 class StripeController extends Controller
 {
-
-    // public function subscription()
-    // {
-    //     $user_id = Auth::id();
-    //     $user = User::find($user_id);
-    //     return view('subscription',  [
-    //         'intent' => $user->createSetupIntent(),
-    //         // // 現在のユーザーに紐づいているサブスクリプション
-    //         // 'userProducts' => $user->products(),
-    //         // // dashboardで作成されているサブスクリプション全件
-    //         // 'products' => Price::getAll(),
-    //     ]);
-    // }
-
-    // public function afterpay(Request $request)
-    // {
-    //     $user = $request->user();
-    //     // $priceId = $request->get('plan');
-
-    //     // またStripe顧客でなければ、新規顧客にする
-    //     $stripeCustomer = $user->createOrGetStripeCustomer();
-
-    //     $paymentMethodId = $request->paymentMethodId;
-
-    //     // プランはconfigに設定したbasic_plan_idとする
-    //     $plan = config('services.stripe.basic_plan_id');
-
-    //     // 上記のプランと支払方法で、サブスクを新規作成する
-    //     $user->newSubscription('default', $plan)
-    //         ->create($paymentMethodId);
-
-    //     return back();
-    // }
-
     /**
      * 決済ページ表示
      */

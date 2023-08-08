@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Shop;
 use App\Models\BookMark;
+use App\Models\Role;
+use App\Models\Image;
 use App\Http\Requests\EditReservationRequest;
 use App\Http\Requests\MailSendRequest;
 use App\Http\Requests\ReviseRequest;
-use App\Models\Role;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactReply;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class MypageController extends Controller
 {
@@ -115,18 +116,43 @@ class MypageController extends Controller
     }
 
     /**
-     * メールの自動送信設定
+     * メールの自動送信設定 画像の保存・削除
      */
     public function send(MailSendRequest $request)
     {
-        $data = $request->all();
-        // 必要のない_tokenプロパティまで取得してしまうのでunsetメソッドで削除
-        unset($data['_token']);
+        if ($request->has('send')) {
+            $data = $request->all();
+            // 必要のない_tokenプロパティまで取得してしまうのでunsetメソッドで削除
+            unset($data['_token']);
 
-        Mail::to($request->email)
-            ->send(new ContactReply($data));
+            Mail::to($request->email)
+                ->send(new ContactReply($data));
 
-        return back()->withInput()->with('sent', '送信完了しました。');
+            return back()->withInput()->with('sent', '送信完了しました。');
+        // } elseif ($request->has('upload')) {
+        } else {
+            $img = $request->file('image');
+
+            if (isset($img)) {
+                $dir = 'images';
+
+                // アップロードされたファイル名を取得
+                $file_name = $request->file('image')->getClientOriginalName();
+
+                // imagesディレクトリに画像を保存
+                $path = $img->storeAs('public/' .$dir, $file_name);
+
+                if ($path) {
+                    // ファイル情報をDBに保存
+                    $image = new Image();
+                    $image->name = $file_name;
+                    $image->path = 'storage/' . $dir . '/' . $file_name;
+                    $image->save();
+                }
+            }
+            return back();
+        }
+
     }
 
     /**

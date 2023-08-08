@@ -23,12 +23,20 @@ class MailSendRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => ['required', 'string', 'max:191'],
-            'email' => ['required', 'email', 'max:191'],
-            'title' => ['required', 'string', 'max:191'],
-            'message' => ['required', 'string', 'max:191'],
-        ];
+        if ($this->has('name')) {
+            return [
+                'name' => ['required', 'string', 'max:191'],
+                'email' => ['required', 'email', 'max:191'],
+                'title' => ['required', 'string', 'max:191'],
+                'message' => ['required', 'string', 'max:191'],
+            ];
+        }
+
+        if ($this->has('image')) {
+            return [
+                'image' => ['required', 'file', 'image',  'max:40000', 'mimes:jpg,jpeg,png'],
+            ];
+        }
     }
 
     public function messages()
@@ -46,6 +54,11 @@ class MailSendRequest extends FormRequest
             'message.required' => 'メッセージを入力してください',
             'message.string' => 'メッセージを文字列で入力してください',
             'message.max' => 'メッセージを20文字以下で入力してください',
+            'image.required' => 'ファイルを選択してください',
+            'image.file' => 'ファイルを選択してください',
+            'image.image' => '画像ファイルを選択してください',
+            'image.max' => 'ファイルのサイズが大き過ぎます',
+            'image.mimes' => 'jpg,jpeg,pngのいずれかを含む画像ファイルを選択してください',
         ];
     }
 }

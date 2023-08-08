@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:191'],
             'email' => ['required', 'email', 'unique:users', 'max:191'],
             'password' => ['required', 'string', 'min:8', 'max:30'],
-            'path' => ['string', 'max:10240', 'mimes:jpg,jpeg,png'],
+            'image' => ['file', 'image', 'max:10240', 'mimes:jpg,jpeg,png'],
         ];
     }
 
@@ -45,9 +45,10 @@ class RegisterRequest extends FormRequest
             'password.string' => 'パスワードを文字列で入力してください',
             'password.min' => 'パスワードを8文字以上で入力してください',
             'password.max' => 'パスワードを20文字以下で入力してください',
-            'path.string' => '正しいファイル形式のファイルを選択してください',
-            'path.max' => 'ファイルのサイズが大き過ぎます',
-            'path.mimes' => 'jpg,jpeg,pngのいずれかを含む画像ファイルを選択してください',
+            'image.file' => 'ファイルを選択してください',
+            'image.image' => '画像ファイルを選択してください',
+            'image.max' => 'ファイルのサイズが大き過ぎます',
+            'image.mimes' => 'jpg,jpeg,pngのいずれかを含む画像ファイルを選択してください',
         ];
     }
 }

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('script')
+<script src="{{ asset('js/input_file.js') }}"></script>
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 @endsection
@@ -71,10 +75,11 @@
             </div>
             @endisset
         </div>
+        <h3 class="contact__title">お知らせメール送信</h3>
         <div class="admin__contact">
             @if ( Session::has('sent'))
             <div>
-                <p>{{old('name')}}様宛てのメッセージが{{ session('sent') }}</p>
+                <p class="success-message">{{old('name')}}様宛てのメッセージが{{ session('sent') }}</p>
             </div>
             @endif
 
@@ -118,9 +123,28 @@
                 </div>
 
                 <div class="btn">
-                    <input type="submit" class="submit" value="送信">
+                    <input type="submit" class="submit" name="send" value="送信">
                 </div>
             </form>
+        </div>
+        <div class="admin__upload">
+            <h2 class="admin__title">店舗画像保存</h2>
+            <form action="{{ route('admin.send') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="upload-image">
+                    <label for="file" class="label--image">画像ファイルを選択</label>
+                    <input type="file" name="image" class="input--image" id="file">
+                    <span class="select-image" id="file_name">選択されていません</span>
+                </div>
+                @error('image')
+                    <p class="error-message">{{ $errors->first('image') }}</p>
+                @enderror
+                <input type="submit" class="submit--image" name="upload" value="アップロード">
+            </form>
+            {{-- <form action="{{ route('admin.send') }}" method="POST">
+                @csrf
+
+            </form> --}}
         </div>
     </div>
 @endsection

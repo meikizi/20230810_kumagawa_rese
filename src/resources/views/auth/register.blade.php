@@ -18,6 +18,11 @@
                                 <span class="icon-text">プロフィール画像を変更</span>
                                 <input type="file" name="image" class="input--icon">
                             </label>
+                                @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                @enderror
                         </div>
 
                         <div class="row mb-3">
