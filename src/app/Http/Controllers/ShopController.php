@@ -22,7 +22,8 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         // 本登録済みユーザーのみアクセス可
-        if (Auth::user()->status == config('const.USER_STATUS.REGISTER')) {
+        // if (Auth::user()->status == config('const.USER_STATUS.REGISTER')) {
+
             $areas = Shop::groupBy('area')
                 ->select('area', DB::raw('count(*) as total'))
                 ->get();
@@ -44,12 +45,13 @@ class ShopController extends Controller
 
 
             return view('shop_list', compact('book_marks', 'areas', 'genres', 'items'));
-        }
 
-        Auth::logout();
-        $error_message = '本登録が完了していません。
-        送信されたメールに記載されているURLにアクセスし、アカウントの本登録を完了させてください。';
-        return view('auth.login', compact('error_message'));
+        // }
+        // Auth::logout();
+        // $error_message = '本登録が完了していません。
+        // 送信されたメールに記載されているURLにアクセスし、アカウントの本登録を完了させてください。';
+        // return view('auth.login', compact('error_message'));
+
     }
 
     /**

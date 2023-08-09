@@ -76,6 +76,7 @@
     width: 100%;
     border: none;
     border-radius: 0 4px 4px 0;
+    cursor: pointer;
 }
 
 .shop-list__container {

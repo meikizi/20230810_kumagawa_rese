@@ -74,6 +74,7 @@
 
 .reservation__item--title {
     width: 30%;
+    cursor: pointer;
 }
 
 .reservation__item--data {
@@ -82,6 +83,7 @@
     background: inherit;
     color: #fff;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .number {

@@ -12,7 +12,7 @@
                 <select name="area" class="select--area">
                     <option value="">All area</option>
                     @foreach ($areas as $area)
-                    <option value="{{ $area->area }}">{{ $area->area }}</option>
+                        <option value="{{ $area->area }}">{{ $area->area }}</option>
                     @endforeach
                 </select>
             </div>
@@ -20,7 +20,7 @@
                 <select name="genre" class="select--genre">
                     <option value="">All genere</option>
                     @foreach ($genres as $genre)
-                    <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
+                        <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
                     @endforeach
                 </select>
             </div>

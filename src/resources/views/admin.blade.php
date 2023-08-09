@@ -75,7 +75,7 @@
             </div>
             @endisset
         </div>
-        <h3 class="contact__title">お知らせメール送信</h3>
+        <h3 class="contact__title">お知らせメール</h3>
         <div class="admin__contact">
             @if ( Session::has('sent'))
             <div>
@@ -128,23 +128,37 @@
             </form>
         </div>
         <div class="admin__upload">
-            <h2 class="admin__title">店舗画像保存</h2>
+            <h2 class="admin__title">店舗画像保存・削除</h2>
+            <p class="success-message">{{ session('success_upload') }}</p>
             <form action="{{ route('admin.send') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="upload-image">
-                    <label for="file" class="label--image">画像ファイルを選択</label>
-                    <input type="file" name="image" class="input--image" id="file">
+                    <label for="file" class="label-image">画像ファイルを選択</label>
+                    <input type="file" name="image" class="input-image" id="file">
                     <span class="select-image" id="file_name">選択されていません</span>
                 </div>
                 @error('image')
                     <p class="error-message">{{ $errors->first('image') }}</p>
                 @enderror
-                <input type="submit" class="submit--image" name="upload" value="アップロード">
+                <input type="submit" class="submit-image" name="upload" value="アップロード">
             </form>
-            {{-- <form action="{{ route('admin.send') }}" method="POST">
-                @csrf
-
-            </form> --}}
+            @isset ($image_paths)
+                <p class="success-message">{{ session('success_delete') }}</p>
+                <form action="{{ route('admin.send') }}" method="POST" class="form-delete">
+                    @csrf
+                    <span>削除する画像を選択</span>
+                    <select name="image_path" class="select-image">
+                        <option value="">-----</option>
+                        @foreach ($image_paths as $image_path)
+                            <option value="{{ $image_path }}">{{ substr($image_path, 14)}}</option>
+                        @endforeach
+                    </select>
+                    <input type="submit" class="delete-image" name="delete" value="削除">
+                    @error('image_path')
+                        <p class="error-message">{{ $errors->first('image_path') }}</p>
+                    @enderror
+                </form>
+            @endisset
         </div>
     </div>
 @endsection

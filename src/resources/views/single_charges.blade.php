@@ -8,6 +8,10 @@
 <div class="stripe__container">
     <h3 class="stripe__title">ご登録フォーム</h3>
 
+    @if ( Session::has('sent'))
+        <p class="success-message">{{ session('sent') }}</p>
+    @endif
+
     <form action="{{route('stripe.paid')}}" method="post" class="payment-form" id="payment-form">
         @csrf
 

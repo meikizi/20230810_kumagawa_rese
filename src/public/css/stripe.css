@@ -19,6 +19,7 @@
 .label {
     display: block;
     margin-bottom: 16px;
+    cursor: pointer;
 }
 
 .input {
@@ -26,6 +27,7 @@
     width: 50%;
     padding: 10px 12px;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .card-element {
@@ -51,6 +53,12 @@
 
 .card-element--webkit-autofill {
     background-color: #fefde5 !important;
+}
+
+.success-message {
+    margin: 8px 0 0 16px;
+    color: rgb(125, 250, 80);
+    font-weight: bold;
 }
 
 .error-message {

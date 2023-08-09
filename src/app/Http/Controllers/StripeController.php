@@ -34,6 +34,6 @@ class StripeController extends Controller
             $request->paymentMethodId
         );
 
-        return back();
+        return back()->with('sent', 'お支払いが完了しました。');
     }
 }

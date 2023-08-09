@@ -32,9 +32,15 @@ class MailSendRequest extends FormRequest
             ];
         }
 
-        if ($this->has('image')) {
+        if ($this->has('upload')) {
             return [
                 'image' => ['required', 'file', 'image',  'max:40000', 'mimes:jpg,jpeg,png'],
+            ];
+        }
+
+        if ($this->has('delete')) {
+            return [
+                'image_path' => ['required'],
             ];
         }
     }
@@ -59,6 +65,7 @@ class MailSendRequest extends FormRequest
             'image.image' => '画像ファイルを選択してください',
             'image.max' => 'ファイルのサイズが大き過ぎます',
             'image.mimes' => 'jpg,jpeg,pngのいずれかを含む画像ファイルを選択してください',
+            'image_path.required' => '画像を選択してください'
         ];
     }
 }

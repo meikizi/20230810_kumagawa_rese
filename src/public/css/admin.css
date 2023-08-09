@@ -12,6 +12,7 @@
 .admin__title {
     padding: 32px;
     margin-bottom: 16px;
+    text-align: center;
     background: rgb(100, 140, 250);
     color: #fff;
 }
@@ -209,7 +210,7 @@
 .admin__upload {
     width: 50%;
     height: auto;
-    padding-bottom: 16px;
+    padding-bottom: 32px;
     margin: 0 auto;
     background: #fff;
     font-weight: bold;
@@ -221,27 +222,49 @@
     margin-bottom: 32px;
 }
 
-.label--image {
+.label-image {
     padding: 5px 20px;
     background: rgb(230, 230, 230);
     cursor: pointer;
     transition: .3s;
 }
 
-.label--image:hover {
+.label-image:hover {
     opacity: .5;
 }
 
-.input--image {
+.input-image {
     display: none;
 }
 
-.submit--image {
+.submit-image {
     width: 30%;
     display: block;
     padding: 8px 0;
-    margin: 0 auto;
+    margin: 16px auto 32px;
     background: rgb(60, 110, 250);;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.select-image {
+    min-width: 180px;
+    padding: 8px;
+    margin-left: 16px;
+    margin-right: 32px;
+    font-weight: bold;
+    border: none;
+    border: 2px solid rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.delete-image {
+    display: inline-block;
+    padding: 8px 24px;
+    background: rgb(60, 110, 250);
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -286,5 +309,9 @@
     .submit {
         width: 100%;
         font-size: 20px;
+    }
+
+    .admin__upload {
+        width: 90%;
     }
 }

@@ -33,20 +33,21 @@
                         </div>
                         <form action="{{ route('edit') }}" method="post">
                             @csrf
+                            <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                             <div class="reservation__item">
                                 <div class="reservation__item--title">Shop</div>
                                 <div class="reservation__item--data">{{ $shop->name }}</div>
                             </div>
                             <div class="reservation__item">
-                                <div class="reservation__item--title">Date</div>
-                                <input name="date" type="text" class="reservation__item--data" value="{{ $shop->pivot->date }}">
+                                <label for="date" class="reservation__item--title">Date</label>
+                                <input name="date" type="text" class="reservation__item--data" id="date" value="{{ $shop->pivot->date }}">
                             </div>
                             @error('date')
                                 <p class="error-message">{{ $errors->first('date') }}</p>
                             @enderror
                             <div class="reservation__item">
-                                <div class="reservation__item--title">Time</div>
-                                <input name="time" type="text" class="reservation__item--data" value="{{ substr($shop->pivot->time, 0, 5) }}">
+                                <label for="time" class="reservation__item--title">Time</label>
+                                <input name="time" type="text" class="reservation__item--data" id="time" value="{{ substr($shop->pivot->time, 0, 5) }}">
                             </div>
                             @error('time')
                                 <p class="error-message">{{ $errors->first('time') }}</p>
@@ -55,8 +56,8 @@
                                 <p class="error-message">{{ $errors->first('date_time') }}</p>
                             @enderror
                             <div class="reservation__item">
-                                <div class="reservation__item--title">Number</div>
-                                <input name="number" type="text" class="reservation__item--data number" value="{{ $shop->pivot->number }}">人
+                                <label for="number" class="reservation__item--title">Number</label>
+                                <input name="number" type="text" class="reservation__item--data number" id="number" value="{{ $shop->pivot->number }}">人
                             </div>
                             @error('number')
                                 <p class="error-message">{{ $errors->first('number') }}</p>

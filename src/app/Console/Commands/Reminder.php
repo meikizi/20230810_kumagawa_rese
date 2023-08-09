@@ -43,11 +43,11 @@ class Reminder extends Command
     public function handle()
     {
         $shops = Shop::all();
-        $tomorrow = Carbon::tomorrow()->toDateString();
-        $today = Carbon::today()->format('m月d日');
+        $today = Carbon::today()->toDateString();
+        $format_today = Carbon::today()->format('m月d日');
         for ($i = 0; $i < Shop::count(); $i++) {
             $shop = $shops[$i];
-            $reservation = $shop->users()->wherePivot('date', $tomorrow)->first();
+            $reservation = $shop->users()->wherePivot('date', $today)->first();
             if (!empty($reservation)) {
                 $users_id[] = $reservation->pivot->user_id;
                 $shops_id[] = $reservation->pivot->shop_id;
@@ -65,7 +65,7 @@ class Reminder extends Command
             foreach ($users as $i => $user) {
                 $shop_name = Shop::find($shops_id[$i])->name;
                 $time = $times[$i];
-                return Mail::to($user->email)->send(new EmailReminder($user, $shop_name, $today, $time));
+                return Mail::to($user->email)->send(new EmailReminder($user, $shop_name, $format_today, $time));
             }
         }
     }

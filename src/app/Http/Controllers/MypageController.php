@@ -44,17 +44,17 @@ class MypageController extends Controller
             return back();
         } else {
             // 予約の編集
-            $form = $request->all();
-            unset($form['_token']);
-            $id = Auth::id();
-            $user = User::find($id);
-            $user->shops()->update([
-                'date' => $request->date,
-                'time' => $request->time,
-                'number' => $request->number,
-            ]);
+            $user_id = Auth::id();
+            $shop_id = $request->shop_id;
+            $user = User::find($user_id);
+
+            $user->shops()->detach($shop_id);
             $user->shops()
-                ->sync($request->shop_id, []);
+                ->attach($request->shop_id, [
+                    'date' => $request->date,
+                    'time' => $request->time,
+                    'number' => $request->number,
+                ]);
             return back();
         }
     }
@@ -68,7 +68,11 @@ class MypageController extends Controller
         $shops = Shop::all();
         $shopkeeper = Role::find(2);
         $items = $shopkeeper->users->all();
-        return view('admin', compact('users', 'shops', 'items'));
+        $image_paths = Storage::files('public/images');
+        if (empty($image_paths)) {
+            return view('admin', compact('users', 'shops', 'items'));
+        }
+        return view('admin', compact('users', 'shops', 'items', 'image_paths'));
     }
 
     /**
@@ -116,7 +120,7 @@ class MypageController extends Controller
     }
 
     /**
-     * メールの自動送信設定 画像の保存・削除
+     * メールの自動送信設定 画像の保存
      */
     public function send(MailSendRequest $request)
     {
@@ -129,8 +133,7 @@ class MypageController extends Controller
                 ->send(new ContactReply($data));
 
             return back()->withInput()->with('sent', '送信完了しました。');
-        // } elseif ($request->has('upload')) {
-        } else {
+        } elseif ($request->has('upload')) {
             $img = $request->file('image');
 
             if (isset($img)) {
@@ -150,7 +153,13 @@ class MypageController extends Controller
                     $image->save();
                 }
             }
-            return back();
+            return back()->with('success_upload', '画像を保存しました。');
+        } else {
+            $image_path = $request->image_path;
+            $image_name = substr($image_path, 14);
+            Image::whereName($image_name)->delete();
+            Storage::delete($image_path);
+            return back()->with('success_delete', '画像を削除しました。');
         }
 
     }

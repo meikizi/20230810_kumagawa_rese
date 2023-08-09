@@ -13,10 +13,10 @@
                         @csrf
 
                         <div class="icon-area">
-                            <label>
+                            <label class="label--icon">
                                 <img src="{{ asset('storage/images/default_icon.png') }}" alt="デフォルトのプロフィール画像" class="icon">
-                                <span class="icon-text">プロフィール画像を変更</span>
                                 <input type="file" name="image" class="input--icon">
+                                <span class="icon-text">プロフィール画像を変更</span>
                             </label>
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">

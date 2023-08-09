@@ -6,9 +6,10 @@
 
 @section('content')
     <div class="shopkeeper__container">
+        <h1 class="shopkeeper__title">店舗代表者画面</h1>
         <div class="shopkeeper__inner">
             <div class="reservation__content">
-                <h3 class="shopkeeper__title">予約状況</h3>
+                <h2 class="reservation__title">予約状況</h2>
                 @isset ($reservations)
                 @foreach ($reservations as $reservation)
                 <div class="reservation__area">
@@ -53,7 +54,7 @@
                 @endisset
             </div>
             <div class="shop__inner">
-                <h3 class="shop__title">店舗情報</h3>
+                <h2 class="shop__title">店舗情報</h2>
                 <div class="shop__content">
                     @isset($shop)
                     <form action="{{ route('revise') }}" method="post">
