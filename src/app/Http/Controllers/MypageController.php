@@ -209,7 +209,7 @@ class MypageController extends Controller
                 'genre' => $request->genre,
                 'overview' => $request->overview,
             ]);
-            return back();
+            return back()->with('success_update', '店舗情報を更新しました。');
         // 店舗情報の作成
         } else {
             $form = $request->all();
@@ -223,7 +223,7 @@ class MypageController extends Controller
             ->attach(2, [
                 'shop_id' => $shop_id,
             ]);
-            return back();
+            return back()->with('success_create', '店舗情報を作成しました。');
         }
     }
 

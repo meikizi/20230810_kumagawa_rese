@@ -57,6 +57,8 @@
                 <h2 class="shop__title">店舗情報</h2>
                 <div class="shop__content">
                     @isset($shop)
+                    <p class="success-message">{{ session('success_update') }}</p>
+                    <p class="success-message">{{ session('success_create') }}</p>
                     <form action="{{ route('revise') }}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $shop->id }}">
