@@ -42,7 +42,7 @@ LaravelのAuth認証機能を利用し、メールによる二段階認証を行
 
 < --- トップ画面の画像 --- >
 
-https://github.com/meikizi/20230810_kumagawa_rese/issues/1#issue-1844226344
+![スクリーンショット 2023-08-10 093622](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/d7cabc20-d5fc-4627-b4e2-a7ead729b027)
 
 ## 作成した目的
 PHPのフレームワークLaravelを学ぶために作成しました。
@@ -70,11 +70,11 @@ MySQL 8.0 (RDS)
 
 ## テーブル設計
 
-https://github.com/meikizi/20230810_kumagawa_rese/issues/3#issue-1844227351
+![スクリーンショット 2023-08-09 174905](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/88769f37-09f8-4801-9b65-2ebd3e2a0f3d)
 
 ## ER図
 
-https://github.com/meikizi/20230810_kumagawa_rese/issues/2#issue-1844226919
+![スクリーンショット 2023-08-09 175153](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/883ac233-d2f2-4563-8a76-fb3e684d0892)
 
 # 環境構築
 .env ファイルを編集
