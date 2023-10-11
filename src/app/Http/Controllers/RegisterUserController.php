@@ -8,7 +8,6 @@ use App\Models\AccountIcon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\DefiniteRegisterRequest;
@@ -23,58 +22,62 @@ class RegisterUserController extends Controller
         return view('auth.register');
     }
 
-    // protected function postRegister(Request $request)
-    // {
-    //     // ユーザ登録処理
-    //     $user = User::create([
-    //         'name' => $request['name'],
-    //         'email' => $request['email'],
-    //         'password' => Hash::make($request['password']),
-    //     ]);
+    protected function postRegister(Request $request)
+    {
+        // ユーザ登録処理
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ]);
 
-    //     event(new Registered($user));
+        event(new Registered($user));
 
-    //     // 最初に会員登録した者を管理者に設定
-    //     $id = $user->id;
-    //     if ($id === 1) {
-    //         $user = User::find($id);
-    //         $user->roles()
-    //             ->attach(1);
-    //     }
+        // 最初に会員登録した者を管理者に設定
+        $id = $user->id;
+        if ($id === 1) {
+            $user = User::find($id);
+            $user->roles()
+                ->attach(1);
+        } else {
+            $user = User::find($id);
+            $user->roles()
+                ->attach(3);
+        }
 
-    //     // アイコンをデフォルトから変更する場合の処理
-    //     $img = $request->file('image');
+        // アイコンをデフォルトから変更する場合の処理
+        $img = $request->file('image');
 
-    //     if (isset($img)) {
+        if (isset($img)) {
 
-    //         $dir = 'images';
+            $dir = 'images';
 
-    //         // imagesディレクトリに画像を保存
-    //         $path = $img->store('public/' . $dir);
+            // imagesディレクトリに画像を保存
+            $path = $img->store('public/' . $dir);
 
-    //         if ($path) {
-    //             // ファイル情報をDBに保存
-    //             $image = new AccountIcon();
-    //             $image->path = $path;
-    //             $image->user_id = $user->id;
-    //             $image->save();
-    //         }
-    //     }
+            if ($path) {
+                // ファイル情報をDBに保存
+                $image = new AccountIcon();
+                $image->path = $path;
+                $image->user_id = $user->id;
+                $image->save();
+            }
+        }
 
-    //     Auth::login($user);
+        Auth::login($user);
 
-    //     return redirect('/');
-    // }
+        return redirect('/');
+    }
 
-    // public function registered(Request $request)
-    // {
-    //     Auth::logout();
+    public function registered(Request $request)
+    {
+        Auth::logout();
 
-    //     $request->session()->invalidate();
-    //     // CSRF トークンを再生成して、二重送信対策
-    //     $request->session()->regenerateToken();
-    //     return view('auth.main.registered');
-    // }
+        $request->session()->invalidate();
+        // CSRF トークンを再生成して、二重送信対策
+        $request->session()->regenerateToken();
+        return view('auth.main.registered');
+    }
 
     /**
      * 仮会員登録内容確認
@@ -198,7 +201,6 @@ class RegisterUserController extends Controller
         $user->address = $request->address;
         $user->save();
 
-        $request->session()->invalidate();
         // CSRF トークンを再生成して、二重送信対策
         $request->session()->regenerateToken();
 

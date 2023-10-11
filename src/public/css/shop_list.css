@@ -3,10 +3,7 @@
     margin-bottom: 0px;
 }
 
-.shop-list__container {
-    padding-bottom: 48px;
-}
-
+/* shop_list.blade.php */
 .header-form {
     width: 45%;
     position: absolute;
@@ -82,6 +79,7 @@
 .shop-list__container {
     width: 90%;
     margin: 0 auto;
+    padding-bottom: 48px;
 }
 
 .item-list {
@@ -110,7 +108,7 @@
 
 .category {
     display: flex;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 }
 
 .category--area {
@@ -123,8 +121,7 @@
     margin-bottom: 8px;
 }
 
-.details,
-.open-review {
+.details {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
@@ -149,35 +146,58 @@
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding-bottom: 24px;
+    }
+
     .header-form {
-        width: 55%;
+        position: static;
         left: 40%;
+        width: 80%;
+        margin: 0 auto 40px;
+    }
+
+    .search-form {
+        display: block;
     }
 
     .form--select {
+        display: inline;
         width: 24%;
+    }
+
+    .select--area,
+    .select--genre {
+        width: 49%;
+    }
+
+    .form--input {
+        width: 100%;
+        margin-top: 8px;
+        border-top: 1px solid rgb(230, 230, 230);
+    }
+
+    .item__content {
+        padding: 8px 8px 16px 16px;
     }
 
     .item-list {
         grid-template-columns: repeat(2, calc((100% / 2) - 8px));
     }
 
+    .item {
+        margin-bottom: 24px;
+    }
+
     .category {
-        display: block;
-        margin-bottom: 16px;
+        font-size: 12px;
     }
 
     .category--area {
         margin-bottom: 8px;
     }
 
-    .details,
-    .open-review {
-        font-size: 18px;
-    }
-
-    .bookmark,
-    .unbookmark {
-        font-size: 48px;
+    .shop-list__container {
+        width: 100%;
     }
 }

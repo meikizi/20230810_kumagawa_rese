@@ -1,0 +1,91 @@
+.rate__area {
+    margin-bottom: 8px;
+}
+
+.rate-average {
+    position: relative;
+    display: inline-block;
+    width: calc(16px * 5 + 16px);
+    height: 16px;
+    vertical-align: text-top;
+    font-size: 16px;
+}
+
+.rate-average::before,
+.rate-average::after {
+    content: "★★★★★";
+    color: #ccc;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.rate-average::after {
+    color: #ffcc00;
+    overflow: hidden;
+}
+
+.rate-average[data-rate="0"]::after {
+    width: 0px;
+}
+
+.rate-average[data-rate="0.5"]::after {
+    width: calc(16px * 0.5);
+}
+
+.rate-average[data-rate="1"]::after {
+    width: calc(16px * 1);
+}
+
+.rate-average[data-rate="1.5"]::after {
+    width: calc(16px * 1.5);
+}
+
+.rate-average[data-rate="2"]::after {
+    width: calc(16px * 2);
+}
+
+.rate-average[data-rate="2.5"]::after {
+    width: calc(16px * 2.5);
+}
+
+.rate-average[data-rate="3"]::after {
+    width: calc(16px * 3);
+}
+
+.rate-average[data-rate="3.5"]::after {
+    width: calc(16px * 3.5);
+}
+
+.rate-average[data-rate="4"]::after {
+    width: calc(16px * 4);
+}
+
+.rate-average[data-rate="4.5"]::after {
+    width: calc(16px * 4.5);
+}
+
+.rate-average[data-rate="5"]::after {
+    width: calc(16px * 5);
+}
+
+#open_review {
+    margin-right: 10%;
+}
+
+.reviews-count {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .rate__area {
+        font-size: 12px;
+    }
+
+    .rate-average {
+        width: calc(14px * 5 + 2px);
+        font-size: 14px;
+    }
+}

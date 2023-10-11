@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
+@section('script')
+<script src="{{ asset('js/display_rates.js') }}"></script>
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/my_page.css') }}">
+<link rel="stylesheet" href="{{ asset('css/rate.css') }}">
 @endsection
 
 @section('content')
@@ -71,41 +76,93 @@
                 <h3 class="mypage__title">お気に入り店舗</h3>
                 <div class="favorite__area">
                 <ul class="item-list">
-                    @foreach ($items as $item)
-                        @if(in_array($item->id, $book_marks))
+                    @foreach ($shops as $shop)
+                        @if(in_array($shop->id, $favorite_ids))
                             <li class="item">
-                                @if ($item->genre === '寿司')
+                                @if ($shop->genre === '寿司')
                                 <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
                                 @endif
-                                @if ($item->genre === '焼肉')
+                                @if ($shop->genre === '焼肉')
                                 <img src="{{ asset('storage/images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
                                 @endif
-                                @if ($item->genre === '居酒屋')
+                                @if ($shop->genre === '居酒屋')
                                 <img src="{{ asset('storage/images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
                                 @endif
-                                @if ($item->genre === 'イタリアン')
+                                @if ($shop->genre === 'イタリアン')
                                 <img src="{{ asset('storage/images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
                                 @endif
-                                @if ($item->genre === 'ラーメン')
+                                @if ($shop->genre === 'ラーメン')
                                 <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
                                 @endif
                                 <div class="item__content">
-                                    <h2 class="shop-name">{{ $item->name }}</h2>
-                                    <p class="category">#{{ $item->area }} #{{ $item->genre }}</p>
+                                    <h2 class="shop-name">{{ $shop->name }}</h2>
+                                    <p class="category">#{{ $shop->area }} #{{ $shop->genre }}</p>
+                                    @isset ($rate_averages)
+                                        <div class="rate__area">
+                                            @foreach ($rate_averages as $rate_average)
+                                                @if ($rate_average['favorite_id'] === $shop->id)
+                                                    @if ($rate_average['rate_average'] == 0)
+                                                        <span class="rate-average" data-rate="0"></span>
+                                                    @elseif ($rate_average['rate_average'] > 0 && $rate_average['rate_average'] < 1)
+                                                        <span class="rate-average" data-rate="0.5"></span>
+                                                    @elseif ($rate_average['rate_average'] == 1)
+                                                        <span class="rate-average" data-rate="1"></span>
+                                                    @elseif ($rate_average['rate_average'] > 1 && $rate_average['rate_average'] < 2)
+                                                        <span class="rate-average" data-rate="1.5"></span>
+                                                    @elseif ($rate_average['rate_average'] === 2)
+                                                        <span class="rate-average" data-rate="2"></span>
+                                                    @elseif ($rate_average['rate_average'] > 2 && $rate_average['rate_average'] < 3)
+                                                        <span class="rate-average" data-rate="2.5"></span>
+                                                    @elseif ($rate_average['rate_average'] == 3)
+                                                        <span class="rate-average" data-rate="3"></span>
+                                                    @elseif ($rate_average['rate_average'] > 3 && $rate_average['rate_average'] < 4)
+                                                        <span class="rate-average" data-rate="3.5"></span>
+                                                    @elseif ($rate_average['rate_average'] == 4)
+                                                        <span class="rate-average" data-rate="4"></span>
+                                                    @elseif ($rate_average['rate_average'] > 4 && $rate_average['rate_average'] < 5)
+                                                        <span class="rate-average" data-rate="4.5"></span>
+                                                    @elseif ($rate_average['rate_average'] == 5)
+                                                        <span class="rate-average" data-rate="5"></span>
+                                                    @endif
+                                                    @foreach ($reviews_counts as $reviews_count)
+                                                        @if ($reviews_count['favorite_id'] === $shop->id)
+                                                            <span class="rate-average-value">{{ $rate_average['rate_average'] }}</span>
+                                                            <a href="/reviewList?id={{ $shop->id }}" class="open-reviews"> ( <span class="reviews-count">{{ $reviews_count['reviews_count'] }}件</span> )</a>
+                                                            @break
+                                                        @endif
+                                                    @endforeach
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endisset
                                     <div class="item__inner">
                                         <form action="{{ route('shop_detail') }}" method="get">
                                             @csrf
-                                            <input type="hidden" name="shop_id" value="{{ $item->id }}">
+                                            <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                                             <button type="submit" class="details">詳しくみる</button>
                                         </form>
-                                        <a href="/unbookmark?id={{ $item->id }}" class="material-symbols-rounded bookmark">
+                                        <a href="/unbookmark?id={{ $shop->id }}" class="material-symbols-rounded bookmark">
                                             favorite
                                         </a>
                                     </div>
+                                    @isset ($customers)
+                                        @foreach ($customers as $customer)
+                                            @isset ($customer->shop_id)
+                                                @if ($shop->id === $customer->shop_id)
+                                                    <form action="{{ route('review') }}" method="get">
+                                                        @csrf
+                                                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                                                        <button  class="open-review">レビュー投稿</button>
+                                                    </form>
+                                                @endif
+                                            @endisset
+                                        @endforeach
+                                    @endisset
                                 </div>
                             </li>
-                            @endif
-                        @endforeach
+                        @endif
+                    @endforeach
                 </ul>
                 </div>
             </div>

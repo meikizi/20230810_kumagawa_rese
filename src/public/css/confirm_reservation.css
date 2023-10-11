@@ -1,0 +1,57 @@
+.container {
+    margin-bottom: 32px;
+}
+
+.reservation__container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.reservation__title {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.reservation__area {
+    width: 50%;
+    height: 20%;
+    margin: 0 auto;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+    background: rgb(60, 110, 250);
+    color: #fff;
+}
+
+.reservation__item {
+    display: flex;
+    padding: 5% 20%;
+    font-size: 24px;
+}
+
+.reservation__item--title {
+    width: 200px;
+}
+
+@media (max-width: 768px) {
+    .reservation__container {
+        padding-bottom: 32px;
+    }
+
+    .reservation__title {
+        font-size: 20px;
+    }
+
+    .reservation__area {
+        width: 100%;
+        margin-bottom: 64px;
+    }
+
+    .reservation__item {
+        padding: 5% 10%;
+        font-size: 20px;
+    }
+
+    .reservation__item--title {
+        width: 100px;
+    }
+}

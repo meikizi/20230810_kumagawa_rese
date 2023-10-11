@@ -12,7 +12,7 @@
                 <div class="card-header">仮会員登録確認</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('pre_register') }}">
+                    <form method="POST" action="{{ route('register_pre_register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">

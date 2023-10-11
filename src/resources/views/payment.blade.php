@@ -1,18 +1,22 @@
 @extends('layouts.app')
 
+@section('script')
+<script src="{{ asset('js/confirm.js') }}"></script>
+@endsection
+
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
+<link rel="stylesheet" href="{{ asset('css/payment.css') }}">
 @endsection
 
 @section('content')
-<div class="stripe__container">
-    <h3 class="stripe__title">ご登録フォーム</h3>
+<div class="payment__container">
+    <h3 class="payment__title">ご登録フォーム</h3>
 
     @if ( Session::has('sent'))
         <p class="success-message">{{ session('sent') }}</p>
     @endif
 
-    <form action="{{route('stripe.paid')}}" method="post" class="payment-form" id="payment-form">
+    <form action="{{route('stripe_paid')}}" method="post" class="payment__form" id="payment_form">
         @csrf
 
         <label class="label">
@@ -25,7 +29,7 @@
 
         <label class="label">
             カード名義人
-            <input type="test" class="input" id="card-holder-name" name="name"  value="{{old('name')}}">
+            <input type="test" class="input" id="card_holder_name" name="name"  value="{{old('name')}}">
             @error('name')
                 <p class="error-message">{{ $errors->first('name') }}</p>
             @enderror
@@ -33,12 +37,28 @@
 
         <label class="label">
             カード番号
-            <div class="card-element" id="card-element" name="card_number"></div>
+            <div class="card-element" id="card_element" name="card_number">
+            </div>
         </label>
 
-        <div id="card-errors" role="alert" style='color:red'></div>
+        <div class="error-message" id="card_errors" role="alert">
+        </div>
 
-        <button class="btn" id="card-button">支払う</button>
+        <button type="button" class="btn" id="confirm_button">
+            支払う
+        </button>
+
+        <div class="buy-confirm-modal" id="buy_confirm_modal">
+            <div class="modal__inner">
+                <div class="modal__header">
+                    <h4>支払いを確定しますか？</h4>
+                    <button type="button" class="close-confirm material-symbols-outlined" id="close_confirm_button">
+                        close
+                    </button>
+                </div>
+                <button type="submit" class="btn" id="card_button">支払う</button>
+            </div>
+        </div>
 
     </form>
 </div>
@@ -61,7 +81,7 @@
                 color: "#32325d",
                 fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
                 fontSmoothing: "antialiased",
-                fontSize: "16px",
+                fontSize: "14px",
                 "::placeholder": {
                     color: "#aab7c4"
                 }
@@ -73,14 +93,19 @@
         };
 
         const cardElement = elements.create('card', {style: style, hidePostalCode: true});
-        cardElement.mount('#card-element');
+        cardElement.mount('#card_element');
 
-        const cardHolderName = document.getElementById('card-holder-name');
-        const cardButton = document.getElementById('card-button');
+        const cardHolderName = document.getElementById('card_holder_name');
+        const cardButton = document.getElementById('card_button');
+        const cardErrors = document.getElementById('card_errors');
 
         cardButton.addEventListener('click', async (e) => {
             // formのsubmitボタンのデフォルト動作を無効にする
             e.preventDefault();
+
+            // 二重購入対策
+            cardButton.classList.add('disable');
+
             const { paymentMethod, error } = await stripe.createPaymentMethod(
                 'card',
                 cardElement,
@@ -90,18 +115,24 @@
             );
 
             if (error) {
-            // エラー処理
-            console.log('error');
-
+                // エラー処理
+                cardErrors.textContent = "カードの情報を入力してください"
             } else {
-            // 問題なければ、stripePaymentHandlerへ
-            stripePaymentIdHandler(paymentMethod.id);
+                // 問題なければ、stripePaymentHandlerへ
+                stripePaymentIdHandler(paymentMethod.id);
+            }
+        });
+
+        const closeConfirmButton = document.getElementById('close_confirm_button');
+        closeConfirmButton.addEventListener('click', function () {
+            if (cardButton.classList.contains('disable')) {
+                cardButton.classList.remove('disable');
             }
         });
     }
 
     function stripePaymentIdHandler(paymentMethodId) {
-        const form = document.getElementById('payment-form');
+        const form = document.getElementById('payment_form');
 
         const hiddenInput = document.createElement('input');
         hiddenInput.setAttribute('type', 'hidden');

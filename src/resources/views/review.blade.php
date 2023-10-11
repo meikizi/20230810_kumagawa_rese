@@ -12,7 +12,7 @@
     <div class="review__container" id="review">
         <div class="review__header">
             <h2 class="header-title">レビューの投稿</h2>
-            <a href="{{ route('shop_list') }}" class="close material-symbols-outlined">
+            <a href="{{ route('my_page') }}" class="close material-symbols-outlined">
                 close
             </a>
         </div>

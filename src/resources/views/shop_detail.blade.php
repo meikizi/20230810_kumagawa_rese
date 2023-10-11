@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('script')
-<script src="{{ asset('js/display-value.js') }}"></script>
+<script src="{{ asset('js/display_reservation.js') }}"></script>
+<script src="{{ asset('js/display_rates.js') }}"></script>
 @endsection
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/shop_detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/rate.css') }}">
 @endsection
 
 @section('content')
@@ -13,35 +15,70 @@
         <div class="shop-detail__area">
             <div class="shop-detail__title">
                 <a class="prev" href="{{ route('shop_list') }}">&lt;</a>
-                @isset ($item)
-                <h2 class="shop-name">{{ $item->name }}</h2>
+                @isset ($shop)
+                <h2 class="shop-name">{{ $shop->name }}</h2>
             </div>
-            @if ($item->genre === '寿司')
+            @if ($shop->genre === '寿司')
             <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
             @endif
-            @if ($item->genre === '焼肉')
+            @if ($shop->genre === '焼肉')
             <img src="{{ asset('storage/images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
             @endif
-            @if ($item->genre === '居酒屋')
+            @if ($shop->genre === '居酒屋')
             <img src="{{ asset('storage/images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
             @endif
-            @if ($item->genre === 'イタリアン')
+            @if ($shop->genre === 'イタリアン')
             <img src="{{ asset('storage/images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
             @endif
-            @if ($item->genre === 'ラーメン')
+            @if ($shop->genre === 'ラーメン')
             <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
             @endif
-            <p class="category">#{{ $item->area }} #{{ $item->genre }}</p>
-            <p class="about">{{ $item->overview }}</p>
+            <p class="category">#{{ $shop->area }} #{{ $shop->genre }}</p>
+            <div class="rate__area">
+                @isset($reviews)
+                    @if ($rete_average == 0)
+                        <span class="rate-average" data-rate="0"></span>
+                    @elseif ($rete_average > 0 && $rete_average < 1)
+                        <span class="rate-average" data-rate="0.5"></span>
+                    @elseif ($rete_average == 1)
+                        <span class="rate-average" data-rate="1"></span>
+                    @elseif ($rete_average > 1 && $rete_average < 2)
+                        <span class="rate-average" data-rate="1.5"></span>
+                    @elseif ($rete_average == 2)
+                        <span class="rate-average" data-rate="2"></span>
+                    @elseif ($rete_average > 2 && $rete_average < 3)
+                        <span class="rate-average" data-rate="2.5"></span>
+                    @elseif ($rete_average == 3)
+                        <span class="rate-average" data-rate="3"></span>
+                    @elseif ($rete_average > 3 && $rete_average < 4)
+                        <span class="rate-average" data-rate="3.5"></span>
+                    @elseif ($rete_average == 4)
+                        <span class="rate-average" data-rate="4"></span>
+                    @elseif ($rete_average > 4 && $rete_average < 5)
+                        <span class="rate-average" data-rate="4.5"></span>
+                    @elseif ($rete_average == 5)
+                        <span class="rate-average" data-rate="5"></span>
+                    @endif
+                    <span class="rate-average-value">{{ $rete_average }}</span>
+                    <a class="open-reviews"> ( <span class="reviews-count">{{ $reviews_count }}件</span> )</a>
+                @endisset
+                @isset ($customer)
+                    <form class="form--post-review" action="{{ route('review') }}" method="get">
+                        @csrf
+                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                        <button  class="post-review">レビュー投稿</button>
+                    </form>
+                @endisset
+            </div>
+            <p class="about">{{ $shop->overview }}</p>
             @endisset
         </div>
         @isset($reviews)
-        <button class="review" id="openReviewButton">レビュー表示</button>
         <div class="review__area" id="review">
             <div class="review__inner">
                 <div class="review__header">
                     <h2 class="review-title">レビューの一覧</h2>
-                    <button class="close-review material-symbols-outlined" id="closeReviewButton">
+                    <button class="close-review material-symbols-outlined" id="close_review">
                         close
                     </button>
                 </div>
@@ -59,36 +96,38 @@
                             <img src="{{ asset('storage/images/default_icon.png') }}" alt="デフォルトのプロフィール画像" class="user-icon--default">
                             <p class="reviewer">{{ $review->user_name }}</p>
                         </div>
-                        <p class="updated_at">{{ $review->updated_at->format('Y年m月d日') }}</p>
+                        <p class="updated_at">
+                            投稿日：<strong>{{$review->created_at->diffForHumans()}}</strong>
+                        </p>
                         @switch($review->rate)
                             @case(1)
                                 <p class="rate">
-                                    評価: <span class="rated">★</span><span class="unrated">★★★★</span>
-                                    <span class="rate-value">星1</span>
+                                    <span class="rated">★</span><span class="unrated">★★★★</span>
+                                    <span class="rate-value">1</span>
                                 </p>
                                 @break
                             @case(2)
                                 <p class="rate">
-                                    評価: <span class="rated">★★</span><span class="unrated">★★★</span>
-                                    <span class="rate-value">星2</span>
+                                    <span class="rated">★★</span><span class="unrated">★★★</span>
+                                    <span class="rate-value">2</span>
                                 </p>
                                 @break
                             @case(3)
                                 <p class="rate">
-                                    評価: <span class="rated">★★★</span><span class="unrated">★★</span>
-                                    <span class="rate-value">星3</span>
+                                    <span class="rated">★★★</span><span class="unrated">★★</span>
+                                    <span class="rate-value">3</span>
                                 </p>
                                 @break
                             @case(4)
                                 <p class="rate">
-                                    評価: <span class="rated">★★★★</span><span class="unrated">★</span>
-                                    <span class="rate-value">星4</span>
+                                    <span class="rated">★★★★</span><span class="unrated">★</span>
+                                    <span class="rate-value">4</span>
                                 </p>
                                 @break
                             @case(5)
                                 <p class="rate">
-                                    評価: <span class="rated">★★★★★</span>
-                                    <span class="rate-value">星5</span>
+                                    <span class="rated">★★★★★</span>
+                                    <span class="rate-value">5</span>
                                 </p>
                                 @break
                             @default
@@ -104,8 +143,8 @@
                 <h2 class="reservation__title">予約</h2>
                 <form id="reservation" action="{{ route('reservation') }}" method="post">
                     @csrf
-                    @isset ($item)
-                        <input type="hidden" name="shop_id" value="{{ $item->id }}">
+                    @isset ($shop)
+                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                     @else
                         <input type="hidden" name="shop_id" value="">
                     @endisset
@@ -173,8 +212,8 @@
                 <div class="reservation__items">
                     <div class="reservation__item">
                         <div class="reservation__item--title">Shop</div>
-                        @isset ($item)
-                        <input class="reservation__item--data" value="{{ $item->name }}">
+                        @isset ($shop)
+                        <input class="reservation__item--data" value="{{ $shop->name }}">
                         @else
                         <input class="reservation__item--data">
                         @endisset

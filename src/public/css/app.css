@@ -42,6 +42,7 @@ ul {
     border-radius: 4px;
     box-shadow: 2px 2px 4px gray;
     margin-right: 16px;
+    cursor: pointer;
 }
 
 .close-menu {
@@ -53,6 +54,7 @@ ul {
     border-radius: 4px;
     box-shadow: 2px 2px 4px gray;
     margin: 40px 0 200px 8%;
+    cursor: pointer;
 }
 
 .navbar-brand {
@@ -192,46 +194,38 @@ ul {
 }
 
 @media (max-width: 768px) {
+    .container {
+        margin-bottom: 60px;
+    }
+
     .open-menu,
     .close-menu {
-        width: 60px;
-        height: 60px;
-        font-size: 32px;
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
     }
 
     .close-menu {
-        margin-bottom: 120px;
+        margin-bottom: 60px;
     }
 
     .navbar-brand {
-        font-size: 40px;
-    }
-
-    .nav-link {
         font-size: 32px;
     }
 
     .login__container,
     .register__container {
-        width: 80%;
+        width: 90%;
     }
 
     .card-header {
         font-size: 24px;
     }
 
-    .mb-3 {
-        margin-bottom: 32px;
-    }
-
-    .password {
-        margin-bottom: 40px;
-    }
-
     .mail,
     .lock,
     .user {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .icon-area {
@@ -244,10 +238,7 @@ ul {
     }
 
     .form-control {
-        font-size: 20px;
+        width: 80%;
     }
 
-    .btn-primary {
-        font-size: 20px;
-    }
 }

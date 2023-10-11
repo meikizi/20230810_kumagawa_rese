@@ -1,11 +1,11 @@
 'use strict';
 
 window.addEventListener('DOMContentLoaded', function () {
-    let $open_button = document.getElementById('openMenuButton');
-    let $close_button = document.getElementById('closeMenuButton');
-    let $menu = document.getElementById('navbarSupportedContent');
+    const $openButton = document.getElementById('open_menu_button');
+    const $closeButton = document.getElementById('close_menu_button');
+    const $menu = document.getElementById('navbar_supported_content');
 
-    $open_button.addEventListener('click', function () {
+    $openButton.addEventListener('click', function () {
         if ($menu.classList.contains('show')) {
             $menu.classList.remove('show');
         }
@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    $close_button.addEventListener('click', function () {
+    $closeButton.addEventListener('click', function () {
         if ($menu.classList.contains('show')) {
             $menu.classList.remove('show');
         }

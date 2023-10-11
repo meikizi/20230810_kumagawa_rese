@@ -1,24 +1,24 @@
 'use strict';
 
 function selectYmd() {
-    let year = document.getElementById('year');
-    let month = document.getElementById('month');
-    let day = document.getElementById('day');
-    let birthday = document.getElementById('birthday');
+    const year = document.getElementById('year');
+    const month = document.getElementById('month');
+    const day = document.getElementById('day');
+    const birthday = document.getElementById('birthday');
     birthday.value = year.value + '-' + month.value + '-' + day.value;
 }
 
 function inputNumber() {
-    let phone_number1 = document.getElementById('phone_number1');
-    let phone_number2 = document.getElementById('phone_number2');
-    let phone_number3 = document.getElementById('phone_number3');
-    let phone_number = document.getElementById('phone_number');
-    phone_number.value = phone_number1.value + phone_number2.value + phone_number3.value;
+    const phoneNumber1 = document.getElementById('phone_number1');
+    const phoneNumber2 = document.getElementById('phone_number2');
+    const phoneNumber3 = document.getElementById('phone_number3');
+    const phoneNumber = document.getElementById('phone_number');
+    phoneNumber.value = phoneNumber1.value + phoneNumber2.value + phoneNumber3.value;
 }
 
 function inputAddress() {
-    let address = document.getElementById('address');
-    let building_name = document.getElementById('building_name');
-    let full_address = document.getElementById('full_address');
-    full_address.value = address.value + building_name.value;
+    const address = document.getElementById('address');
+    const buildingName = document.getElementById('building_name');
+    const fullAddress = document.getElementById('full_address');
+    fullAddress.value = address.value + buildingName.value;
 }

@@ -9,7 +9,7 @@
         <h1 class="shopkeeper__title">店舗代表者画面</h1>
         <div class="shopkeeper__inner">
             <div class="reservation__content">
-                <h2 class="reservation__title">予約状況</h2>
+                <h2 class="reservation__title">予約情報</h2>
                 @isset ($reservations)
                 @foreach ($reservations as $reservation)
                 <div class="reservation__area">

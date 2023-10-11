@@ -1,0 +1,30 @@
+/* app.blade.php */
+.container {
+    margin-bottom: 32px;
+}
+
+/* qrcode.blade.php */
+.qrcode__container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 32px;
+    background: #fff;
+}
+
+.qrcode__title {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.qrcode {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .qrcode__container {
+        width: 90%;
+        margin: 0 auto;
+        background: #fff;
+    }
+}

@@ -3,7 +3,7 @@
     margin-bottom: 12px;
 }
 
-.admin__inner {
+.admin__wrapper {
     width: 80%;
     margin: 0 auto 64px;
     background: #fff;
@@ -17,16 +17,37 @@
     color: #fff;
 }
 
+.admin__outer {
+    min-height: 300px;
+}
+
 .admin__header {
-    padding: 8px 16px;
+    padding: 8px 0px 8px 16px;
     margin: 0 16px 16px;
     border-bottom: 1px solid #ccc;
 }
 
-.header-item {
+.header-item,
+.header-item--select,
+.header-item--authorization,
+.header-item--remove {
     display: inline-block;
-    width: calc((100% / 6) - 8px);
     font-size: 20px;
+    font-weight: bold;
+}
+
+.header-item {
+    width: calc((100% / 6) - 8px);
+}
+
+.header-item--select {
+    width: 29%;
+}
+
+.header-item--authorization,
+.header-item--remove {
+    width: 10%;
+    text-align: center;
 }
 
 .admin__content {
@@ -51,35 +72,17 @@
     width: calc((100% / 6) - 8px);
 }
 
-.form--Authorization {
+.form--authorization {
     position: absolute;
-    top: 28px;
-    left: calc(((100% / 6) - 4px)* 3);
+    left: calc(((100% / 6) - 8px) * 3);
     display: inline-block;
-    width: calc(((100% / 6) - 4px) * 2);
-}
-
-.form--remove {
-    padding-top: 28px;
+    width: 44%;
 }
 
 .select-wrap {
-    position: relative;
-    width: 50%;
     display: inline-block;
-}
-
-.select-wrap:after {
-    content: "";
-    position: absolute;
-    right: 10px;
-    top: 15px;
-    width: 8px;
-    height: 8px;
-    border-top: 5px solid #ccc;
-    border-left: 5px solid #ccc;
-    transform: translateY(-50%) rotate(-135deg);
-    pointer-events: none;
+    width: 70%;
+    margin-right: 6%;
 }
 
 .select-shop {
@@ -87,16 +90,21 @@
     padding: 8px 0;
     margin-right: 10%;
     font-weight: bold;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+}
+
+.database__item--authorization {
+    display: inline-block;
 }
 
 .form--remove {
     position: absolute;
-    top: 0;
-    left: calc(((100% / 6) - 4px) * 5);
+    top: 28px;
+    left: calc(((100% / 6) - 8px) * 3 + 44%);
     display: inline-block;
+}
+
+.database__item--remove {
+    padding-top: 4px;
 }
 
 .btn {
@@ -135,7 +143,7 @@
 }
 
 .admin__contact {
-    width: 50%;
+    width: 70%;
     height: auto;
     padding: 16px;
     margin: 0 auto 64px;
@@ -209,7 +217,7 @@
 }
 
 .admin__upload {
-    width: 50%;
+    width: 70%;
     height: auto;
     padding-bottom: 32px;
     margin: 0 auto;
@@ -259,7 +267,6 @@
     font-weight: bold;
     border: none;
     border: 2px solid rgb(230, 230, 230);
-    cursor: pointer;
 }
 
 .delete-image {
@@ -295,16 +302,51 @@
 }
 
 @media (max-width: 768px) {
-    .admin__inner {
+    .admin__wrapper {
         width: 90%;
     }
 
-    .header-item {
-        font-size: 20px;
+    .admin__title {
+        font-size: 24px;
+    }
+
+    .admin__outer {
+        width: 100%;
+        overflow: scroll hidden;
+    }
+
+    .admin__inner {
+        width: 700px;
+        text-wrap: nowrap;
+    }
+
+    .header-item,
+    .header-item--select,
+    .header-item--Authorization,
+    .header-item--remove {
+        font-size: 16px;
+    }
+
+    .database__data {
+        font-size: 16px;
     }
 
     .admin__contact {
         width: 90%;
+    }
+
+    .label,
+    .label--message {
+        display: block;
+        width: 100%;
+    }
+
+    .input {
+        width: 70%;
+    }
+
+    .textarea {
+        width: 100%;
     }
 
     .submit {
@@ -314,5 +356,22 @@
 
     .admin__upload {
         width: 90%;
+    }
+
+    .select-image {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    .label-image {
+        display: block;
+        width: 200px;
+        margin: 0 auto 16px;
+        padding: 8px 0;
+    }
+
+    .delete-image {
+        display: block;
+        margin: 16px auto 0;
     }
 }

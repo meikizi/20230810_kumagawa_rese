@@ -1,0 +1,122 @@
+.container {
+    margin-bottom: 0px;
+}
+
+.review-list_container {
+    width: 90%;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.review-list_inner {
+    display: flex;
+}
+
+.shop-area {
+    border-right: 8px solid #ccc;
+}
+
+.header-title {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.shop-about {
+    padding: 16px;
+}
+
+.image {
+    width: 90%;
+    object-fit: cover;
+}
+
+.review__area {
+    width: 100%;
+}
+
+.review__inner {
+    height: 74vh;
+    padding: 32px 16px;
+    background: #fff;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.review__header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.review__content {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.user-icon,
+.user-icon--default {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-icon {
+    z-index: 10;
+}
+
+.reviewer {
+    margin-left: 50px;
+}
+
+.updated_at,
+.rate {
+    margin-bottom: 8px;
+}
+
+.updated_at {
+    color: #aaa;
+}
+
+
+.rated {
+    color: #ffcc00;
+}
+
+.unrated {
+    color: #ccc;
+    ;
+}
+
+.rate-value {
+    margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+    .review-list_inner {
+        display: block;
+    }
+
+    .shop-area {
+        padding-bottom: 8px;
+        border-right: none;
+        border-bottom: 8px solid rgba(230, 230, 230);
+    }
+
+    .review__inner {
+        height: auto;
+        overflow: auto;
+    }
+}

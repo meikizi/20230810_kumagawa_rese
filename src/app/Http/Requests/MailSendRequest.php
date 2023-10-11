@@ -34,7 +34,7 @@ class MailSendRequest extends FormRequest
 
         if ($this->has('upload')) {
             return [
-                'image' => ['required', 'file', 'image',  'max:40000', 'mimes:jpg,jpeg,png'],
+                'image' => ['required', 'file', 'image',  'max:10000', 'mimes:jpg,jpeg,png'],
             ];
         }
 

@@ -27,8 +27,8 @@ class BookMarkController extends Controller
     {
         $user = Auth::user()->id;
         $book_mark = BookMark::where('shop_id', $request->id)
-                                ->where('user_id', $user)
-                                ->first();
+            ->where('user_id', $user)
+            ->first();
         $book_mark->delete();
         return back();
     }

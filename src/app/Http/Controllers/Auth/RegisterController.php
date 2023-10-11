@@ -71,6 +71,7 @@ class RegisterController extends Controller
     public function registered(Request $request) {
         Auth::logout();
 
+        // セッション情報削除
         $request->session()->invalidate();
         // CSRF トークンを再生成して、二重送信対策
         $request->session()->regenerateToken();

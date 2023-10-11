@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Shop;
 use App\Models\BookMark;
+use App\Models\ShopReview;
+use App\Models\AccountIcon;
 use App\Models\Role;
 use App\Models\Image;
+use App\Models\Customer;
 use App\Http\Requests\EditReservationRequest;
 use App\Http\Requests\MailSendRequest;
 use App\Http\Requests\ReviseRequest;
@@ -24,11 +27,49 @@ class MypageController extends Controller
      */
     public function mypage()
     {
-        $items = Shop::all();
-        $book_marks = BookMark::where('user_id', Auth::id())
+        $shops = Shop::all();
+        $user_id = Auth::id();
+        $favorite_ids = BookMark::where('user_id', $user_id)
             ->pluck('shop_id')
-            ->toArray();
-        return view('my_page', compact('book_marks', 'items'));
+            ->all();
+
+        // 平均評価と評価数を取得
+        $rate_averages = collect();
+        $reviews_counts = collect();
+        foreach ($favorite_ids as $favorite_id) {
+            $rate_averages_lists = [];
+            $rate_average = ShopReview::where('shop_id', $favorite_id)
+                ->avg('rate');
+            $rate_average = round($rate_average, 1);
+            $rate_averages_lists['favorite_id'] = $favorite_id;
+            $rate_averages_lists['rate_average'] = $rate_average;
+            $rate_averages->push($rate_averages_lists);
+
+            $reviews_counts_lists = [];
+            $reviews_count = ShopReview::where('shop_id', $favorite_id)
+                ->count('rate');
+            $reviews_counts_lists['favorite_id'] = $favorite_id;
+            $reviews_counts_lists['reviews_count'] = $reviews_count;
+            $reviews_counts->push($reviews_counts_lists);
+        }
+
+
+        // 来店済みのお客様を取得
+        $customers = collect([]);
+        foreach ($favorite_ids as $favorite_id) {
+            $customer = Customer::where('user_id', $user_id)
+                ->where('shop_id', $favorite_id)
+                ->first();
+            $customers->add($customer);
+        }
+
+        if ($rate_averages->isEmpty()) {
+            if ($customers->isEmpty()) {
+                return view('my_page', compact('shops', 'favorite_ids'));
+            }
+            return view('my_page', compact('shops', 'favorite_ids', 'customers'));
+        }
+        return view('my_page', compact('shops', 'favorite_ids', 'customers', 'rate_averages', 'reviews_counts'));
     }
 
     /**
@@ -49,14 +90,23 @@ class MypageController extends Controller
             $user = User::find($user_id);
 
             $user->shops()->detach($shop_id);
-            $user->shops()
-                ->attach($request->shop_id, [
-                    'date' => $request->date,
-                    'time' => $request->time,
-                    'number' => $request->number,
-                ]);
+            $user->shops()->attach($request->shop_id,
+            [
+                'date' => $request->date,
+                'time' => $request->time,
+                'number' => $request->number,
+            ]);
             return back();
         }
+    }
+
+    /**
+     * マイQRコードページ表示
+     */
+    public function qrcode()
+    {
+        $user_id = Auth::id();
+        return view('qrcode', compact('user_id'));
     }
 
     /**
@@ -72,7 +122,7 @@ class MypageController extends Controller
         if (empty($image_paths)) {
             return view('admin', compact('users', 'shops', 'items'));
         }
-        return view('admin', compact('users', 'shops', 'items', 'image_paths'));
+        return view('admin', compact('users', 'shops','items', 'image_paths'));
     }
 
     /**
@@ -81,7 +131,7 @@ class MypageController extends Controller
     public function attach(Request $request)
     {
         $shopkeeper = Role::find(2);
-        $users_ids = $shopkeeper->users->pluck('id')->toArray();
+        $users_ids = $shopkeeper->users->pluck('id')->all();
         foreach ($users_ids as $users_id)
         {
             // 既に店舗代表者の権限が付与されている場合
@@ -91,7 +141,7 @@ class MypageController extends Controller
         }
 
         $admin = Role::find(1);
-        $admin_users_ids = $admin->users->pluck('id')->toArray();
+        $admin_users_ids = $admin->users->pluck('id')->all();
         foreach ($admin_users_ids as $admin_users_id) {
             // 管理者に店舗代表者の権限を与えようとした場合
             if ($admin_users_id === (int) $request->user_id) {
@@ -101,6 +151,7 @@ class MypageController extends Controller
 
         // 店舗代表者の権限付与
         $user = User::find($request->user_id);
+        $user->roles()->detach(3);
         $user->roles()
             ->attach($request->role_id, [
                 'shop_id' => $request->shop_id,
@@ -113,9 +164,17 @@ class MypageController extends Controller
      */
     public function detach(Request $request)
     {
-        $user = User::find($request->user_id);
-        $role_id = $request->role_id;
-        $user->roles()->detach($role_id);
+        $shopkeeper = Role::find(2);
+        $users_ids = $shopkeeper->users->pluck('id')->all();
+        foreach ($users_ids as $users_id) {
+            // 店舗代表者の権限が付与されている場合
+            if ($users_id === (int) $request->user_id) {
+                $user = User::find($request->user_id);
+                $role_id = $request->role_id;
+                $user->roles()->detach($role_id);
+                $user->roles()->attach(3);
+            }
+        }
         return back();
     }
 
@@ -134,25 +193,7 @@ class MypageController extends Controller
 
             return back()->withInput()->with('sent', '送信完了しました。');
         } elseif ($request->has('upload')) {
-            $img = $request->file('image');
-
-            if (isset($img)) {
-                $dir = 'images';
-
-                // アップロードされたファイル名を取得
-                $file_name = $request->file('image')->getClientOriginalName();
-
-                // imagesディレクトリに画像を保存
-                $path = $img->storeAs('public/' .$dir, $file_name);
-
-                if ($path) {
-                    // ファイル情報をDBに保存
-                    $image = new Image();
-                    $image->name = $file_name;
-                    $image->path = 'storage/' . $dir . '/' . $file_name;
-                    $image->save();
-                }
-            }
+            Image::store($request);
             return back()->with('success_upload', '画像を保存しました。');
         } else {
             $image_path = $request->image_path;
@@ -169,21 +210,27 @@ class MypageController extends Controller
      */
     public function shopkeeper()
     {
-        // areaカラムの値を重複なしで取得
+        // 重複なしで取得
         $areas = Shop::groupBy('area')
             ->select('area', DB::raw('count(*) as total'))
             ->get();
-        // genreカラムの値を重複なしで取得
         $genres = Shop::groupBy('genre')
             ->select('genre', DB::raw('count(*) as total'))
             ->get();
         $user = Auth::user();
         $shop_id = $user->roles->first()->pivot->shop_id;
+
+        $image = Image::all();
+
         // 店舗代表者で店舗を登録している場合
         if ($shop_id) {
             $shop = Shop::find($shop_id);
             $reservations = $shop->users;
-            return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations'));
+            if ($image) {
+                return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations', 'image'));
+            } else {
+                return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations'));
+            }
         } else {
             return view('shopkeeper', compact('areas', 'genres'));
         }
@@ -218,13 +265,31 @@ class MypageController extends Controller
             $user_id = Auth::id();
             $user = User::find($user_id);
             $user->roles()->detach(2);
-            $shop_id = Shop::latest('id')->first()->id;
+            $shop_id = Shop::orderBy('id', 'desc')->first()->id;
             $user->roles()
             ->attach(2, [
                 'shop_id' => $shop_id,
             ]);
             return back()->with('success_create', '店舗情報を作成しました。');
         }
+    }
+
+    /**
+     * 来店したお客様の予約情報ページ表示
+     */
+    public function confirmReservation(Request $request)
+    {
+        $shopkeeper = Auth::user();
+        $shop_id = $shopkeeper->roles->first()->pivot->shop_id;
+        $shop = Shop::find($shop_id);
+        $reservation = $shop->users->find($request->id);
+
+        // 来店したお客様を登録
+        $customer = new Customer();
+        $customer->shop_id = $shop_id;
+        $customer->user_id = $request->id;
+        $customer->save();
+        return view('confirm_reservation', compact('shop', 'reservation'));
     }
 
 }

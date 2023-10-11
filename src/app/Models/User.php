@@ -92,6 +92,11 @@ class User extends Authenticatable
         return $this->hasMany(Image::class);
     }
 
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
     /**
      * ユーザーに紐づいているサブスクリプションを返す
      */

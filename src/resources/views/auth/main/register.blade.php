@@ -17,7 +17,7 @@
                     <div class="card-header">本会員登録</div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('register.main.check', ['token' => $email_token]) }}">
+                            <form method="POST" action="{{ route('register_main_check', ['token' => $email_token]) }}">
                                 @csrf
 
                                 <div class="form-group row">

@@ -10,7 +10,9 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\BookMark;
 use App\Models\ShopReview;
+use App\Models\Image;
 use App\Models\AccountIcon;
+use App\Models\Customer;
 use App\Http\Requests\ReservationRequest;
 use App\Http\Requests\ReviewRequest;
 
@@ -27,24 +29,52 @@ class ShopController extends Controller
             $areas = Shop::groupBy('area')
                 ->select('area', DB::raw('count(*) as total'))
                 ->get();
+            dd($areas);
             $genres = Shop::groupBy('genre')
                 ->select('genre', DB::raw('count(*) as total'))
                 ->get();
 
             if ($request) {
-                $items = Shop::AreaSearch($request->area)
+                $shops = Shop::AreaSearch($request->area)
                     ->GenreSearch($request->genre)
                     ->NameSearch($request->name)
                     ->get();
             } else {
-                $items = Shop::all();
+                $shops = Shop::all();
             }
 
+            $book_marks = BookMark::where('user_id', Auth::id())
+                ->pluck('shop_id')
+                ->toArray();
 
-            $book_marks = BookMark::where('user_id', Auth::id())->pluck('shop_id')->toArray();
+            $shop_images = Image::with('shops')
+                ->get();
 
+            // 平均評価と評価数を取得
+            $shop_ids = Shop::pluck('id');
+            $rate_averages = collect();
+            $reviews_counts = collect();
+            foreach ($shop_ids as $shop_id) {
+                $rate_averages_lists = [];
+                $rate_average = ShopReview::where('shop_id', $shop_id)
+                    ->avg('rate');
+                $rate_average = round($rate_average, 1);
+                $rate_averages_lists['shop_id'] = $shop_id;
+                $rate_averages_lists['rate_average'] = $rate_average;
+                $rate_averages->push($rate_averages_lists);
 
-            return view('shop_list', compact('book_marks', 'areas', 'genres', 'items'));
+                $reviews_counts_lists = [];
+                $reviews_count = ShopReview::where('shop_id', $shop_id)
+                    ->count('rate');
+                $reviews_counts_lists['shop_id'] = $shop_id;
+                $reviews_counts_lists['reviews_count'] = $reviews_count;
+                $reviews_counts->push($reviews_counts_lists);
+            }
+
+            if ($rate_averages->isEmpty()) {
+                return view('shop_list', compact('book_marks', 'areas', 'genres','shops'));
+            }
+            return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images', 'rate_averages', 'reviews_counts'));
 
         // }
         // Auth::logout();
@@ -87,19 +117,60 @@ class ShopController extends Controller
     }
 
     /**
+     * レビュー一覧ページ
+     */
+    public function reviewList(Request $request)
+    {
+        $shop_id = $request->id;
+        $shop = Shop::find($shop_id);
+        $reviews = ShopReview::where('shop_id', $shop_id)
+            ->get();
+
+        // レビュー投稿が有る場合にレビュー一覧ページを表示
+        $account_icons = AccountIcon::with('users')
+            ->get();
+        $rete_average = ShopReview::where('shop_id', $shop_id)
+            ->avg('rate');
+        $rete_average = round($rete_average, 1);
+        $reviews_count = ShopReview::where('shop_id', $shop_id)
+            ->count('rate');
+
+        if ($reviews->isEmpty()) {
+            return view('review_list', compact('shop'));
+        }
+        return view('review_list', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count'));
+    }
+
+    /**
      * 飲食店詳細ページ
      */
     public function detail(Request $request)
     {
-        $id = $request->shop_id;
-        $item = Shop::find($id);
-        $reviews = ShopReview::where('shop_id', $request->shop_id)->get();
-        if ($reviews->isEmpty()) {
-            return view('shop_detail', compact('item'));
-        }
+        $shop_id = $request->shop_id;
+        $shop = Shop::find($shop_id);
+        $reviews = ShopReview::where('shop_id', $shop_id)
+            ->get();
+
         // レビュー投稿が有る場合にレビュー一覧ページを表示
-        $account_icons = AccountIcon::all();
-        return view('shop_detail', compact('item', 'reviews', 'account_icons'));
+        $account_icons = AccountIcon::with('users')
+            ->get();
+        $rete_average = ShopReview::where('shop_id', $request->shop_id)
+            ->avg('rate');
+        $rete_average = round($rete_average, 1);
+        $reviews_count = ShopReview::where('shop_id', $request->shop_id)
+            ->count('rate');
+        // 来店済みのお客様だけにレビュー投稿ボタン表示
+        $customer = Customer::where('user_id', Auth::id())
+            ->where('shop_id', $request->shop_id)
+            ->get();
+
+        if ($customer->isEmpty()) {
+            if ($reviews->isEmpty()) {
+                return view('shop_detail', compact('shop'));
+            }
+            return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count'));
+        }
+        return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count', 'customer'));
     }
 
     /**

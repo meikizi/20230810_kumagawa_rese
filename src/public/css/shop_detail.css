@@ -8,6 +8,7 @@
     margin-bottom: 0px;
 }
 
+/* shop_detail.blade.php */
 .shop-detail__container {
     width: 90%;
     margin: 0 auto;
@@ -45,121 +46,24 @@
 .image {
     width: 100%;
     object-fit: cover;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
 .category {
-    margin-bottom: 32px;
+    margin-bottom: 8px;
 }
 
-.review {
+.form--post-review {
+    display: inline-block;
+}
+
+.post-review {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     background: rgb(60, 110, 250);
     color: #fff;
-}
-
-.review__area {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 90%;
-    height: 100vh;
-    padding: 40px 20% 0;
-    margin: 0 auto;
-    background: rgba(230, 230, 230, .4);
-    display: none;
-    z-index: 100;
-}
-
-.review__area.show {
-    display: block;
-}
-
-.review__inner {
-    max-height: 90vh;
-    padding: 32px;
-    background: #fff;
-    overflow: scroll;
-    overflow-x: hidden;
-}
-
-.review__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid #ccc;
-}
-
-.close-review {
-    padding: 8px;
-    text-decoration: none;
-    background: rgb(70, 115, 250);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 2px 2px 4px gray;
-}
-
-.review__content {
-    padding: 16px;
-    border-bottom: 1px solid #ccc;
-}
-
-.user-area {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    margin-bottom: 8px;
-    position: relative;
-}
-
-.user-icon,
-.user-icon--default {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.user-icon {
-    z-index: 10;
-}
-
-.reviewer {
-    margin-left: 50px;
-}
-
-.updated_at,
-.rate {
-    margin-bottom: 8px;
-}
-
-.updated_at {
-    color: #aaa;
-}
-
-
-.rated {
-    color: #ffcc00;
-}
-
-.unrated {
-    color: #ccc;;
-}
-
-.rate-value {
-    margin-left: 16px;
 }
 
 .reservation__area {
@@ -178,7 +82,7 @@
 
 .reservation__content {
     padding: 32px 48px 0 24px;
-    margin-bottom: 240px;
+    margin-bottom: 30vh;
 }
 
 .reservation__title {
@@ -251,6 +155,7 @@
     background: inherit;
     color: #fff;
 }
+
 .reservation__button {
     width: 100%;
     padding: 16px 0;
@@ -267,20 +172,113 @@
     font-weight: bold;
 }
 
+.review__area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 40px 20% 0;
+    margin: 0 auto;
+    background: rgba(230, 230, 230, .4);
+    display: none;
+    z-index: 100;
+}
+
+.review__area.show {
+    display: block;
+}
+
+.review__inner {
+    min-height: 70vh;
+    max-height: 90vh;
+    padding: 32px 16px;
+    background: #fff;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.review__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.close-review {
+    padding: 8px;
+    text-decoration: none;
+    background: rgb(70, 115, 250);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.review__content {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.user-icon,
+.user-icon--default {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-icon {
+    z-index: 10;
+}
+
+.reviewer {
+    margin-left: 50px;
+}
+
+.updated_at,
+.rate {
+    margin-bottom: 8px;
+}
+
+.updated_at {
+    color: #aaa;
+}
+
+
+.rated {
+    color: #ffcc00;
+}
+
+.unrated {
+    color: #ccc;
+    ;
+}
+
+.rate-value {
+    margin-left: 8px;
+}
+
 @media (max-width: 768px) {
     .shop-detail__area {
         width: 100%;
         margin-right: 0;
         margin-bottom: 48px;
-    }
-
-    .review {
-        margin-bottom: 64px;
-    }
-
-    .review__area {
-        width: 100%;
-        padding: 64px 32px;
     }
 
     .reservation__area {
@@ -294,4 +292,23 @@
         margin-bottom: 48px;
     }
 
+    .input--date {
+        width: 50%;
+    }
+
+    .reservation__items {
+        margin-right: 0;
+    }
+
+    .reservation__item--title {
+        width: 40%;
+    }
+
+    .reservation__item--data {
+        width: 60%;
+    }
+
+    .review__area {
+        padding: 40px 10% 0;
+    }
 }

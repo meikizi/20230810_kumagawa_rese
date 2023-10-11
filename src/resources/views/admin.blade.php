@@ -10,61 +10,69 @@
 
 @section('content')
     <div class="admin__container">
-        <div class="admin__inner">
+        <div class="admin__wrapper">
             <h1 class="admin__title">管理者画面</h1>
             @isset($users)
-            <div class="admin__header">
-                <h2 class="header-item">氏名</h2>
-                <h2 class="header-item">権限</h2>
-                <h2 class="header-item">店舗名</h2>
-                <h2 class="header-item">店舗選択</h2>
-                <h2 class="header-item">付与</h2>
-                <h2 class="header-item">削除</h2>
-            </div>
-            <div class="admin__content">
-                @foreach ($users as $user)
-                @continue ($user->id === 0)
-                <div class="database__data">
-                    <p class="database__item">{{ $user['name'] }}</p>
-                    @foreach ($user->roles as $role)
-                        @if ($role->pivot->role_id === 1)
-                            <p class="database__item">管理者</p>
-                        @endif
-                        @if ($role->pivot->role_id === 2)
-                            <p class="database__item">店舗代表者</p>
-                        @endif
-                    @endforeach
-                    @foreach ($items as $item)
-                        @if ($item->name === $user['name'])
-                            @isset($item->pivot->shop_id)
-                                <p class="database__item">{{ $shops[$item->pivot->shop_id - 1]->name }}</p>
-                            @endisset
-                        @endif
-                    @endforeach
-                    <form class="form--Authorization" action="{{route('admin.attach')}}" method="post">
-                        @csrf
-                        @method('put')
-                        <input type="hidden" name="user_id" value="{{ $user['id'] }}">
-                        <input type="hidden" name="role_id" value="2">
-                        <div class="select-wrap">
-                            <select name="shop_id" class="select-shop">
-                                <option value="">店舗を選択</option>
-                                @foreach ($shops as $shop)
-                                    <option value="{{ $shop['id'] }}">{{ $shop['name'] }}</option>
+            <div class="admin__outer">
+                <div class="admin__inner">
+                    <ul class="admin__header">
+                        <li class="header-item">氏名</li>
+                        <li class="header-item">権限</li>
+                        <li class="header-item">店舗名</li>
+                        <li class="header-item--select">店舗選択</li>
+                        <li class="header-item--authorization">付与</li>
+                        <li class="header-item--remove">削除</li>
+                    </ul>
+                    <div class="admin__content">
+                        @foreach ($users as $user)
+                            <ul class="database__data">
+                                <li class="database__item">{{ $user['name'] }}</li>
+                                @foreach ($user->roles as $role)
+                                    @if ($role->pivot->role_id === 1)
+                                        <li class="database__item">管理者</li>
+                                    @elseif ($role->pivot->role_id === 2)
+                                        <li class="database__item">店舗代表者</li>
+                                    @elseif ($role->pivot->role_id === 3)
+                                        <li class="database__item">利用者</li>
+                                    @endif
                                 @endforeach
-                            </select>
-                        </div>
-                        <button class="btn">権限付与</button>
-                    </form>
-                    <form class="form--remove" action="{{route('admin.detach')}}" method="post">
-                        @csrf
-                        @method('put')
-                        <input type="hidden" name="user_id" value="{{ $user['id'] }}">
-                        <input type="hidden" name="role_id" value="2">
-                        <button class="btn">権限削除</button>
-                    </form>
+                                @foreach ($items as $item)
+                                    @if ($item->name === $user['name'])
+                                        @isset ($item->pivot->shop_id)
+                                            <li class="database__item">{{ $shops[$item->pivot->shop_id - 1]->name }}</li>
+                                        @endisset
+                                    @endif
+                                @endforeach
+                                <form class="form--authorization" action="{{route('admin_attach')}}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <input type="hidden" name="user_id" value="{{ $user['id'] }}">
+                                    <input type="hidden" name="role_id" value="2">
+                                    <li class="select-wrap">
+                                        <select name="shop_id" class="select-shop">
+                                            <option value="">店舗を選択</option>
+                                            @foreach ($shops as $shop)
+                                                <option value="{{ $shop['id'] }}">{{ $shop['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </li>
+                                    <li class="database__item--authorization">
+                                        <button class="btn">付与</button>
+                                    </li>
+                                </form>
+                                <form class="form--remove" action="{{route('admin_detach')}}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <input type="hidden" name="user_id" value="{{ $user['id'] }}">
+                                    <input type="hidden" name="role_id" value="2">
+                                    <li class="database__item--remove">
+                                        <button class="btn">削除</button>
+                                    </li>
+                                </form>
+                            </ul>
+                        @endforeach
+                    </div>
                 </div>
-                @endforeach
             </div>
             <div class="paginate">
                 @if ($users->hasPages())
@@ -83,7 +91,7 @@
             </div>
             @endif
 
-            <form action="{{ route('admin.send') }}" method="POST">
+            <form action="{{ route('admin_send') }}" method="POST">
                 @csrf
                 <div class="form__item">
                     <label><span class="label">名前</span>
@@ -130,13 +138,19 @@
         <div class="admin__upload">
             <h2 class="admin__title">店舗画像保存・削除</h2>
             <p class="success-message">{{ session('success_upload') }}</p>
-            <form action="{{ route('admin.send') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin_send') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="upload-image">
                     <label for="file" class="label-image">画像ファイルを選択</label>
                     <input type="file" name="image" class="input-image" id="file">
                     <span class="select-image" id="file_name">選択されていません</span>
                 </div>
+                <select name="shop_id" class="select-image">
+                    <option value="">店舗を選択</option>
+                    @foreach ($shops as $shop)
+                        <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                    @endforeach
+                </select>
                 @error('image')
                     <p class="error-message">{{ $errors->first('image') }}</p>
                 @enderror
@@ -144,7 +158,7 @@
             </form>
             @isset ($image_paths)
                 <p class="success-message">{{ session('success_delete') }}</p>
-                <form action="{{ route('admin.send') }}" method="POST" class="form-delete">
+                <form action="{{ route('admin_send') }}" method="POST" class="form-delete">
                     @csrf
                     <span>削除する画像を選択</span>
                     <select name="image_path" class="select-image">

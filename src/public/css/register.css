@@ -147,3 +147,12 @@
     text-align: left;
 }
 
+@media (max-width: 768px) {
+    /* main/register.blade.php styling */
+    .main-register__container {
+        width: 90%;
+        margin: 0 auto;
+        overflow: scroll;
+        overflow-y: hidden;
+    }
+}

@@ -31,7 +31,7 @@
         <div class="header">
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
-                    <button class="open-menu material-symbols-outlined" id="openMenuButton">
+                    <button class="open-menu material-symbols-outlined" id="open_menu_button">
                         menu
                     </button>
                     <a class="navbar-brand" href="{{ url('/') }}">
@@ -41,8 +41,8 @@
                         <span class="navbar-toggler-icon"></span>
                     </button> --}}
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <button class="close-menu material-symbols-outlined" id="closeMenuButton">
+                    <div class="collapse navbar-collapse" id="navbar_supported_content">
+                        <button class="close-menu material-symbols-outlined" id="close_menu_button">
                             close
                         </button>
                         <!-- Right Side Of Navbar -->
@@ -74,10 +74,6 @@
                                 @endif
 
                                 <li class="nav-item dropdown">
-                                    {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }}
-                                    </a> --}}
-
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item nav-link" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -95,8 +91,16 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('my_page') }}">{{ __('Mypage') }}</a>
                                     </li>
+                                @endif
+                                @if (Route::has('stripe_pay'))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('stripe.pay') }}">{{ __('Payment') }}</a>
+                                        <a class="nav-link" href="{{ route('stripe_pay') }}">{{ __('Payment') }}</a>
+                                    </li>
+                                @endif
+
+                                @if (Route::has('qrcode'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('qrcode') }}">{{ __('MyQrcode') }}</a>
                                     </li>
                                 @endif
 
