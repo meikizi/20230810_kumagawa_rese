@@ -13,9 +13,9 @@
             <div id="user_id" style="display: none">{{ $user_id }}</div>
         </div>
 
-        <div class="qrcode__btn">
+        {{-- <div class="qrcode__btn">
             <a href="/shopkeeper/confirmReservation?id={{ $user_id }}">Read QR code</a>
-        </div>
+        </div> --}}
 
     </div>
 

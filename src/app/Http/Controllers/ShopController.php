@@ -29,7 +29,6 @@ class ShopController extends Controller
             $areas = Shop::groupBy('area')
                 ->select('area', DB::raw('count(*) as total'))
                 ->get();
-            dd($areas);
             $genres = Shop::groupBy('genre')
                 ->select('genre', DB::raw('count(*) as total'))
                 ->get();
