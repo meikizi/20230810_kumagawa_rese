@@ -28,6 +28,8 @@ Auth::routes([
     'register' => false // ユーザ登録機能をオフに切替
 ]);
 
+Route::view('/phpinfo', 'phpinfo');
+
 Route::get('/register', [RegisterUserController::class, 'getRegister'])
     ->name('register');
 Route::post('/register', [RegisterUserController::class, 'postRegister'])

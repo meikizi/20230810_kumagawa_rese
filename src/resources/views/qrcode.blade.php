@@ -24,7 +24,6 @@
     <script>
     const $user_id = document.getElementById('user_id').innerHTML;
     const $url = "http://43.206.122.48/shopkeeper/confirmReservation?id=" + $user_id;
-    console.log($url);
     const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
