@@ -22,7 +22,7 @@
     <!-- QR Code Styling -->
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script>
-    const $user_id = document.getElementById('user_id');
+    const $user_id = document.getElementById('user_id').innerHTML;
     const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
