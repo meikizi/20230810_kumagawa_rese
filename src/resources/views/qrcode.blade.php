@@ -23,11 +23,13 @@
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script>
     const $user_id = document.getElementById('user_id').innerHTML;
+    const $url = "http://43.206.122.48/shopkeeper/confirmReservation?id=" + $user_id;
+    console.log($url);
     const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,
         type: "canvas",
-        data: "http://43.206.122.48/shopkeeper/confirmReservation?id=" + user_id ,
+        data:  $url,
         image: "",
         qrOptions: {
             errorCorrectionLevel: 'H'
@@ -46,6 +48,7 @@
             color: "#fff",
         },
     });
+
 
     const $qrCode = document.getElementById('qrCode');
     qrCode.append($qrCode);
