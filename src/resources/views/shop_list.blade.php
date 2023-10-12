@@ -36,29 +36,47 @@
         <ul class="item-list">
             @foreach ($shops as $shop)
             <li class="item">
-                @foreach ($shop_images as $shop_image)
-                    @if ($shop_image->shop_id === $shop->id)
-                        @isset ($shop_image)
-                        <img src="{{ asset($shop_image->path) }}" alt="店舗のイメージ画像" class="image">
-                        @endisset
-                    @else
-                        @if ($shop->genre === '寿司')
+                @isset ($shop_images)
+                    @foreach ($shop_images as $shop_image)
+                        @if ($shop_image->shop_id === $shop->id)
+                            @isset ($shop_image)
+                            <img src="{{ asset($shop_image->path) }}" alt="店舗のイメージ画像" class="image">
+                            @endisset
+                        @else
+                            @if ($shop->genre === '寿司')
+                                <img src="{{ asset('storage/images/sushi.jpg') }}" alt="寿司屋のイメージ画像" class="image">
+                            @endif
+                            @if ($shop->genre === '焼肉')
+                                <img src="{{ asset('storage/images/yakiniku.jpg') }}" alt="焼肉店のイメージ画像" class="image">
+                            @endif
+                            @if ($shop->genre === '居酒屋')
+                                <img src="{{ asset('storage/images/izakaya.jpg') }}" alt="居酒屋のイメージ画像" class="image">
+                            @endif
+                            @if ($shop->genre === 'イタリアン')
+                                <img src="{{ asset('storage/images/italian.jpg') }}" alt="イタリア料理店のイメージ画像" class="image">
+                            @endif
+                            @if ($shop->genre === 'ラーメン')
+                                <img src="{{ asset('storage/images/ramen.jpg') }}" alt="ラーメン屋のイメージ画像" class="image">
+                            @endif
+                        @endif
+                    @endforeach
+                @else
+                    @if ($shop->genre === '寿司')
                         <img src="{{ asset('storage/images/sushi.jpg') }}" alt="寿司屋のイメージ画像" class="image">
-                        @endif
-                        @if ($shop->genre === '焼肉')
-                        <img src="{{ asset('storage/images/yakiniku.jpg') }}" alt="焼肉店のイメージ画像" class="image">
-                        @endif
-                        @if ($shop->genre === '居酒屋')
-                        <img src="{{ asset('storage/images/izakaya.jpg') }}" alt="居酒屋のイメージ画像" class="image">
-                        @endif
-                        @if ($shop->genre === 'イタリアン')
-                        <img src="{{ asset('storage/images/italian.jpg') }}" alt="イタリア料理店のイメージ画像" class="image">
-                        @endif
-                        @if ($shop->genre === 'ラーメン')
-                        <img src="{{ asset('storage/images/ramen.jpg') }}" alt="ラーメン屋のイメージ画像" class="image">
-                        @endif
                     @endif
-                @endforeach
+                    @if ($shop->genre === '焼肉')
+                        <img src="{{ asset('storage/images/yakiniku.jpg') }}" alt="焼肉店のイメージ画像" class="image">
+                    @endif
+                    @if ($shop->genre === '居酒屋')
+                        <img src="{{ asset('storage/images/izakaya.jpg') }}" alt="居酒屋のイメージ画像" class="image">
+                    @endif
+                    @if ($shop->genre === 'イタリアン')
+                        <img src="{{ asset('storage/images/italian.jpg') }}" alt="イタリア料理店のイメージ画像" class="image">
+                    @endif
+                    @if ($shop->genre === 'ラーメン')
+                        <img src="{{ asset('storage/images/ramen.jpg') }}" alt="ラーメン屋のイメージ画像" class="image">
+                    @endif
+                @endisset
                 <div class="item__content">
                     <h2 class="shop-name">{{ $shop->name }}</h2>
                     <div class="category">

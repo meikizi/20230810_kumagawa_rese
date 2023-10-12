@@ -27,7 +27,7 @@
         width: 250,
         height: 250,
         type: "canvas",
-        data: "/shopkeeper/confirmReservation?id=$user_id",
+        data: `/shopkeeper/confirmReservation?id=${user_id}`,
         image: "",
         qrOptions: {
             errorCorrectionLevel: 'H'

@@ -49,6 +49,9 @@ class ShopController extends Controller
             $shop_images = Image::with('shops')
                 ->get();
 
+            $exists = Image::with('shops')
+                ->exists();
+
             // 平均評価と評価数を取得
             $shop_ids = Shop::pluck('id');
             $rate_averages = collect();
@@ -70,10 +73,19 @@ class ShopController extends Controller
                 $reviews_counts->push($reviews_counts_lists);
             }
 
-            if ($rate_averages->isEmpty()) {
-                return view('shop_list', compact('book_marks', 'areas', 'genres','shops'));
+            if ($exists) {
+                if ($rate_averages->isEmpty()) {
+                    return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images'));
+                } else {
+                    return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images', 'rate_averages', 'reviews_counts'));
+                }
+            } else {
+                if ($rate_averages->isEmpty()) {
+                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops'));
+                } else {
+                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops', 'rate_averages', 'reviews_counts'));
+                }
             }
-            return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images', 'rate_averages', 'reviews_counts'));
 
         // }
         // Auth::logout();
