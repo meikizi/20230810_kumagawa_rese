@@ -28,8 +28,6 @@ Auth::routes([
     'register' => false // ユーザ登録機能をオフに切替
 ]);
 
-Route::view('/phpinfo', 'phpinfo');
-
 Route::get('/register', [RegisterUserController::class, 'getRegister'])
     ->name('register');
 Route::post('/register', [RegisterUserController::class, 'postRegister'])
@@ -66,15 +64,19 @@ Route::group(['middleware' => 'auth'], function() {
         ->name('shop_list');
     Route::get('/detail', [ShopController::class, 'detail'])
         ->name('shop_detail');
-    Route::Post('/done', [ShopController::class, 'reservation'])
+    Route::post('/done', [ShopController::class, 'reservation'])
         ->name('reservation');
 
     Route::get('/review', [ShopController::class, 'review'])
         ->name('review');
-    Route::Post('/reviewed', [ShopController::class, 'post'])
+    Route::post('/reviewed', [ShopController::class, 'post'])
         ->name('post');
+    Route::post('/review', [ShopController::class, 'edit'])
+        ->name('review_edit');
     Route::get('/reviewList/{shop?}', [ShopController::class, 'reviewList'])
         ->name('review_list');
+    Route::post('/reviewList', [ShopController::class, 'reviewListEdit'])
+        ->name('review_list_edit');
 
     Route::get('/mypage', [MypageController::class, 'mypage'])
         ->name('my_page');
@@ -103,7 +105,7 @@ Route::group(['middleware' => ['auth', 'can:admin']], function () {
     //権限を外す
     Route::put('/admin/detach', [MypageController::class, 'detach'])->name('admin_detach');
 
-    Route::post('/admin', [MypageController::class, 'send'])->name('admin_send');
+    Route::post('/admin', [MypageController::class, 'store'])->name('admin_store');
 });
 
 Route::group(['middleware' => ['auth', 'can:shopkeeper']], function () {

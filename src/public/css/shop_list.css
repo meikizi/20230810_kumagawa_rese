@@ -4,11 +4,49 @@
 }
 
 /* shop_list.blade.php */
-.header-form {
-    width: 45%;
-    position: absolute;
+select:focus {
+    outline: none;
+}
+
+option {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.sort-shop__area {
+    position: fixed;
+    top: 44px;
+    left: 33%;
+    width: 280px;
+    z-index: 10;
+}
+
+.select--sort {
+    width: 100%;
+    padding: 16px 0 8px 16px;
+    background: #fff;
+    border: none;
+    border-left: 16px solid rgb(230, 230, 230);
+    border-right: 100px solid rgb(230, 230, 230);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* ie対応 */
+.select--sort::-ms-expand {
+    display: none;
+}
+
+.search-shop__area {
+    position: fixed;
     top: 44px;
     left: 50%;
+    width: 45%;
     padding: 8px 0;
     background: #fff;
     border-radius: 4px;
@@ -22,7 +60,7 @@
 }
 
 .form--select {
-    width: 140px;
+    width: 120px;
     position: relative;
 }
 
@@ -58,7 +96,6 @@
 }
 
 .form--input {
-    width: 50%;
     display: flex;
     border-radius: 0 4px 4px 0;
 }
@@ -103,7 +140,7 @@
 }
 
 .item__content {
-    padding: 16px 16px 32px 32px;
+    padding: 16px 16px 16px 32px;
 }
 
 .category {
@@ -135,24 +172,40 @@
     vertical-align: middle;
     font-size: 36px;
     text-decoration: none;
+    cursor: pointer;
+    transition: .3s;
 }
 
-.unbookmark {
-    color: #ddd;
+.bookmark:hover,
+.unbookmark:hover {
+    opacity: .7;
 }
 
 .bookmark {
     color: red;
 }
 
+.unbookmark {
+    color: #ddd;
+}
+
+.top {
+    display: none;
+}
+
 @media (max-width: 768px) {
-    .container {
-        padding-bottom: 24px;
+    .sort-shop__area {
+        position: static;
+        width: 65%;
+        margin: 0 20% 20px;
     }
 
-    .header-form {
+    .select--sort {
+        border-right: 48px solid rgb(230, 230, 230);
+    }
+
+    .search-shop__area {
         position: static;
-        left: 40%;
         width: 80%;
         margin: 0 auto 40px;
     }
@@ -199,5 +252,25 @@
 
     .shop-list__container {
         width: 100%;
+    }
+
+    .top {
+        display: block;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        padding: 4px;
+        background: rgb(60, 110, 250);
+        transition: .3s;
+        opacity: .7;
+    }
+
+    .top:hover {
+        opacity: .3;
+    }
+
+    .arrow-upward {
+        color: #fff;
+        vertical-align: bottom;
     }
 }

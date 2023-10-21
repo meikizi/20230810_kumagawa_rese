@@ -19,7 +19,6 @@ class PaymentController extends Controller
      */
     public function paid(PaymentRequest $request)
     {
-        dd($request);
         $request->user()->charge(
             $request->amount,
             $request->paymentMethodId

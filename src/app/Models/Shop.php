@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,7 +16,13 @@ class Shop extends Model
         'area',
         'genre',
         'overview',
+        'path',
     ];
+
+    public function setPathAttribute($value)
+    {
+        $this->attributes['path'] = empty($value) ? null : $value;
+    }
 
     public function scopeAreaSearch($query, $area) {
         if (!empty($area)) {
@@ -34,7 +41,6 @@ class Shop extends Model
             $query->where('name','like', '%' . $name . '%');
         }
     }
-
 
     /**
      * ユーザー関連付け

@@ -2,40 +2,64 @@
     margin-bottom: 0px;
 }
 
-.review-list_container {
-    width: 90%;
+.review-list__container {
+    width: 100%;
     margin: 0 auto;
-    background: #fff;
+    background: rgba(230, 230, 230);
 }
 
-.review-list_inner {
+.review-list__inner {
     display: flex;
 }
 
-.shop-area {
-    border-right: 8px solid #ccc;
+.shop__area {
+    width: 50%;
+    padding: 16px;
 }
 
-.header-title {
-    padding: 16px;
-    border-bottom: 1px solid #ccc;
+.shop-detail-title {
+    margin-bottom: 16px;
 }
 
-.shop-about {
-    padding: 16px;
+.prev {
+    padding: 2px 8px;
+    margin-right: 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px gray;
+    display: inline-block;
+    text-decoration: none;
+    background: #fff;
+}
+
+.shop-name {
+    display: inline-block;
+    font-size: 32px;
+    vertical-align: middle;
 }
 
 .image {
     width: 90%;
     object-fit: cover;
+    margin-bottom: 16px;
+}
+
+.category {
+    margin-bottom: 8px;
+}
+
+.about {
+    min-height: 80px;
+    margin-bottom: 32px;
 }
 
 .review__area {
-    width: 100%;
+    width: 50%;
+    border-left: 8px solid #ccc;
 }
 
 .review__inner {
-    height: 74vh;
+    height: 100%;
     padding: 32px 16px;
     background: #fff;
     overflow: scroll;
@@ -52,7 +76,19 @@
     border-bottom: 1px solid #ccc;
 }
 
-.user-area {
+.edit-btn {
+    text-align: right;
+}
+
+.delete-review {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: inherit;
+    line-height: 0.95;
+    cursor: pointer;
+}
+
+.user__area {
     display: flex;
     align-items: center;
     padding: 16px;
@@ -74,19 +110,19 @@
 }
 
 .user-icon {
-    z-index: 10;
+    z-index: 2;
 }
 
 .reviewer {
     margin-left: 50px;
 }
 
-.updated_at,
+.updated-at,
 .rate {
     margin-bottom: 8px;
 }
 
-.updated_at {
+.updated-at {
     color: #aaa;
 }
 
@@ -105,14 +141,18 @@
 }
 
 @media (max-width: 768px) {
-    .review-list_inner {
+    .review-list__inner {
         display: block;
     }
 
-    .shop-area {
+    .shop__area {
+        width: 100%;
         padding-bottom: 8px;
-        border-right: none;
-        border-bottom: 8px solid rgba(230, 230, 230);
+    }
+
+    .review__area {
+        width: 100%;
+        border-left: none;
     }
 
     .review__inner {

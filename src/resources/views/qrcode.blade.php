@@ -8,7 +8,7 @@
     <div class="qrcode__container">
 
         <div class="qrcode__content">
-            <h2 class="qrcode__title">My QR Code</h2>
+            <h2 class="qrcode-title">My QR Code</h2>
             <div id="qrCode" class="qrcode"></div>
             <div id="user_id" style="display: none">{{ $user_id }}</div>
         </div>

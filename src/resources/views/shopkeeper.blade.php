@@ -64,7 +64,7 @@
                         <input type="hidden" name="id" value="{{ $shop->id }}">
                         <div class="shop__item">
                             <label class="label" for="name">店舗名</label>
-                            <input class="input" type="text" name="name" value="{{ $shop->name }}">
+                            <input class="input" type="text" name="name" id="name" value="{{ $shop->name }}">
                         </div>
                         @error('name')
                             <p class="error-message">{{ $errors->first('name') }}</p>
@@ -72,7 +72,7 @@
                         <div class="shop__item">
                             <label class="label" for="area">地域</label>
                             <div class="form--select">
-                                <select name="area" class="select">
+                                <select name="area" class="select" id="area">
                                     <option value="{{ $shop->area }}">{{ $shop->area }}</option>
                                     @foreach ($areas as $area)
                                     <option value="{{ $area->area }}">{{ $area->area }}</option>
@@ -86,7 +86,7 @@
                         <div class="shop__item">
                             <label class="label" for="genre">ジャンル</label>
                             <div class="form--select">
-                                <select name="genre" class="select">
+                                <select name="genre" class="select" id="genre">
                                     <option value="{{ $shop->genre }}">{{ $shop->genre }}</option>
                                     @foreach ($genres as $genre)
                                     <option value="{{ $genre->genre }}">{{ $genre->genre }}</option>
@@ -97,6 +97,22 @@
                         @error('genre')
                             <p class="error-message">{{ $errors->first('genre') }}</p>
                         @enderror
+                        @isset ($images)
+                            <div class="shop__item">
+                                <label class="label" for="image">画像URL</label>
+                                <div class="form--select">
+                                    <select name="path" class="select" id="image">
+                                        <option value="{{ $shop->path}}">{{ $shop->path}}</option>
+                                        @foreach ($images as $image)
+                                        <option value="{{ $image->name }}">{{ $image->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endisset
+                        @error('path')
+                            <p class="error-message">{{ $errors->first('path') }}</p>
+                        @enderror
                         <div class="shop__item--overview">
                             <label class="label--overview" for="overview">概要</label>
                             <textarea class="overview" name="overview">{{ $shop->overview }}</textarea>
@@ -105,7 +121,7 @@
                             <p class="error-message">{{ $errors->first('overview') }}</p>
                         @enderror
                         <div class="button-area">
-                            <button type="submit" name="update" class="update">更新</button>
+                            <input type="submit" name="update" class="update" value="更新">
                         </div>
                     </form>
                     @else

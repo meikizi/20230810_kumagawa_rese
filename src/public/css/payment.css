@@ -5,14 +5,14 @@
     border-radius: 4px;
 }
 
-.payment__title {
+.payment-title {
     padding: 16px 32px;
     background: rgb(100, 140, 250);
     color: #fff;
     border-radius: 4px 4px 0 0;
 }
 
-.payment__form {
+.payment-form {
     padding: 32px;
 }
 
@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 
-.card-element {
+.card {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 32px;
@@ -43,15 +43,15 @@
     transition: box-shadow 150ms ease;
 }
 
-.card-element--focus {
+.card--focus {
     box-shadow: 0 1px 3px 0 #cfd7df;
 }
 
-.card-element--invalid {
+.card--invalid {
     border-color: #fa755a;
 }
 
-.card-element--webkit-autofill {
+.card--webkit-autofill {
     background-color: #fefde5 !important;
 }
 

@@ -22,7 +22,7 @@
     width: 45%;
 }
 
-.mypage__title {
+.mypage-title {
     font-size: 20px;
     margin-bottom: 16px;
 }
@@ -38,7 +38,7 @@
     color: #fff;
 }
 
-.reservation-header {
+.reservation__header {
     padding: 40px 0 24px;
     width: 90%;
     margin: 0 auto;
@@ -67,17 +67,17 @@
     cursor: pointer;
 }
 
-.reservation__item {
+.reservation-item {
     padding: 12px 32px;
     display: flex;
 }
 
-.reservation__item--title {
+.reservation-item--title {
     width: 30%;
     cursor: pointer;
 }
 
-.reservation__item--data {
+.reservation-item--data {
     width: 120px;
     border: none;
     background: inherit;
@@ -125,7 +125,7 @@
 }
 
 .item__content {
-    padding: 16px 16px 32px 32px;
+    padding: 16px 16px 16px 32px;
 }
 
 .category {
@@ -153,6 +153,12 @@
     font-size: 36px;
     text-decoration: none;
     color: red;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.bookmark:hover {
+    opacity: .7;
 }
 
 @media (max-width: 768px) {
@@ -165,7 +171,7 @@
         display: block;
     }
 
-    .mypage__title {
+    .mypage-title {
         padding-left: 16px;
     }
 

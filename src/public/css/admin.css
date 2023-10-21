@@ -3,18 +3,20 @@
     margin-bottom: 12px;
 }
 
+/* admin.blade.php */
 .admin__wrapper {
     width: 80%;
     margin: 0 auto 64px;
     background: #fff;
 }
 
-.admin__title {
+.admin-title {
     padding: 32px;
     margin-bottom: 16px;
     text-align: center;
     background: rgb(100, 140, 250);
     color: #fff;
+    font-size: 28px;
 }
 
 .admin__outer {
@@ -54,7 +56,7 @@
     margin-bottom: 64px;
 }
 
-.database__data {
+.database-data {
     position: relative;
     padding: 32px 16px;
     margin: 0 16px;
@@ -63,11 +65,11 @@
     font-weight: bold;
 }
 
-.database__data:nth-child(odd) {
+.database-data:nth-child(odd) {
     background: rgb(230, 230, 230);
 }
 
-.database__item {
+.database-item {
     display: inline-block;
     width: calc((100% / 6) - 8px);
 }
@@ -92,8 +94,18 @@
     font-weight: bold;
 }
 
-.database__item--authorization {
+.database-item--authorization {
     display: inline-block;
+}
+
+.btn {
+    padding: 8px 12px;
+    background: rgb(60, 110, 250);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .form--remove {
@@ -103,17 +115,8 @@
     display: inline-block;
 }
 
-.database__item--remove {
+.database-item--remove {
     padding-top: 4px;
-}
-
-.btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background: rgb(60, 110, 250);
-    color: #fff;
 }
 
 .paginate {
@@ -122,8 +125,8 @@
     text-align: center;
 }
 
-.paginate__prev,
-.paginate__next {
+.paginate-prev,
+.paginate-next {
     color: rgb(80, 174, 251);
     font-size: 12px;
     border: 1px solid #ddd;
@@ -145,27 +148,27 @@
 .admin__contact {
     width: 70%;
     height: auto;
-    padding: 16px;
     margin: 0 auto 64px;
     border-radius: 4px;
     box-shadow: 2px 2px 4px gray;
-    background: rgb(60, 110, 250);
-    color: #fff;
+    background: #fff;
     font-size: 20px;
     font-weight: bold;
 }
 
-.contact__title {
-    font-size: 20px;
-    margin-bottom: 16px;
-    text-align: center
+.contact-form {
+    padding: 16px;
 }
 
-.form__item {
+.form-item {
     margin-bottom: 16px;
 }
 
-.label,
+.form-item:last-of-type {
+    margin-bottom: 32px;
+}
+
+.label--title,
 .label--message {
     display: inline-block;
     width: 25%;
@@ -202,76 +205,76 @@
     font-weight: bold;
 }
 
-.submit {
-    width: 30%;
-    display: block;
-    padding: 8px 0;
-    margin: 0 auto;
-    background: #fff;
-    color: rgb(70, 115, 250);
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
+.admin__import,
 .admin__upload {
     width: 70%;
-    height: auto;
     padding-bottom: 32px;
-    margin: 0 auto;
+    margin: 0 auto 64px;
     background: #fff;
     font-weight: bold;
-    text-align: center;
 }
 
+.import-csv,
 .upload-image {
-    padding-top: 16px;
-    margin-bottom: 32px;
+    position: relative;
+    width: 500px;
+    margin: 0 auto;
+    padding-top: 12px;
+    margin-bottom:32px;
 }
 
-.label-image {
-    padding: 5px 20px;
-    background: rgb(230, 230, 230);
-    cursor: pointer;
-    transition: .3s;
-}
-
-.label-image:hover {
-    opacity: .5;
-}
-
+.input-csv,
 .input-image {
     display: none;
 }
 
-.submit-image {
-    width: 30%;
-    display: block;
-    padding: 8px 0;
-    margin: 16px auto 32px;
-    background: rgb(60, 110, 250);;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
+.select-csv,
+.select,
 .select-image {
-    min-width: 180px;
+    display: inline-block;
+    width: 300px;
     padding: 8px;
     margin-left: 16px;
-    margin-right: 32px;
     font-weight: bold;
     border: none;
     border: 2px solid rgb(230, 230, 230);
+    overflow: scroll hidden;
 }
 
+.select-csv::-webkit-scrollbar,
+.select::-webkit-scrollbar,
+.select-image::-webkit-scrollbar {
+    display: none;
+}
+
+.message {
+    text-align: center;
+}
+
+.select-image {
+    margin-left: 0;
+}
+
+.select-image__area {
+    text-align: center;
+}
+
+.delete-image__area {
+    text-align: center;
+}
+
+.select-csv,
+.select {
+    position: absolute;
+    top: 2px;
+}
+
+.submit,
 .delete-image {
-    display: inline-block;
-    padding: 8px 24px;
+    display: block;
+    width: 30%;
+    padding: 8px 0;
+    margin: 16px auto;
     background: rgb(60, 110, 250);
     color: #fff;
     border: none;
@@ -306,7 +309,7 @@
         width: 90%;
     }
 
-    .admin__title {
+    .admin--title {
         font-size: 24px;
     }
 
@@ -327,7 +330,7 @@
         font-size: 16px;
     }
 
-    .database__data {
+    .database-data {
         font-size: 16px;
     }
 
@@ -335,7 +338,7 @@
         width: 90%;
     }
 
-    .label,
+    .label--title,
     .label--message {
         display: block;
         width: 100%;
@@ -349,11 +352,13 @@
         width: 100%;
     }
 
-    .submit {
-        width: 100%;
+    .submit,
+    .delete-image {
+        width: 80%;
         font-size: 20px;
     }
 
+    .admin__import,
     .admin__upload {
         width: 90%;
     }
@@ -363,11 +368,19 @@
         font-size: 12px;
     }
 
-    .label-image {
+    .label--csv,
+    .label--image {
         display: block;
         width: 200px;
-        margin: 0 auto 16px;
+        margin: 0 16px 16px;
         padding: 8px 0;
+    }
+
+    .select-csv,
+    .select {
+        position: static;
+        display: block;
+        margin-bottom: 16px;
     }
 
     .delete-image {

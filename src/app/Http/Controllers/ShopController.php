@@ -10,11 +10,13 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\BookMark;
 use App\Models\ShopReview;
+use App\Models\Role;
 use App\Models\Image;
 use App\Models\AccountIcon;
 use App\Models\Customer;
 use App\Http\Requests\ReservationRequest;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\EditReviewRequest;
 
 class ShopController extends Controller
 {
@@ -33,22 +35,12 @@ class ShopController extends Controller
                 ->select('genre', DB::raw('count(*) as total'))
                 ->get();
 
-            if ($request) {
-                $shops = Shop::AreaSearch($request->area)
-                    ->GenreSearch($request->genre)
-                    ->NameSearch($request->name)
-                    ->get();
-            } else {
-                $shops = Shop::all();
-            }
-
             $book_marks = BookMark::where('user_id', Auth::id())
                 ->pluck('shop_id')
                 ->toArray();
 
             $shop_images = Image::with('shops')
                 ->get();
-
             $exists = Image::with('shops')
                 ->exists();
 
@@ -73,17 +65,78 @@ class ShopController extends Controller
                 $reviews_counts->push($reviews_counts_lists);
             }
 
+            if ($request->area || $request->genre || $request->name) {
+                // 店舗検索
+                $shops = Shop::AreaSearch($request->area)
+                    ->GenreSearch($request->genre)
+                    ->NameSearch($request->name)
+                    ->get();
+            } elseif($request->sort) {
+                // 評価順並び替え
+                $sort = $request->sort;
+                if ($sort === 'random') {
+                    $shops = Shop::inRandomOrder()->get()->values();
+                } elseif ($sort === 'desc') {
+                    // 平均評価を評価が高い順にソート
+                    $desc_rates = $rate_averages
+                        ->sortByDesc('rate_average')
+                        ->values();
+                    $desc_ids = $desc_rates
+                        ->pluck('shop_id')
+                        ->toArray();
+
+                    $placeholder = '';
+                    foreach ($desc_ids  as $key => $value) {
+                        $placeholder .= ($key == 0) ? '?' : ',?';
+                    }
+                    // 配列$desc_idsの並び順に並び替える
+                    $shops = Shop::whereIn('id', $desc_ids)
+                        ->orderByRaw("FIELD(id, $placeholder)", $desc_ids)
+                        ->get();
+                } elseif ($sort === 'asc') {
+                    // 平均評価の評価が無いものを除いて評価が低い順にソート
+                    $asc_rates = $rate_averages
+                        ->whereNotIn('rate_average', [0])
+                        ->sortBy('rate_average')
+                        ->values();
+                    // 平均評価の評価が無いものを配列に格納
+                    $null_rates = $rate_averages
+                        ->whereIn('rate_average', [0])
+                        ->toArray();
+                    // 評価があるものは評価が低い順にソート、平均評価の評価が無いものは最後尾に配置
+                    foreach ($null_rates as $null_rate) {
+                        $asc_rates = $asc_rates->add($null_rate);
+                    }
+                    $asc_ids = $asc_rates->pluck('shop_id')
+                        ->toArray();
+
+                    $placeholder = '';
+                    foreach ($asc_rates as $key => $value) {
+                        $placeholder .= ($key == 0) ? '?' : ',?';
+                    }
+
+                    // 配列$desc_idsの並び順に並び替える
+                    $shops = Shop::whereIn('id', $asc_ids)
+                        ->orderByRaw("FIELD(id, $placeholder)", $asc_ids)
+                        ->get();
+                } else {
+                    $shops = Shop::all();
+                }
+            } else {
+                $shops = Shop::all();
+            }
+
             if ($exists) {
                 if ($rate_averages->isEmpty()) {
-                    return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images'));
+                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops', 'shop_images'));
                 } else {
-                    return view('shop_list', compact('book_marks', 'areas', 'genres','shops', 'shop_images', 'rate_averages', 'reviews_counts'));
+                    return view('shop_list', compact('book_marks', 'areas','genres', 'shops', 'shop_images', 'rate_averages', 'reviews_counts'));
                 }
             } else {
                 if ($rate_averages->isEmpty()) {
-                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops'));
+                    return view('shop_list', compact('book_marks', 'areas','genres','shops'));
                 } else {
-                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops', 'rate_averages', 'reviews_counts'));
+                    return view('shop_list', compact('book_marks', 'areas','genres','shops' , 'rate_averages', 'reviews_counts'));
                 }
             }
 
@@ -101,7 +154,38 @@ class ShopController extends Controller
     public function review(Request $request)
     {
         $shop_id = $request->shop_id;
-        return view('review', compact('shop_id'));
+        $shop = Shop::find($shop_id);
+
+        $book_mark = BookMark::where('user_id', Auth::id())
+            ->where('shop_id', $shop_id)
+            ->pluck('shop_id')
+            ->first();
+
+        $shop_images = Image::with('shops')
+            ->get();
+
+        $exists = Image::with('shops')
+            ->exists();
+
+        $rate_average = ShopReview::where('shop_id', $shop_id)
+            ->avg('rate');
+        $rate_average = round($rate_average, 1);
+        $review_count = ShopReview::where('shop_id', $shop_id)
+            ->count('rate');
+
+        if ($exists) {
+            if (!$rate_average) {
+                return view('review', compact('shop','book_mark', 'shop_images'));
+            } else {
+                return view('review', compact('shop', 'book_mark', 'shop_images', 'rate_average', 'review_count'));
+            }
+        } else {
+            if (!$rate_average) {
+                return view('review', compact('shop', 'book_mark'));
+            } else {
+                return view('review', compact('shop', 'book_mark', 'rate_average', 'review_count'));
+            }
+        }
     }
 
     /**
@@ -128,6 +212,31 @@ class ShopController extends Controller
     }
 
     /**
+     * 口コミの編集・削除
+     */
+    public function edit(EditReviewRequest $request)
+    {
+        if ($request->has('delete')) {
+            // 口コミの削除
+            ShopReview::where('user_id', Auth::id())
+                ->where('shop_id', $request->shop_id)
+                ->delete();
+            return back();
+        }
+        if ($request->has('update')) {
+            // 口コミの編集
+            $review = ShopReview::where('user_id', Auth::id())
+                ->where('shop_id', $request->shop_id);
+
+            $review->update([
+                'rate' => $request->rate,
+                'review' => $request->review,
+            ]);
+            return back();
+        }
+    }
+
+    /**
      * レビュー一覧ページ
      */
     public function reviewList(Request $request)
@@ -137,19 +246,44 @@ class ShopController extends Controller
         $reviews = ShopReview::where('shop_id', $shop_id)
             ->get();
 
-        // レビュー投稿が有る場合にレビュー一覧ページを表示
         $account_icons = AccountIcon::with('users')
             ->get();
-        $rete_average = ShopReview::where('shop_id', $shop_id)
+        $rate_average = ShopReview::where('shop_id', $shop_id)
             ->avg('rate');
-        $rete_average = round($rete_average, 1);
+        $rate_average = round($rate_average, 1);
         $reviews_count = ShopReview::where('shop_id', $shop_id)
             ->count('rate');
+
+        // 管理者だけに口コミ削除ボタン表示
+        $admins = Role::find(1);
+        $admin_ids = $admins->users->pluck('id')->all();
+        foreach ($admin_ids as $admin_id) {
+            if ($admin_id === Auth::id()) {
+                $admin = User::where('id', $admin_id)
+                    ->get();
+            } else {
+                continue;
+            }
+        }
 
         if ($reviews->isEmpty()) {
             return view('review_list', compact('shop'));
         }
-        return view('review_list', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count'));
+        if (isset($admin)) {
+            return view('review_list', compact('shop', 'reviews', 'account_icons', 'rate_average','reviews_count', 'admin'));
+        }
+        return view('review_list', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count'));
+    }
+
+    /**
+     * 管理者ユーザーのみ口コミの削除
+     */
+    public function reviewListEdit(Request $request)
+    {
+        ShopReview::where('user_id', $request->user_id)
+            ->where('shop_id', $request->shop_id)
+            ->delete();
+        return back();
     }
 
     /**
@@ -162,26 +296,53 @@ class ShopController extends Controller
         $reviews = ShopReview::where('shop_id', $shop_id)
             ->get();
 
+        $user_review = ShopReview::where('user_id', Auth::id())
+            ->where('shop_id', $request->shop_id)
+            ->first();
+
         // レビュー投稿が有る場合にレビュー一覧ページを表示
         $account_icons = AccountIcon::with('users')
             ->get();
-        $rete_average = ShopReview::where('shop_id', $request->shop_id)
+        $rate_average = ShopReview::where('shop_id', $request->shop_id)
             ->avg('rate');
-        $rete_average = round($rete_average, 1);
+        $rate_average = round($rate_average, 1);
         $reviews_count = ShopReview::where('shop_id', $request->shop_id)
             ->count('rate');
-        // 来店済みのお客様だけにレビュー投稿ボタン表示
-        $customer = Customer::where('user_id', Auth::id())
-            ->where('shop_id', $request->shop_id)
-            ->get();
 
-        if ($customer->isEmpty()) {
-            if ($reviews->isEmpty()) {
-                return view('shop_detail', compact('shop'));
+        // 来店済みのお客様だけにレビュー投稿ボタン表示
+        // $customer = Customer::where('user_id', Auth::id())
+        //     ->where('shop_id', $request->shop_id)
+        //     ->get();
+
+        // 一般利用者だけに口コミ投稿ボタン表示
+        $customers = Role::find(3);
+        $users_ids = $customers->users->pluck('id')->all();
+        foreach ($users_ids as $user_id) {
+            if ($user_id === Auth::id()) {
+                $customer = User::where('id', $user_id)
+                    ->get();
+            } else {
+                continue;
             }
-            return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count'));
         }
-        return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rete_average', 'reviews_count', 'customer'));
+
+        if ($reviews->isEmpty()) {
+            if (isset($customer)) {
+                if (isset($user_review)) {
+                    return view('shop_detail', compact('shop', 'customer', 'user_review'));
+                }
+                return view('shop_detail', compact('shop', 'customer'));
+            }
+            return view('shop_detail', compact('shop'));
+        } else {
+            if (isset($customer)) {
+                if (isset($user_review)) {
+                    return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count', 'customer', 'user_review'));
+                }
+                return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average','reviews_count', 'customer'));
+            }
+            return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count'));
+        }
     }
 
     /**

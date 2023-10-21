@@ -9,12 +9,11 @@ use App\Models\User;
 use App\Models\Shop;
 use App\Models\BookMark;
 use App\Models\ShopReview;
-use App\Models\AccountIcon;
 use App\Models\Role;
 use App\Models\Image;
 use App\Models\Customer;
 use App\Http\Requests\EditReservationRequest;
-use App\Http\Requests\MailSendRequest;
+use App\Http\Requests\StoreRequest;
 use App\Http\Requests\ReviseRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactReply;
@@ -78,19 +77,18 @@ class MypageController extends Controller
     public function edit(EditReservationRequest $request)
     {
         if ($request->has('delete')) {
-            // submitボタンのname属性の値がdeleteのときの予約の削除
-            $user_id = Auth::id();
-            $shop_id = $request->shop_id;
-            User::find($user_id)->shops()->detach($shop_id);
+            // 予約の削除
+            User::find(Auth::id())->shops()->detach($request->shop_id);
             return back();
         } else {
             // 予約の編集
-            $user_id = Auth::id();
+            $user = User::find(Auth::id());
             $shop_id = $request->shop_id;
-            $user = User::find($user_id);
 
-            $user->shops()->detach($shop_id);
-            $user->shops()->attach($request->shop_id,
+            $user->shops()
+                ->detach($shop_id);
+            $user->shops()
+                ->attach($shop_id,
             [
                 'date' => $request->date,
                 'time' => $request->time,
@@ -117,12 +115,12 @@ class MypageController extends Controller
         $users = User::Paginate(5);
         $shops = Shop::all();
         $shopkeeper = Role::find(2);
-        $items = $shopkeeper->users->all();
+        $shopkeepers = $shopkeeper->users->all();
         $image_paths = Storage::files('public/images');
         if (empty($image_paths)) {
-            return view('admin', compact('users', 'shops', 'items'));
+            return view('admin', compact('users', 'shops', 'shopkeepers'));
         }
-        return view('admin', compact('users', 'shops','items', 'image_paths'));
+        return view('admin', compact('users', 'shops', 'shopkeepers', 'image_paths'));
     }
 
     /**
@@ -173,36 +171,64 @@ class MypageController extends Controller
                 $role_id = $request->role_id;
                 $user->roles()->detach($role_id);
                 $user->roles()->attach(3);
+            } else {
+                continue;
             }
         }
         return back();
     }
 
     /**
-     * メールの自動送信設定 画像の保存
+     * メールの自動送信設定 店舗情報登録 画像の保存削除
      */
-    public function send(MailSendRequest $request)
+    public function store(StoreRequest $request)
     {
         if ($request->has('send')) {
+            // メールの自動送信設定
             $data = $request->all();
-            // 必要のない_tokenプロパティまで取得してしまうのでunsetメソッドで削除
             unset($data['_token']);
 
             Mail::to($request->email)
                 ->send(new ContactReply($data));
 
             return back()->withInput()->with('sent', '送信完了しました。');
+        } elseif ($request->has('import')) {
+            // 店舗情報登録
+            if ($request->file('csv')->isValid()) {
+                if ($request->file('csv')->getClientOriginalExtension() !== "csv") {
+                    return back()->with('error_message', '不適切な拡張子です。');
+                }
+                // csvファイルのアップロードに成功し、拡張子がcsvである場合
+
+                // ヘルパー関数 csvImport()
+                // Goodby CSVライブラリーを使用
+                // csvファイルを一時保存、文字コードの変更、csvファイルの各データを配列化、バリデーション処理後連想配列で格納
+                // バリデーションに失敗した場合、Validatorを返す
+                $data = csvImport($request);
+                if (!is_array($data)) {
+                    // バリデーションに失敗した場合
+                    return back()->withErrors($data)->withInput();
+                }
+                // shopsテーブルに一括保存
+                Shop::insert($data);
+                return back()->with('success_message', '店舗情報を登録しました。');
+            }
+            return back()->with('error_message', 'CSVの送信エラーが発生しましたので、送信を中止しました。');
+
         } elseif ($request->has('upload')) {
+            // 画像の保存
             Image::store($request);
             return back()->with('success_upload', '画像を保存しました。');
-        } else {
+        } elseif ($request->has('delete')) {
+            // 画像の削除
             $image_path = $request->image_path;
             $image_name = substr($image_path, 14);
             Image::whereName($image_name)->delete();
             Storage::delete($image_path);
             return back()->with('success_delete', '画像を削除しました。');
+        } else {
+            return back();
         }
-
     }
 
     /**
@@ -210,7 +236,6 @@ class MypageController extends Controller
      */
     public function shopkeeper()
     {
-        // 重複なしで取得
         $areas = Shop::groupBy('area')
             ->select('area', DB::raw('count(*) as total'))
             ->get();
@@ -220,17 +245,15 @@ class MypageController extends Controller
         $user = Auth::user();
         $shop_id = $user->roles->first()->pivot->shop_id;
 
-        $image = Image::all();
-
+        $images = Image::where('shop_id', $shop_id)->first();
         // 店舗代表者で店舗を登録している場合
         if ($shop_id) {
             $shop = Shop::find($shop_id);
             $reservations = $shop->users;
-            if ($image) {
-                return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations', 'image'));
-            } else {
-                return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations'));
+            if ($images) {
+                return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations', 'images'));
             }
+            return view('shopkeeper', compact('areas', 'genres', 'shop', 'reservations'));
         } else {
             return view('shopkeeper', compact('areas', 'genres'));
         }
@@ -241,24 +264,25 @@ class MypageController extends Controller
      */
     public function revise(ReviseRequest $request)
     {
-        // submitボタンのname属性の値がdeleteのときの予約の削除
         if ($request->has('delete')) {
+            // 予約の削除
             $user_id = $request->user_id;
             $shop_id = $request->shop_id;
             User::find($user_id)->shops()->detach($shop_id);
             return back();
-        // submitボタンのname属性の値がupdateのときの店舗情報の更新
         } elseif ($request->has('update')) {
+            // 店舗情報の更新
             $shop = Shop::find($request->id);
             $shop->update([
                 'name' => $request->name,
                 'area' => $request->area,
                 'genre' => $request->genre,
                 'overview' => $request->overview,
+                'path' => $request->path,
             ]);
             return back()->with('success_update', '店舗情報を更新しました。');
-        // 店舗情報の作成
         } else {
+            // 店舗情報の作成
             $form = $request->all();
             unset($form['_token']);
             Shop::create($form);
@@ -275,7 +299,7 @@ class MypageController extends Controller
     }
 
     /**
-     * 来店したお客様の予約情報ページ表示
+     * QRコードを読み込んで表示される。来店したお客様の予約情報ページ表示
      */
     public function confirmReservation(Request $request)
     {

@@ -10,13 +10,13 @@
 
 @section('content')
 <div class="payment__container">
-    <h3 class="payment__title">ご登録フォーム</h3>
+    <h3 class="payment-title">ご登録フォーム</h3>
 
     @if ( Session::has('sent'))
         <p class="success-message">{{ session('sent') }}</p>
     @endif
 
-    <form action="{{route('stripe_paid')}}" method="post" class="payment__form" id="payment_form">
+    <form action="{{route('stripe_paid')}}" method="post" class="payment-form" id="payment_form">
         @csrf
 
         <label class="label">
@@ -37,16 +37,14 @@
 
         <label class="label">
             カード番号
-            <div class="card-element" id="card_element" name="card_number">
+            <div class="card" id="card_element" name="card_number">
             </div>
         </label>
 
         <div class="error-message" id="card_errors" role="alert">
         </div>
 
-        <button type="button" class="btn" id="confirm_button">
-            支払う
-        </button>
+        <input type="button" class="btn" id="confirm_button" value="支払う">
 
         <div class="buy-confirm-modal" id="buy_confirm_modal">
             <div class="modal__inner">
@@ -76,7 +74,7 @@
         const elements = stripe.elements();
 
         // インスタンス作成時にカスタムスタイルをオプションに渡す
-        var style = {
+        let style = {
             base: {
                 color: "#32325d",
                 fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
@@ -114,9 +112,12 @@
                 }
             );
 
+            const confirm_modal = document.getElementById('buy_confirm_modal');
             if (error) {
                 // エラー処理
-                cardErrors.textContent = "カードの情報を入力してください"
+                cardErrors.textContent = "カードの情報を入力してください";
+                confirm_modal.classList.remove('show');
+                cardButton.classList.remove('disable');
             } else {
                 // 問題なければ、stripePaymentHandlerへ
                 stripePaymentIdHandler(paymentMethod.id);

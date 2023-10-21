@@ -31,15 +31,14 @@
         <div class="header">
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
-                    <button class="open-menu material-symbols-outlined" id="open_menu_button">
-                        menu
-                    </button>
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        Rese
-                    </a>
-                    {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                        <span class="navbar-toggler-icon"></span>
-                    </button> --}}
+                    <div class="container__header">
+                        <button class="open-menu material-symbols-outlined" id="open_menu_button">
+                            menu
+                        </button>
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            Rese
+                        </a>
+                    </div>
 
                     <div class="collapse navbar-collapse" id="navbar_supported_content">
                         <button class="close-menu material-symbols-outlined" id="close_menu_button">

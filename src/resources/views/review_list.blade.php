@@ -6,11 +6,14 @@
 @endsection
 
 @section('content')
-    <div class="review-list_container">
-        <h2 class="header-title">商品レビュー</h2>
-        <div class="review-list_inner">
-            <div class="shop-area">
+    <div class="review-list__container">
+        <div class="review-list__inner">
+            <div class="shop__area">
                 <div class="shop-about">
+                    <div class="shop-title">
+                        <a class="prev" href="{{ route('shop_list') }}">&lt;</a>
+                        <h2 class="shop-name">{{ $shop->name }}</h2>
+                    </div>
                     @if ($shop->genre === '寿司')
                     <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
                     @endif
@@ -26,49 +29,57 @@
                     @if ($shop->genre === 'ラーメン')
                     <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
                     @endif
-                    <div class="shop-name">
-                        <h3 class="shop-name">{{ $shop->name }}</h3>
-                        <p class="category">#{{ $shop->area }} #{{ $shop->genre }}</p>
-                    </div>
+                    <p class="category">#{{ $shop->area }} #{{ $shop->genre }}</p>
                 </div>
                 <div class="rate__area">
                     @isset($reviews)
-                        @if ($rete_average == 0)
+                        @if ($rate_average == 0)
                             <span class="rate-average" data-rate="0"></span>
-                        @elseif ($rete_average > 0 && $rete_average < 1)
+                        @elseif ($rate_average > 0 && $rate_average < 1)
                             <span class="rate-average" data-rate="0.5"></span>
-                        @elseif ($rete_average == 1)
+                        @elseif ($rate_average == 1)
                             <span class="rate-average" data-rate="1"></span>
-                        @elseif ($rete_average > 1 && $rete_average < 2)
+                        @elseif ($rate_average > 1 && $rate_average < 2)
                             <span class="rate-average" data-rate="1.5"></span>
-                        @elseif ($rete_average == 2)
+                        @elseif ($rate_average == 2)
                             <span class="rate-average" data-rate="2"></span>
-                        @elseif ($rete_average > 2 && $rete_average < 3)
+                        @elseif ($rate_average > 2 && $rate_average < 3)
                             <span class="rate-average" data-rate="2.5"></span>
-                        @elseif ($rete_average == 3)
+                        @elseif ($rate_average == 3)
                             <span class="rate-average" data-rate="3"></span>
-                        @elseif ($rete_average > 3 && $rete_average < 4)
+                        @elseif ($rate_average > 3 && $rate_average < 4)
                             <span class="rate-average" data-rate="3.5"></span>
-                        @elseif ($rete_average == 4)
+                        @elseif ($rate_average == 4)
                             <span class="rate-average" data-rate="4"></span>
-                        @elseif ($rete_average > 4 && $rete_average < 5)
+                        @elseif ($rate_average > 4 && $rate_average < 5)
                             <span class="rate-average" data-rate="4.5"></span>
-                        @elseif ($rete_average == 5)
+                        @elseif ($rate_average == 5)
                             <span class="rate-average" data-rate="5"></span>
                         @endif
-                        <span class="rate-average-value">{{ $rete_average }}</span> ( <span>{{ $reviews_count }}件</span> )
+                        <span class="rate-average-value">{{ $rate_average }}</span> ( <span>{{ $reviews_count }}件</span> )
                     @endisset
                 </div>
+                <p class="about">{{ $shop->overview }}</p>
             </div>
-            @isset($reviews)
             <div class="review__area" id="review">
                 <div class="review__inner">
                     <div class="review__header">
                         <h2 class="review-title">レビューの一覧</h2>
                     </div>
+                @isset ($reviews)
                     @foreach ($reviews as $review)
                         <div class="review__content">
-                            <div class="user-area">
+                            @isset ($admin)
+                                <div class="edit-btn">
+                                    <form class="form-edit" action="{{ route('review_list_edit') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ $review->user_id }}">
+                                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                                        <input type="submit" name="delete" class="delete-review" value="口コミを削除" onclick='return confirm("本当に削除しますか？")'>
+                                    </form>
+                                </div>
+                            @endisset
+                            <div class="user__area">
                                 @isset ($account_icons)
                                     @foreach ($account_icons as $account_icon)
                                         @if ($account_icon->user_id === $review->user_id)
@@ -80,7 +91,7 @@
                                 <img src="{{ asset('storage/images/default_icon.png') }}" alt="デフォルトのプロフィール画像" class="user-icon--default">
                                 <p class="reviewer">{{ $review->user_name }}</p>
                             </div>
-                            <p class="updated_at">
+                            <p class="updated-at">
                                 投稿日：<strong>{{$review->created_at->diffForHumans()}}</strong>
                             </p>
                             @switch($review->rate)

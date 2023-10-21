@@ -5,7 +5,7 @@
 .rate-average {
     position: relative;
     display: inline-block;
-    width: calc(16px * 5 + 16px);
+    width: calc(16px * 5 + 8px);
     height: 16px;
     vertical-align: text-top;
     font-size: 16px;
@@ -79,13 +79,51 @@
     cursor: pointer;
 }
 
+.rate-input__area {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.rate-item {
+    display: none;
+}
+
+.rate-input__area label {
+    position: relative;
+    padding: 0 4px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.rate-input__area label:hover {
+    color: #ffcc00;
+}
+
+.rate-input__area label:hover~label {
+    color: #ffcc00;
+}
+
+.star-value {
+    margin-left: 16px;
+    padding-top: 12px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.rate-item:checked~label {
+    color: #ffcc00;
+}
+
 @media (max-width: 768px) {
     .rate__area {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .rate-average {
-        width: calc(14px * 5 + 2px);
-        font-size: 14px;
+        width: calc(16px * 5 + 2px);
+        font-size: 16px;
     }
 }

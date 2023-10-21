@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MailSendRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class MailSendRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->has('name')) {
+        if ($this->has('send')) {
             return [
                 'name' => ['required', 'string', 'max:191'],
                 'email' => ['required', 'email', 'max:191'],
@@ -41,6 +41,11 @@ class MailSendRequest extends FormRequest
         if ($this->has('delete')) {
             return [
                 'image_path' => ['required'],
+            ];
+        }
+
+        if ($this->has('import')) {
+            return [
             ];
         }
     }

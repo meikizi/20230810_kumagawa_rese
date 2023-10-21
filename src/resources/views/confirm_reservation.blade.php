@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="reservation__container">
-        <h2 class="reservation__title">来店したお客様の予約情報の確認</h2>
+        <h2 class="reservation-title">来店したお客様の予約情報の確認</h2>
         @isset ($reservation)
         <div class="reservation__area">
             <div class="reservation__item">

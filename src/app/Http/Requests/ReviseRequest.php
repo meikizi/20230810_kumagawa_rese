@@ -30,10 +30,11 @@ class ReviseRequest extends FormRequest
         }
 
         return [
-            'name' => ['required', 'string', 'max:191'],
-            'area' => ['required', 'string', 'max:191'],
-            'genre' => ['required', 'string', 'max:191'],
-            'overview' => ['required', 'string', 'max:500'],
+            'name' => ['required', 'string', 'max:50'],
+            'area' => ['required', 'string', 'max:50'],
+            'genre' => ['required', 'string', 'max:50'],
+            'overview' => ['required', 'string', 'max:400'],
+            'path' => ['string', 'regex:/.jpeg$|.png$/']
         ];
     }
 
@@ -42,16 +43,18 @@ class ReviseRequest extends FormRequest
         return [
             'name.required' => '店舗名を入力してください',
             'name.string' => '文字列を入力してください',
-            'name.max' => '191文字以内で入力してください',
+            'name.max' => '50文字以内で入力してください',
             'area.required' => '地域を入力してください',
             'area.string' => '文字列を入力してください',
-            'area.max' => '191文字以内で入力してください',
+            'area.max' => '50文字以内で入力してください',
             'genre.required' => 'ジャンルを入力してください',
             'genre.string' => '文字列を入力してください',
-            'genre.max' => '191文字以内で入力してください',
+            'genre.max' => '50文字以内で入力してください',
             'overview.required' => '概要を入力してください',
             'overview.string' => '文字列を入力してください',
-            'overview.max' => '500文字以内で入力してください',
+            'overview.max' => '400文字以内で入力してください',
+            'path.string' => '画像URLを文字列で入力してください',
+            'path.regex' => '画像URLに拡張子がjpeg、pngのみ入力してください',
         ];
     }
 }

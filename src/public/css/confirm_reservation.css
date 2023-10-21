@@ -7,7 +7,7 @@
     margin: 0 auto;
 }
 
-.reservation__title {
+.reservation-title {
     margin-bottom: 16px;
     text-align: center;
 }
@@ -37,7 +37,7 @@
         padding-bottom: 32px;
     }
 
-    .reservation__title {
+    .reservation-title {
         font-size: 20px;
     }
 
