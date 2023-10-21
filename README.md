@@ -101,13 +101,28 @@ MySQL 8.0 (RDS)
 
 CASHIER_CURRENCY=jpy
 
+ライブラリーが上手く読み込めないことがあるので
+classを再読込
+composer dump-autoload
+キャッシュを消して再インストール
+rm -Rf vendor/
+rm composer.lock
+composer clear-cache
+composer install
+
 メールが送れるように
 MAIL_ の箇所を、　https://harublog.org/programming/laravel-email_authentication/　
 の.envファイルの変更 を参考に、修正
 
 ## CSVファイルの記述方法
 Excel等で作成し、一列目にはセル毎に保存したいテーブルのカラム名を入力してください。二列目にはセル毎にカラムの値を入力してください。
+店舗名は50文字以内
+地域は「東京都」「大阪府」「福岡県」のいずれか
+ジャンルは「寿司」「焼肉」「イタリアン」「居酒屋」「ラーメン」のいずれか
+店舗概要は400文字以内
+画像URLは管理者ページで店舗画像保存が可能なので、保存したファイル名を拡張子「jpeg」「png」のいずれかを含めて入力してください。
+保存したファイル名一覧は削除する画像を選択から確認も可能です。
 
 < --- CSVファイル記述例 --- >
 
-![スクリーンショット 2023-10-21 104220](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/6ad42c07-2e7a-4051-b450-a87c992a76c1)
+![スクリーンショット 2023-10-21 145728](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/cde68f0c-080c-4c1c-a554-8602699f1706)
