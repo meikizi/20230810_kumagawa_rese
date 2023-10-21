@@ -109,3 +109,5 @@ MAIL_ の箇所を、　https://harublog.org/programming/laravel-email_authentic
 Excel等で作成し、一列目にはセル毎に保存したいテーブルのカラム名を入力してください。二列目にはセル毎にカラムの値を入力してください。
 
 < --- CSVファイル記述例 --- >
+
+![スクリーンショット 2023-10-21 104220](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/6ad42c07-2e7a-4051-b450-a87c992a76c1)
