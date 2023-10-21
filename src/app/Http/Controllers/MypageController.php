@@ -307,12 +307,15 @@ class MypageController extends Controller
         $shopkeeper = Auth::user();
         $shop_id = $shopkeeper->roles->first()->pivot->shop_id;
         $shop = Shop::find($shop_id);
-        $reservation = $shop->users->find($request->id);
+        $user_id = $request->id;
+        $reservation = $shop->users->find($user_id);
+        // 来店後に予約の削除
+        User::find($user_id)->shops()->detach($shop_id);
 
         // 来店したお客様を登録
         $customer = new Customer();
         $customer->shop_id = $shop_id;
-        $customer->user_id = $request->id;
+        $customer->user_id = $user_id;
         $customer->save();
         return view('confirm_reservation', compact('shop', 'reservation'));
     }
