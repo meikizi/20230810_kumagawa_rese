@@ -10,6 +10,7 @@
             <h2 class="qrcode-title">My QR Code</h2>
             <div id="qrCode" class="qrcode"></div>
             <div id="user_id" style="display: none">{{ $user_id }}</div>
+            <div id="url_top" style="display: none">{{ $url_top }}</div>
         </div>
     </div>
 
@@ -17,7 +18,8 @@
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script>
     const $user_id = document.getElementById('user_id').innerHTML;
-    const $url = "http://43.207.229.54/shopkeeper/confirmReservation?id=" + $user_id;
+    const $url_top = document.getElementById('url_top').innerHTML;
+    const $url = $url_top + "/shopkeeper/confirmReservation?id=" + $user_id;
     const qrCode = new QRCodeStyling({
         width: 250,
         height: 250,

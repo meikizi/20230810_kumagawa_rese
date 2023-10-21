@@ -104,7 +104,8 @@ class MypageController extends Controller
     public function qrcode()
     {
         $user_id = Auth::id();
-        return view('qrcode', compact('user_id'));
+        $url_top = url('/');
+        return view('qrcode', compact('user_id', 'url_top'));
     }
 
     /**
