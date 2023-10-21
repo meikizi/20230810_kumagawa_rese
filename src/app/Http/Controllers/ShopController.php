@@ -247,6 +247,9 @@ class ShopController extends Controller
             throw ValidationException::withMessages(['exists' => '既に、この店舗のレビューは投稿済みです。']);
         }
 
+        // 画像の保存
+        Image::store($request);
+
         $review = new ShopReview();
         $review->shop_id = intval($request->shop_id);
         $review->user_id = Auth::id();

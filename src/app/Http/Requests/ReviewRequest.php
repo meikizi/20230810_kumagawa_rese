@@ -26,7 +26,7 @@ class ReviewRequest extends FormRequest
         return [
             'rate' => ['required', 'integer', 'max:5'],
             'review' => ['required', 'string', 'max:400'],
-            'upload_image' => ['file', 'image',  'max:30000', 'mimes:jpeg,png'],
+            'image' => ['file', 'image',  'max:30000', 'mimes:jpeg,png'],
         ];
     }
 
@@ -39,10 +39,10 @@ class ReviewRequest extends FormRequest
             'review.required' => 'レビュー内容を記入してください',
             'review.string' => '文字列を入力してください',
             'review.max' => '400文字以内で入力してください',
-            'upload_image.file' => 'ファイルを選択してください',
-            'upload_image.image' => '画像ファイルを選択してください',
-            'upload_image.max' => 'ファイルのサイズが大き過ぎます',
-            'mimes' => '指定された拡張子（jpeg/png）ではありません',
+            'image.file' => 'ファイルを選択してください',
+            'image.image' => '画像ファイルを選択してください',
+            'image.max' => 'ファイルのサイズが大き過ぎます',
+            'image.mimes' => '指定された拡張子（jpeg/png）ではありません',
         ];
     }
 }

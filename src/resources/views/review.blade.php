@@ -148,10 +148,10 @@
                     <div class="upload-area">
                         <p class="p--click">クリックして写真を追加</p>
                         <p class="p--DragAndDrop">またはドラッグアンドドロップ</p>
-                        <input type="file" name="upload_image" id="input-files">
+                        <input type="file" name="image" id="input-files">
                     </div>
-                    @error('upload_image')
-                        <p class="error-message">{{ $errors->first('upload_image') }}</p>
+                    @error('image')
+                        <p class="error-message">{{ $errors->first('image') }}</p>
                     @enderror
                 </div>
             </form>
