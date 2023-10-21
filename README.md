@@ -110,4 +110,4 @@ Excel等で作成し、一列目にはセル毎に保存したいテーブルの
 
 < --- CSVファイル記述例 --- >
 
-https://github.com/meikizi/20230810_kumagawa_rese/issues/4#issue-1955203365
+![スクリーンショット 2023-10-21 104220](https://github.com/meikizi/20230810_kumagawa_rese/assets/126636201/6ad42c07-2e7a-4051-b450-a87c992a76c1)
