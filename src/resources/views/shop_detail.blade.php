@@ -2,7 +2,6 @@
 
 @section('script')
 <script src="{{ asset('js/display_reservation.js') }}"></script>
-{{-- <script src="{{ asset('js/display_rates.js') }}"></script> --}}
 <script src="{{ asset('js/review.js') }}"></script>
 <script src="{{ asset('js/edit_rate.js') }}"></script>
 @endsection
@@ -21,21 +20,25 @@
                     <a class="prev" href="{{ route('shop_list') }}">&lt;</a>
                     <h2 class="shop-name">{{ $shop->name }}</h2>
                 </div>
-                @if ($shop->genre === '寿司')
-                <img src="{{ asset('storage/images/sushi.jpg')}}" alt="寿司屋のイメージ画像" class="image">
-                @endif
-                @if ($shop->genre === '焼肉')
-                <img src="{{ asset('storage/images/yakiniku.jpg')}}" alt="焼肉店のイメージ画像" class="image">
-                @endif
-                @if ($shop->genre === '居酒屋')
-                <img src="{{ asset('storage/images/izakaya.jpg')}}" alt="居酒屋のイメージ画像" class="image">
-                @endif
-                @if ($shop->genre === 'イタリアン')
-                <img src="{{ asset('storage/images/italian.jpg')}}" alt="イタリア料理店のイメージ画像" class="image">
-                @endif
-                @if ($shop->genre === 'ラーメン')
-                <img src="{{ asset('storage/images/ramen.jpg')}}" alt="ラーメン屋のイメージ画像" class="image">
-                @endif
+                    @if ($shop->path !== null && $shop->path !== "")
+                        <img src="{{ asset("storage/images/{$shop->path}") }}" alt="店舗のイメージ画像" class="image">
+                    @else
+                        @if ($shop->genre === '寿司')
+                            <img src="{{ asset('storage/images/sushi.jpg') }}" alt="寿司屋のイメージ画像" class="image">
+                        @endif
+                        @if ($shop->genre === '焼肉')
+                            <img src="{{ asset('storage/images/yakiniku.jpg') }}" alt="焼肉店のイメージ画像" class="image">
+                        @endif
+                        @if ($shop->genre === '居酒屋')
+                            <img src="{{ asset('storage/images/izakaya.jpg') }}" alt="居酒屋のイメージ画像" class="image">
+                        @endif
+                        @if ($shop->genre === 'イタリアン')
+                            <img src="{{ asset('storage/images/italian.jpg') }}" alt="イタリア料理店のイメージ画像" class="image">
+                        @endif
+                        @if ($shop->genre === 'ラーメン')
+                            <img src="{{ asset('storage/images/ramen.jpg') }}" alt="ラーメン屋のイメージ画像" class="image">
+                        @endif
+                    @endif
                 <p class="category">#{{ $shop->area }} #{{ $shop->genre }}</p>
                 <div class="rate__area">
                     @isset($reviews)

@@ -39,11 +39,6 @@ class ShopController extends Controller
                 ->pluck('shop_id')
                 ->toArray();
 
-            $shop_images = Image::with('shops')
-                ->get();
-            $exists = Image::with('shops')
-                ->exists();
-
             // 平均評価と評価数を取得
             $shop_ids = Shop::pluck('id');
             $rate_averages = collect();
@@ -126,18 +121,10 @@ class ShopController extends Controller
                 $shops = Shop::all();
             }
 
-            if ($exists) {
-                if ($rate_averages->isEmpty()) {
-                    return view('shop_list', compact('book_marks', 'areas', 'genres', 'shops', 'shop_images'));
-                } else {
-                    return view('shop_list', compact('book_marks', 'areas','genres', 'shops', 'shop_images', 'rate_averages', 'reviews_counts'));
-                }
+            if ($rate_averages->isEmpty()) {
+                return view('shop_list', compact('book_marks', 'areas','genres','shops'));
             } else {
-                if ($rate_averages->isEmpty()) {
-                    return view('shop_list', compact('book_marks', 'areas','genres','shops'));
-                } else {
-                    return view('shop_list', compact('book_marks', 'areas','genres','shops' , 'rate_averages', 'reviews_counts'));
-                }
+                return view('shop_list', compact('book_marks', 'areas','genres','shops' , 'rate_averages', 'reviews_counts'));
             }
 
         // }
@@ -146,6 +133,65 @@ class ShopController extends Controller
         // 送信されたメールに記載されているURLにアクセスし、アカウントの本登録を完了させてください。';
         // return view('auth.login', compact('error_message'));
 
+    }
+
+    /**
+     * 飲食店詳細ページ
+     */
+    public function detail(Request $request)
+    {
+        $shop_id = $request->shop_id;
+        $shop = Shop::find($shop_id);
+        $reviews = ShopReview::where('shop_id', $shop_id)
+            ->get();
+
+        $user_review = ShopReview::where('user_id', Auth::id())
+            ->where('shop_id', $request->shop_id)
+            ->first();
+
+        // レビュー投稿が有る場合にレビュー一覧ページを表示
+        $account_icons = AccountIcon::with('users')
+        ->get();
+        $rate_average = ShopReview::where('shop_id', $request->shop_id)
+            ->avg('rate');
+        $rate_average = round($rate_average, 1);
+        $reviews_count = ShopReview::where('shop_id', $request->shop_id)
+            ->count('rate');
+
+        // 来店済みのお客様だけにレビュー投稿ボタン表示
+        // $customer = Customer::where('user_id', Auth::id())
+        //     ->where('shop_id', $request->shop_id)
+        //     ->get();
+
+        // 一般利用者だけに口コミ投稿ボタン表示
+        $customers = Role::find(3);
+        $users_ids = $customers->users->pluck('id')->all();
+        foreach ($users_ids as $user_id) {
+            if ($user_id === Auth::id()) {
+                $customer = User::where('id', $user_id)
+                    ->get();
+            } else {
+                continue;
+            }
+        }
+
+        if ($reviews->isEmpty()) {
+            if (isset($customer)) {
+                if (isset($user_review)) {
+                    return view('shop_detail', compact('shop', 'customer', 'user_review'));
+                }
+                return view('shop_detail', compact('shop', 'customer'));
+            }
+            return view('shop_detail', compact('shop'));
+        } else {
+            if (isset($customer)) {
+                if (isset($user_review)) {
+                    return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count', 'customer', 'user_review'));
+                }
+                return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count', 'customer'));
+            }
+            return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count'));
+        }
     }
 
     /**
@@ -284,65 +330,6 @@ class ShopController extends Controller
             ->where('shop_id', $request->shop_id)
             ->delete();
         return back();
-    }
-
-    /**
-     * 飲食店詳細ページ
-     */
-    public function detail(Request $request)
-    {
-        $shop_id = $request->shop_id;
-        $shop = Shop::find($shop_id);
-        $reviews = ShopReview::where('shop_id', $shop_id)
-            ->get();
-
-        $user_review = ShopReview::where('user_id', Auth::id())
-            ->where('shop_id', $request->shop_id)
-            ->first();
-
-        // レビュー投稿が有る場合にレビュー一覧ページを表示
-        $account_icons = AccountIcon::with('users')
-            ->get();
-        $rate_average = ShopReview::where('shop_id', $request->shop_id)
-            ->avg('rate');
-        $rate_average = round($rate_average, 1);
-        $reviews_count = ShopReview::where('shop_id', $request->shop_id)
-            ->count('rate');
-
-        // 来店済みのお客様だけにレビュー投稿ボタン表示
-        // $customer = Customer::where('user_id', Auth::id())
-        //     ->where('shop_id', $request->shop_id)
-        //     ->get();
-
-        // 一般利用者だけに口コミ投稿ボタン表示
-        $customers = Role::find(3);
-        $users_ids = $customers->users->pluck('id')->all();
-        foreach ($users_ids as $user_id) {
-            if ($user_id === Auth::id()) {
-                $customer = User::where('id', $user_id)
-                    ->get();
-            } else {
-                continue;
-            }
-        }
-
-        if ($reviews->isEmpty()) {
-            if (isset($customer)) {
-                if (isset($user_review)) {
-                    return view('shop_detail', compact('shop', 'customer', 'user_review'));
-                }
-                return view('shop_detail', compact('shop', 'customer'));
-            }
-            return view('shop_detail', compact('shop'));
-        } else {
-            if (isset($customer)) {
-                if (isset($user_review)) {
-                    return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count', 'customer', 'user_review'));
-                }
-                return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average','reviews_count', 'customer'));
-            }
-            return view('shop_detail', compact('shop', 'reviews', 'account_icons', 'rate_average', 'reviews_count'));
-        }
     }
 
     /**
