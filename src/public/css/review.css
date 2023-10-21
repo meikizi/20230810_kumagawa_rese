@@ -183,7 +183,7 @@
     cursor: pointer;
 }
 
-.btn {
+.post-review {
     width: 35%;
     display: block;
     padding: 8px 0;
@@ -192,6 +192,7 @@
     border-radius: 26px;
     cursor: pointer;
     background: #fff;
+    color: #000;
     font-size: 18px;
     font-weight: bold;
 }

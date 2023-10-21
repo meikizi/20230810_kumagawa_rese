@@ -95,6 +95,7 @@
     border: none;
     border-bottom: 1px solid #000;
     background: inherit;
+    color: #000;
     font-size: 18px;
     line-height: 0.95;
     cursor: pointer;

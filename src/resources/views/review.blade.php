@@ -157,5 +157,5 @@
             </form>
         </div>
     </div>
-    <button type="submit" form="form_review" class="btn">口コミを投稿</button>
+    <button type="submit" form="form_review" class="post-review">口コミを投稿</button>
 @endsection

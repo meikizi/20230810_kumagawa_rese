@@ -22,7 +22,7 @@ class RegisterUserController extends Controller
         return view('auth.register');
     }
 
-    protected function postRegister(Request $request)
+    protected function postRegister(RegisterRequest $request)
     {
         // ユーザ登録処理
         $user = User::create([

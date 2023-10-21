@@ -14,7 +14,7 @@
         <h2 class="user-name">{{ auth()->user()->name }}様</h2>
         <div class="mypage__inner">
             <div class="reservation__content">
-                <h3 class="mypage__title">予約状況</h3>
+                <h3 class="mypage-title">予約状況</h3>
                 @foreach (auth()->user()->shops as $shop)
                     <div class="reservation__area">
                         <div class="reservation__header">
@@ -127,7 +127,7 @@
                                                     @foreach ($reviews_counts as $reviews_count)
                                                         @if ($reviews_count['favorite_id'] === $shop->id)
                                                             <span class="rate-average-value">{{ $rate_average['rate_average'] }}</span>
-                                                            <a href="/reviewList?id={{ $shop->id }}" class="open-reviews"> ( <span class="reviews-count">{{ $reviews_count['reviews_count'] }}件</span> )</a>
+                                                            <a href="/reviewList?id={{ $shop->id }}" class="open-reviews"> (<span class="reviews-count">{{ $reviews_count['reviews_count'] }}件</span>)</a>
                                                             @break
                                                         @endif
                                                     @endforeach
@@ -153,7 +153,7 @@
                                                     <form action="{{ route('review') }}" method="get">
                                                         @csrf
                                                         <input type="hidden" name="shop_id" value="{{ $shop->id }}">
-                                                        <button  class="open-review">口コミを投稿</button>
+                                                        <button  class="post-review">口コミを投稿</button>
                                                     </form>
                                                 @endif
                                             @endisset
